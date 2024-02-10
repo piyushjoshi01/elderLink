@@ -1,0 +1,48 @@
+package com.elderlink.backend.auth.utils;
+
+import com.elderlink.backend.domains.dto.AddressDto;
+import com.elderlink.backend.domains.enums.UserType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class RegReq {
+
+    @NotBlank(message = "First name is required")
+    private String firstName;
+
+    @NotBlank(message = "Last name is required")
+    private String lastName;
+
+    @Email(message = "Invalid email address")
+    private String email;
+
+    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}", message = "Invalid phone number format")
+    private String phone;
+
+    @Size(min = 8, message = "Password must have at least 8 characters!")
+    private String password;
+
+    @Past
+    @NotNull(message = "Birthdate is required!")
+    private LocalDate birthDate;
+
+    @NotNull(message = "User type is required!")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    @Valid
+    private AddressDto address;
+
+}
