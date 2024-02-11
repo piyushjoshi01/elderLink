@@ -1,6 +1,7 @@
 package com.elderlink.backend.controllers;
 
 import com.elderlink.backend.auth.services.AuthService;
+import com.elderlink.backend.auth.utils.AuthRes;
 import com.elderlink.backend.auth.utils.RegReq;
 import com.elderlink.backend.domains.entities.UserEntity;
 import com.elderlink.backend.exceptions.UserAlreadyExistException;
@@ -29,15 +30,15 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody RegReq regReq){
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody RegReq regReq){
             try {
                 userService.isUserExistByEmail(regReq.getEmail());
             }catch (UserAlreadyExistException e){
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
             }
             UserEntity userEntity = modelMapper.map(regReq, UserEntity.class);
-            authService.userRegister(userEntity);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User created SuccessFully.");
+            AuthRes authRes = authService.userRegister(userEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(authRes);
     }
 
 }

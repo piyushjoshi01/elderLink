@@ -1,6 +1,9 @@
 package com.elderlink.backend.auth.services.impl;
 
 import com.elderlink.backend.auth.services.AuthService;
+import com.elderlink.backend.auth.services.JwtService;
+import com.elderlink.backend.auth.services.RefreshTokenService;
+import com.elderlink.backend.auth.utils.AuthRes;
 import com.elderlink.backend.domains.entities.UserEntity;
 import com.elderlink.backend.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -20,8 +23,14 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     @Override
-    public void userRegister(UserEntity userReq) {
+    public AuthRes userRegister(UserEntity userReq) {
         try {
 
 
@@ -63,9 +72,16 @@ public class AuthServiceImpl implements AuthService {
 
             logger.info("User registered successfully : {}", user.getEmail());
 
+            var jwtToken = jwtService.generateToken(user);
+            var refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
+            return AuthRes.builder()
+                    .accessToken(jwtToken)
+                    .refreshToken(refreshToken.getRefreshToken())
+                    .build();
+
         }catch (Exception e){
             logger.error("An error occurred while registering the user.");
-            throw new RuntimeException("An error occurred while registering the user.");
+            throw new RuntimeException("An error occurred while registering the user. -> " + e.getMessage());
         }
     }
 }
