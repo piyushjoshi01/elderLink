@@ -3,12 +3,16 @@ package com.elderlink.backend.auth.services.impl;
 import com.elderlink.backend.auth.services.AuthService;
 import com.elderlink.backend.auth.services.JwtService;
 import com.elderlink.backend.auth.services.RefreshTokenService;
+import com.elderlink.backend.auth.utils.AuthReq;
 import com.elderlink.backend.auth.utils.AuthRes;
 import com.elderlink.backend.domains.entities.UserEntity;
 import com.elderlink.backend.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +32,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private RefreshTokenService refreshTokenService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public AuthRes userRegister(UserEntity userReq) {
@@ -59,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
             UserEntity user = UserEntity.builder()
                     .firstName(userReq.getFirstName())
                     .lastName(userReq.getLastName())
-                    .password(userReq.getPassword())
+                    .password(passwordEncoder.encode(userReq.getPassword()))
                     .userType(userReq.getUserType())
                     .phone(userReq.getPhone())
                     .birthDate(userReq.getBirthDate())
@@ -82,6 +92,32 @@ public class AuthServiceImpl implements AuthService {
         }catch (Exception e){
             logger.error("An error occurred while registering the user.");
             throw new RuntimeException("An error occurred while registering the user. -> " + e.getMessage());
+        }
+    }
+
+    @Override
+    public AuthRes userAuth(AuthReq authReq) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authReq.getEmail(),
+                            authReq.getPassword()
+                    )
+            );
+            var user = userRepository.findByEmail(authReq.getEmail())
+                    .orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            var refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
+
+            logger.info("User authenticated successfully : {}", user.getEmail());
+
+            return AuthRes.builder()
+                    .accessToken(jwtToken)
+                    .refreshToken(refreshToken.getRefreshToken())
+                    .build();
+        }catch (Exception e){
+            logger.error("An error occurred while authenticating the user. -> {}",e.getMessage());
+            throw new RuntimeException("An error occurred while authenticating the user. -> " + e.getMessage());
         }
     }
 }
