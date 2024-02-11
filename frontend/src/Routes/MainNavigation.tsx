@@ -7,13 +7,13 @@ import Home from "@/pages/Home";
 
 const AppRoutes: React.FC = () => {
     return (
-        <Routes>
+      <Routes>
 
-            <Route path={RoutePaths.Home} Component={Home} />
-
-
-        </Routes>
+        <Route  path={RoutePaths.Home} Component={Home} />
+       
+       
+      </Routes>
     );
-};
-
-export default AppRoutes;
+  };
+  
+  export default AppRoutes;

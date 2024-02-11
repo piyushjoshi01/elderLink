@@ -1,7 +1,6 @@
 
 
 
-// import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Navbar from './pages/Navbar';
 import React from 'react';
