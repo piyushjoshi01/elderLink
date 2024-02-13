@@ -56,6 +56,14 @@ public class AuthController {
         AuthRes authRes = authService.userRegister(userEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(authRes);
     }
+    @PostMapping("/logout")
+    public ResponseEntity logOut(@Valid @RequestBody LogoutReq logoutReq){
+        try {
+            refreshTokenService.deleteRefreshToken(logoutReq.getRefreshToken());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
     @PostMapping("/login")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody AuthReq authReq) {

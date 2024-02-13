@@ -20,6 +20,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
@@ -52,7 +53,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
             throw new RuntimeException("Error occurred while creating refreshToken. -> " + e.getMessage());
         }
     }
-
     @Override
     public RefreshTokenEntity verifyRefreshToken(String refreshToken) {
        try{
