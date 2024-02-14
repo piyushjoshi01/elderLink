@@ -5,6 +5,7 @@ import com.elderlink.backend.auth.services.JwtService;
 import com.elderlink.backend.auth.services.RefreshTokenService;
 import com.elderlink.backend.auth.utils.AuthReq;
 import com.elderlink.backend.auth.utils.AuthRes;
+import com.elderlink.backend.auth.utils.LogoutReq;
 import com.elderlink.backend.auth.utils.RefreshTokenReq;
 import com.elderlink.backend.auth.utils.RegReq;
 import com.elderlink.backend.domains.entities.RefreshTokenEntity;
@@ -64,6 +65,7 @@ public class AuthController {
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody AuthReq authReq) {
