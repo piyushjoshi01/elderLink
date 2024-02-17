@@ -1,11 +1,32 @@
+import { LoginModel } from "@/models/AuthModel";
+import authService from "@/services/auth.service";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const handleRedirect = () => {
-    navigate("/");
+    navigate("/register");
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const values: LoginModel = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
+
+    authService
+      .login(values)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.refreshToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        navigate("/");
+        toast.success("Successfully logged in");
+      })
+      .catch((err) => toast.error("Invalid Credentials"));
   };
   return (
     <div>
@@ -17,7 +38,7 @@ const Login = () => {
                 Log in
               </h1>
 
-              <form className=" gap-6 mt-8 ">
+              <form className=" gap-6 mt-8 " onSubmit={handleSubmit}>
                 <div>
                   <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
                     Email address
