@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom'
-
+import authService from "@/services/auth.service";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
 const people = [
@@ -9,34 +9,59 @@ const people = [
   { name: "FAQs", route: "/faq" },
   { name: "Contact Us", route: "/contactus" },
   { name: "Volunteers", route: "/volunteers" },
-
-
 ];
-
-
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setIsAuthenticated(!!accessToken);
+  }, []);
+
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleLogout = () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    authService.logout(refreshToken || "").then((res) => {
+      console.log(res);
+    });
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("accessToken");
+    setIsAuthenticated(false);
+    navigate("/login");
+  };
   const listItems = people.map((person, index) => (
-    <li key={index} className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800" onClick={() => navigate(`${person.route}`)}>
+    <li
+      key={index}
+      className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
+      onClick={() => navigate(`${person.route}`)}
+    >
       {person.name}
     </li>
   ));
 
   return (
     <div className="m-auto p-3 flex justify-between items-center w-screen flex-wrap bg-transparent">
-      <img src={'src/assets/images/logo.png'} alt="ElderLink Logo" className="h-16 w-auto" />
-      <nav className={`md:flex ${isOpen ? 'block' : 'hidden'}`}>
-
-        <ul className="flex flex-col md:flex-row md:space-x-4 md:items-center">{listItems}</ul>
+      <img
+        src={"src/assets/images/logo.png"}
+        alt="ElderLink Logo"
+        className="h-16 w-auto"
+      />
+      <nav className={`md:flex ${isOpen ? "block" : "hidden"}`}>
+        <ul className="flex flex-col md:flex-row md:space-x-4 md:items-center">
+          {listItems}
+        </ul>
       </nav>
       <div className="md:hidden">
-        <button className="flex justify-center items-center" onClick={toggleNavbar}>
+        <button
+          className="flex justify-center items-center"
+          onClick={toggleNavbar}
+        >
           <svg
             viewBox="0 0 24 24"
             width="24"
@@ -69,12 +94,32 @@ function Navbar() {
         </button>
       </div>
       <div className="flex">
-        <button className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm font-bold text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" onClick={() => navigate("/register")}>
-          Signup
-        </button>
-        <button className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 font-bold focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 " onClick={() => navigate("/login")}>
-          Login
-        </button>
+        {!isAuthenticated && (
+          <>
+            <button
+              className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm font-bold text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              onClick={() => navigate("/register")}
+            >
+              Signup
+            </button>
+            <button
+              className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 font-bold focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 "
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <button
+              className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm font-bold text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              onClick={() => handleLogout()}
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
