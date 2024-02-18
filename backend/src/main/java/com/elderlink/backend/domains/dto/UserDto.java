@@ -20,8 +20,6 @@ public class UserDto {
 
     private Long id;
 
-    private AddressDto address;
-
     private String firstName;
 
     private String lastName;
@@ -42,5 +40,7 @@ public class UserDto {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    private AddressDto address;
 
 }
