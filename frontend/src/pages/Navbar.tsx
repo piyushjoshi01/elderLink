@@ -1,6 +1,7 @@
 import authService from "@/services/auth.service";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
 
 // const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
 const people = [
@@ -113,11 +114,15 @@ function Navbar() {
         {isAuthenticated && (
           <>
             <button
-              className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm font-bold text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+              className=" md:flex justify-center w-30 mx-2 px-6 py-3 text-sm font-bold border-black text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
               onClick={() => handleLogout()}
             >
               Logout
             </button>
+            <div onClick={() => navigate("/Userprofile")} className="text-lime-800  border-black mr-2 p-2 ">
+            <FaUserAlt  size="30px"  />
+            </div>
+
           </>
         )}
       </div>
