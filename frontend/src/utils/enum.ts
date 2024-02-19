@@ -3,6 +3,7 @@ export enum RoutePaths {
   Register = "/register",
   Home = "/",
   Aboutus = "/Aboutus",
-  Faq="/faq",
-  ContactUs="/contactus"
+  Faq = "/faq",
+  ContactUs = "/contactus",
+  Userprofile = "Userprofile"
 }
