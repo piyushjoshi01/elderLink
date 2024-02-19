@@ -5,12 +5,20 @@ import com.elderlink.backend.domains.dto.UserDto;
 import com.elderlink.backend.domains.entities.UserEntity;
 import com.elderlink.backend.mappers.Mapper;
 import com.elderlink.backend.repositories.UserRepository;
+
+import com.elderlink.backend.services.UserService;
+import com.elderlink.backend.utils.IsUserAuthorized;
+import jakarta.validation.Valid;
+
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +34,12 @@ public class UsersController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private IsUserAuthorized isUserAuthorized;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private Mapper<UserEntity,UserDto> userMapper;
@@ -51,6 +65,20 @@ public class UsersController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @PatchMapping("/users/{userId}")
+    public ResponseEntity<UserDto> updateUser(
+            @Valid @PathVariable("userId") Long userId,
+            @Valid @RequestBody UserDto userDto
+    ){
+            if(!userRepository.existsById(userId)){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            UserEntity userEntity = userMapper.toEntity(userDto);
+            System.out.println("Before skipNull : " + userDto);
+            UserEntity updatedUser = userService.updateUser(userId,userEntity);
+            return ResponseEntity.ok(userMapper.toDto(updatedUser));
     }
 
 }
