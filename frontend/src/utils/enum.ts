@@ -5,5 +5,5 @@ export enum RoutePaths {
   Aboutus = "/Aboutus",
   Faq = "/faq",
   ContactUs = "/contactus",
-  Userprofile = "Userprofile"
+  Userprofile = "/Userprofile",
 }

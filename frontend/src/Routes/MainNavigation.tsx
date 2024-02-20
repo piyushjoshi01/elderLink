@@ -12,7 +12,7 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.Login} Component={Login} />
       <Route path={RoutePaths.Register} Component={SignUp} />
       <Route path={RoutePaths.Home} Component={Home} />
-      <Route path={RoutePaths.Userprofile} Component={UserProfile}/>
+      <Route path={RoutePaths.Userprofile} Component={UserProfile} />
     </Routes>
   );
 };
