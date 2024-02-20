@@ -21,7 +21,7 @@ const Login = () => {
     authService
       .login(values)
       .then((res) => {
-        localStorage.setItem("accessToken", res.refreshToken);
+        localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         navigate("/");
         toast.success("Successfully logged in");
