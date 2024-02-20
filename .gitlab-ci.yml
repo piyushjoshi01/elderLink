@@ -13,7 +13,9 @@ build:
   # Which image does the Gitlab needs to be select to run the program
   # Images come from the Dockerhub - to see or refer the images, you need to go to dockerhub
   script:
-    - mvn clean package
+    - cd backend
+    - mvn clean package 
+    # Script is failing here
     # What do you want to do here, we give the terminal scripts here...
 
 test:
