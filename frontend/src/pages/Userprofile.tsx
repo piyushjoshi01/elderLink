@@ -112,9 +112,9 @@ const UserProfile = () => {
   const getInitials = (firstName?: string, lastName?: string) => {
     console.log(firstName, lastName);
     let initials
-    if (firstName && lastName){
+    if (firstName && lastName) {
 
-     initials = `${firstName[0]}${lastName[0]}`
+      initials = `${firstName[0]}${lastName[0]}`
     }
     return initials;
   };
@@ -160,7 +160,7 @@ const UserProfile = () => {
                 <strong>Last Name: </strong> {isEditing ? <input type="text" value={editedLastName} onChange={handleChangeLastName} /> : user.lastName}
               </p>
               <p className="text-lime-800 mb-4">
-                <strong>Email:{user.email}</strong> {user.email}
+                <strong>Email:{user.email}</strong>
               </p>
               <p className="text-lime-800 mb-4">
                 <strong>Phone:</strong> {isEditing ? <input type="text" value={editedPhone} onChange={handleChangePhone} /> : user.phone}
@@ -195,24 +195,132 @@ const UserProfile = () => {
               </div> */}
             </div>
           </div>
+
+
           <div className="w-1/2 bg-gray-100 p-6 ml-4">
             <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
-              Help Requests
+              Post Help Request
             </h1>
             <form className="w-full">
+              <div className="mb-4 grid grid-cols-2">
+                <div className="mr-4">
+                  <label
+                    htmlFor="category"
+                    className="block text-lime-800 font-bold mb-2"
+                  >
+                    Category:
+                  </label>
+                  <select id="category" name="category" className="w-full border rounded-md p-2">
+                    <option value="TRANSPORTATION" > Transportation</option>
+                    <option value="HOUSEHOLD_CHORES" > Household-chores</option>
+                    <option value="COMPANIONSHIP" >Companionship</option>
+                    <option value="PET_CARE" >Pet-care</option>
+                    <option value="MEAL_SERVICES" >Meal Services</option>
+                    <option value="FINANCIAL_ASSISTANCE" >Financial Assistance</option>
+                    <option value="HEALTH_CARE" >Health Care</option>
+                    <option value="OTHERS" >Others</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    htmlFor="urgency"
+                    className="block text-lime-800 font-bold mb-2"
+                  >
+                    Urgency level:
+                  </label>
+                  <select id="urgency" name="urgency" className="w-full border rounded-md p-2">
+                    <option value="URGENT"> Urgent</option>
+                    <option value="MODERATE"> Moderate</option>
+                    <option value="LOW">Low</option>
+                  </select>
+                </div>
+              </div>
               <div className="mb-4">
-                <label
-                  htmlFor="request"
-                  className="block text-lime-800 font-bold mb-2"
-                >
-                  Post Request:
+                <label htmlFor="description" className="block text-lime-800 font-bold mb-2">
+                  Description:
                 </label>
                 <textarea
-                  id="request"
-                  name="request"
-                  className="w-full border h-full rounded-md p-2"
+                  id="description"
+                  name="description"
+                  className="w-full border rounded-md p-2"
                 ></textarea>
               </div>
+              <div className="mb-4">
+                <label htmlFor="location" className="block text-lime-800 font-bold mb-2">
+                  Location:
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  className="w-full border rounded-md p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="duration" className="block text-lime-800 font-bold mb-2">
+                  Duration (in minutes):
+                </label>
+                <input
+                  type="number"
+                  id="duration"
+                  name="duration"
+                  className="w-full border rounded-md p-2"
+                  min="0"
+                  step="1" // Allow only integer values
+                />
+                <div className="mb-4 grid grid-cols-2">
+                  <div className="mr-4">
+                    <label htmlFor="date" className="block text-lime-800 font-bold mb-2">
+                      Date:
+                    </label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      className="w-full border rounded-md p-2"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="time" className="block text-lime-800 font-bold mb-2">
+                      Time:
+                    </label>
+                    <input
+                      type="time"
+                      id="time"
+                      name="time"
+                      className="w-full border rounded-md p-2"
+                      
+                    />
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div className="mt-8 flex justify-center gap-5">
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
+                >
+                  Submit Request
+                </button>
+                {/* <button
+                  type="button"
+                  className="px-4 py-2 bg-lime-800 text-white rounded-md"
+                >
+                  Edit Request
+                </button> */}
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-lime-800 text-white rounded-md"
+                >
+                  Delete Request
+                </button>
+              </div>
+
+
+
               <div className="flex justify-between">
                 {/* <button
                   type="button"
