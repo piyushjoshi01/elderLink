@@ -28,6 +28,9 @@ public class AddressEntity {
     private String pincode;
 
     @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
     private String state;
 
     @Column(nullable = false)
