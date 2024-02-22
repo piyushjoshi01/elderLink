@@ -23,6 +23,9 @@ public class AddressDto {
     @NotBlank(message = "Pincode is required")
     private String pincode;
 
+    @NotBlank(message = "City is required")
+    private String city;
+
     @NotBlank(message = "State is required")
     private String state;
 
