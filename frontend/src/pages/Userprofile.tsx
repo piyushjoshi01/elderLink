@@ -3,12 +3,15 @@ import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import UserModel from "@/models/UserModel";
 import userService from "@/services/user.service";
+import requestService from "@/services/request.service";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const [user, setUser] = useState<UserModel>(new UserModel());
   const [userId, setUserId] = useState();
 
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
+  // const refreshToken = localStorage.getItem("refreshToken") || "Fallback Token";
   useEffect(() => {
     if (!accessToken) {
       console.log("No access token available");
@@ -17,7 +20,7 @@ const UserProfile = () => {
     userService
       .getById(accessToken)
       .then((res) => {
-        setUserId(res.data.id)
+        setUserId(res.data.id);
         console.log(res.data);
         const newUser = new UserModel();
         newUser.firstName = res.data.firstName;
@@ -32,14 +35,15 @@ const UserProfile = () => {
 
         setUser(newUser);
         console.log("qwew", user.address);
-
       })
       .catch((error) => {
         console.error("Failed to fetch user details", error);
       });
   }, [localStorage.getItem("accessToken")]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedFirstName, setEditedFirstName] = useState<string>(user.firstName);
+  const [editedFirstName, setEditedFirstName] = useState<string>(
+    user.firstName
+  );
   const [editedLastName, setEditedLastName] = useState<string>(user.lastName);
   const [editedPhone, setEditedPhone] = useState<string>(user.phone);
   const [editedAddress, setEditedAddress] = useState<{
@@ -55,7 +59,7 @@ const UserProfile = () => {
     city: user?.address?.city,
     state: user?.address?.state,
     country: user?.address?.country,
-    pincode: user?.address?.pincode
+    pincode: user?.address?.pincode,
   });
 
   const handleEdit = () => {
@@ -65,12 +69,23 @@ const UserProfile = () => {
   const handleSave = () => {
     // Save changes
     setIsEditing(false);
-    console.log({ id: userId, firstName: editedFirstName, lastName: editedLastName, phone: editedPhone, address: editedAddress });
-    const data = { id: userId, firstName: editedFirstName, lastName: editedLastName, phone: editedPhone, address: editedAddress }
-    const dataRes = userService.updateById(accessToken, userId, data)
+    console.log({
+      id: userId,
+      firstName: editedFirstName,
+      lastName: editedLastName,
+      phone: editedPhone,
+      address: editedAddress,
+    });
+    const data = {
+      id: userId,
+      firstName: editedFirstName,
+      lastName: editedLastName,
+      phone: editedPhone,
+      address: editedAddress,
+    };
+    const dataRes = userService.updateById(accessToken, userId, data);
     console.log("dataRe", dataRes);
     dataRes.then((res: UserModel) => {
-
       const newUser = new UserModel();
       newUser.firstName = res.firstName;
       newUser.lastName = res.lastName;
@@ -81,9 +96,8 @@ const UserProfile = () => {
       newUser.password = res.password;
       newUser.userType = res.userType;
       newUser.creditBalance = res.creditBalance;
-      setUser(newUser)
-    }
-    )
+      setUser(newUser);
+    });
 
     // You can perform further actions like API calls to update the user information
   };
@@ -100,23 +114,43 @@ const UserProfile = () => {
     setEditedPhone(event.target.value);
   };
 
-  const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleChangeAddress = (
+    event: ChangeEvent<HTMLInputElement>,
+    key: string
+  ) => {
     setEditedAddress({
       ...editedAddress,
-      [key]: event.target.value
+      [key]: event.target.value,
     });
   };
 
-
-
   const getInitials = (firstName?: string, lastName?: string) => {
     console.log(firstName, lastName);
-    let initials
+    let initials;
     if (firstName && lastName) {
-
-      initials = `${firstName[0]}${lastName[0]}`
+      initials = `${firstName[0]}${lastName[0]}`;
     }
     return initials;
+  };
+  const submitRequest = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      userId: userId,
+      requestCategory: formData.get("category") as string,
+      requestDescription: formData.get("description") as string,
+      requestUrgencyLevel: formData.get("urgency") as string,
+      location: formData.get("location") as string,
+      durationInMinutes: formData.get("duration") as string,
+      date: formData.get("date") as string,
+      time: formData.get("time") as string,
+      requestStatus: "OPEN",
+    };
+    
+    requestService.createRequest(accessToken, data).then((res) => {
+      toast.success("Request Sent Successfully");
+      console.log(data);
+    });
   };
 
   return (
@@ -128,7 +162,10 @@ const UserProfile = () => {
             <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
               User Profile{" "}
             </h1>
-            <div onClick={handleEdit} className="cursor-pointer text-blue-500 mb-2">
+            <div
+              onClick={handleEdit}
+              className="cursor-pointer text-blue-500 mb-2"
+            >
               {isEditing ? "Cancel" : "Edit"}
             </div>
 
@@ -136,7 +173,6 @@ const UserProfile = () => {
               <div className="flex-shrink-0">
                 <div className="w-48 h-48 flex items-center justify-center bg-gray-300 text-gray-600 text-4xl font-bold rounded-full">
                   {getInitials(user.firstName, user.lastName)}
-
                 </div>
               </div>
               <div className="ml-6 text-right">
@@ -154,16 +190,43 @@ const UserProfile = () => {
             </div>
             <div>
               <p className="text-lime-800 mb-4">
-                <strong>First Name: </strong> {isEditing ? <input type="text" value={editedFirstName} onChange={handleChangeFirstName} /> : user.firstName}
+                <strong>First Name: </strong>{" "}
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editedFirstName}
+                    onChange={handleChangeFirstName}
+                  />
+                ) : (
+                  user.firstName
+                )}
               </p>
               <p className="text-lime-800 mb-4">
-                <strong>Last Name: </strong> {isEditing ? <input type="text" value={editedLastName} onChange={handleChangeLastName} /> : user.lastName}
+                <strong>Last Name: </strong>{" "}
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editedLastName}
+                    onChange={handleChangeLastName}
+                  />
+                ) : (
+                  user.lastName
+                )}
               </p>
               <p className="text-lime-800 mb-4">
                 <strong>Email:{user.email}</strong>
               </p>
               <p className="text-lime-800 mb-4">
-                <strong>Phone:</strong> {isEditing ? <input type="text" value={editedPhone} onChange={handleChangePhone} /> : user.phone}
+                <strong>Phone:</strong>{" "}
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editedPhone}
+                    onChange={handleChangePhone}
+                  />
+                ) : (
+                  user.phone
+                )}
               </p>
               <p className="text-lime-800 mb-4">
                 <strong>Birth Date:</strong> {user.birthDate}
@@ -171,14 +234,51 @@ const UserProfile = () => {
               {isEditing && (
                 <div>
                   {/* <p className="text-lime-800 mb-4"><strong>Password:</strong> <input type="password" value={user.password} onChange={() => { }} /></p> */}
-                  <p className="text-lime-800 mb-4"><strong>Address:</strong></p>
                   <p className="text-lime-800 mb-4">
-                    <input type="text" placeholder="street name" value={editedAddress?.street_name} onChange={(e) => handleChangeAddress(e, 'street_name')} />,
-                    <input type="text" placeholder="suite_number" value={editedAddress?.suite_number} onChange={(e) => handleChangeAddress(e, 'suite_number')} />,
-                    <input type="text" placeholder="city" value={editedAddress?.city} onChange={(e) => handleChangeAddress(e, 'city')} />,
-                    <input type="text" placeholder="state" value={editedAddress?.state} onChange={(e) => handleChangeAddress(e, 'state')} />,
-                    <input type="text" placeholder="country" value={editedAddress?.country} onChange={(e) => handleChangeAddress(e, 'country')} />,
-                    <input type="text" placeholder="pincode" value={editedAddress?.pincode} onChange={(e) => handleChangeAddress(e, 'pincode')} />
+                    <strong>Address:</strong>
+                  </p>
+                  <p className="text-lime-800 mb-4">
+                    <input
+                      type="text"
+                      placeholder="street name"
+                      value={editedAddress?.street_name}
+                      onChange={(e) => handleChangeAddress(e, "street_name")}
+                    />
+                    ,
+                    <input
+                      type="text"
+                      placeholder="suite_number"
+                      value={editedAddress?.suite_number}
+                      onChange={(e) => handleChangeAddress(e, "suite_number")}
+                    />
+                    ,
+                    <input
+                      type="text"
+                      placeholder="city"
+                      value={editedAddress?.city}
+                      onChange={(e) => handleChangeAddress(e, "city")}
+                    />
+                    ,
+                    <input
+                      type="text"
+                      placeholder="state"
+                      value={editedAddress?.state}
+                      onChange={(e) => handleChangeAddress(e, "state")}
+                    />
+                    ,
+                    <input
+                      type="text"
+                      placeholder="country"
+                      value={editedAddress?.country}
+                      onChange={(e) => handleChangeAddress(e, "country")}
+                    />
+                    ,
+                    <input
+                      type="text"
+                      placeholder="pincode"
+                      value={editedAddress?.pincode}
+                      onChange={(e) => handleChangeAddress(e, "pincode")}
+                    />
                   </p>
                 </div>
               )}
@@ -187,7 +287,12 @@ const UserProfile = () => {
                 <span>{`${user?.address?.street_name}, ${user?.address?.suite_number}, ${user?.address?.city}, ${user?.address?.state}, ${user?.address?.country}, ${user?.address?.pincode}`}</span>
               </div>
               {isEditing && (
-                <button onClick={handleSave} className="px-4 py-2 bg-lime-800 text-white rounded-md">Save</button>
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-lime-800 text-white rounded-md"
+                >
+                  Save
+                </button>
               )}
               {/* <div className="flex items-center mb-2">
                 <strong className="text-lime-800 mr-2">Address:</strong>
@@ -196,12 +301,11 @@ const UserProfile = () => {
             </div>
           </div>
 
-
           <div className="w-1/2 bg-gray-100 p-6 ml-4">
             <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
               Post Help Request
             </h1>
-            <form className="w-full">
+            <form className="w-full" onSubmit={submitRequest}>
               <div className="mb-4 grid grid-cols-2">
                 <div className="mr-4">
                   <label
@@ -210,15 +314,21 @@ const UserProfile = () => {
                   >
                     Category:
                   </label>
-                  <select id="category" name="category" className="w-full border rounded-md p-2">
-                    <option value="TRANSPORTATION" > Transportation</option>
-                    <option value="HOUSEHOLD_CHORES" > Household-chores</option>
-                    <option value="COMPANIONSHIP" >Companionship</option>
-                    <option value="PET_CARE" >Pet-care</option>
-                    <option value="MEAL_SERVICES" >Meal Services</option>
-                    <option value="FINANCIAL_ASSISTANCE" >Financial Assistance</option>
-                    <option value="HEALTH_CARE" >Health Care</option>
-                    <option value="OTHERS" >Others</option>
+                  <select
+                    id="category"
+                    name="category"
+                    className="w-full border rounded-md p-2"
+                  >
+                    <option value="TRANSPORTATION"> Transportation</option>
+                    <option value="HOUSEHOLD_CHORES"> Household-chores</option>
+                    <option value="COMPANIONSHIP">Companionship</option>
+                    <option value="PET_CARE">Pet-care</option>
+                    <option value="MEAL_SERVICES">Meal Services</option>
+                    <option value="FINANCIAL_ASSISTANCE">
+                      Financial Assistance
+                    </option>
+                    <option value="HEALTH_CARE">Health Care</option>
+                    <option value="OTHERS">Others</option>
                   </select>
                 </div>
                 <div>
@@ -228,7 +338,11 @@ const UserProfile = () => {
                   >
                     Urgency level:
                   </label>
-                  <select id="urgency" name="urgency" className="w-full border rounded-md p-2">
+                  <select
+                    id="urgency"
+                    name="urgency"
+                    className="w-full border rounded-md p-2"
+                  >
                     <option value="URGENT"> Urgent</option>
                     <option value="MODERATE"> Moderate</option>
                     <option value="LOW">Low</option>
@@ -236,7 +350,10 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="mb-4">
-                <label htmlFor="description" className="block text-lime-800 font-bold mb-2">
+                <label
+                  htmlFor="description"
+                  className="block text-lime-800 font-bold mb-2"
+                >
                   Description:
                 </label>
                 <textarea
@@ -246,7 +363,10 @@ const UserProfile = () => {
                 ></textarea>
               </div>
               <div className="mb-4">
-                <label htmlFor="location" className="block text-lime-800 font-bold mb-2">
+                <label
+                  htmlFor="location"
+                  className="block text-lime-800 font-bold mb-2"
+                >
                   Location:
                 </label>
                 <input
@@ -257,7 +377,10 @@ const UserProfile = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="duration" className="block text-lime-800 font-bold mb-2">
+                <label
+                  htmlFor="duration"
+                  className="block text-lime-800 font-bold mb-2"
+                >
                   Duration (in minutes):
                 </label>
                 <input
@@ -270,7 +393,10 @@ const UserProfile = () => {
                 />
                 <div className="mb-4 grid grid-cols-2">
                   <div className="mr-4">
-                    <label htmlFor="date" className="block text-lime-800 font-bold mb-2">
+                    <label
+                      htmlFor="date"
+                      className="block text-lime-800 font-bold mb-2"
+                    >
                       Date:
                     </label>
                     <input
@@ -282,7 +408,10 @@ const UserProfile = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="time" className="block text-lime-800 font-bold mb-2">
+                    <label
+                      htmlFor="time"
+                      className="block text-lime-800 font-bold mb-2"
+                    >
                       Time:
                     </label>
                     <input
@@ -290,17 +419,14 @@ const UserProfile = () => {
                       id="time"
                       name="time"
                       className="w-full border rounded-md p-2"
-                      
                     />
                   </div>
                 </div>
               </div>
 
-
-
               <div className="mt-8 flex justify-center gap-5">
                 <button
-                  type="button"
+                  type="submit"
                   className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
                 >
                   Submit Request
@@ -318,8 +444,6 @@ const UserProfile = () => {
                   Delete Request
                 </button>
               </div>
-
-
 
               <div className="flex justify-between">
                 {/* <button
