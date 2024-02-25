@@ -5,6 +5,7 @@ import SignUp from "@/pages/SignUp";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import UserProfile from "@/pages/Userprofile";
+import Requests from "@/pages/Requests";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.Register} Component={SignUp} />
       <Route path={RoutePaths.Home} Component={Home} />
       <Route path={RoutePaths.Userprofile} Component={UserProfile} />
+      <Route path={RoutePaths.Requests} Component={Requests} />
     </Routes>
   );
 };

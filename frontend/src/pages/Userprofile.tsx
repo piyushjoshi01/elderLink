@@ -5,10 +5,12 @@ import UserModel from "@/models/UserModel";
 import userService from "@/services/user.service";
 import requestService from "@/services/request.service";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [user, setUser] = useState<UserModel>(new UserModel());
   const [userId, setUserId] = useState();
+  const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
   // const refreshToken = localStorage.getItem("refreshToken") || "Fallback Token";
@@ -302,9 +304,15 @@ const UserProfile = () => {
           </div>
 
           <div className="w-1/2 bg-gray-100 p-6 ml-4">
+            
             <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
               Post Help Request
             </h1>
+            <div className="mt-8 mb-8 flex justify-left  gap-5"onClick={() => navigate("/Requests")}>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
+                >See All Requests</button></div>
             <form className="w-full" onSubmit={submitRequest}>
               <div className="mb-4 grid grid-cols-2">
                 <div className="mr-4">

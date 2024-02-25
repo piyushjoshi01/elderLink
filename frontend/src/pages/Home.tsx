@@ -37,13 +37,11 @@ const Home = () => {
                
 
                 <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
-                    Help us improve our productivity
+                For Our Seniors: Gift of Time
                 </h1>
 
                 <p className="max-w-lg mt-6 text-gray-500 dark:text-gray-400 ">
-                “ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quibusdam ducimus libero ad
-                    tempora doloribus expedita laborum saepe voluptas perferendis delectus assumenda rerum, culpa
-                    aperiam dolorum, obcaecati corrupti aspernatur a. ”
+                Are you in need of a helping hand? Register with us, and you'll find a community ready to support you. From grocery shopping to tech support — no task is too small. To get you started, we're offering bonus time credits to everyone over 60. These credits can be used to request help from our vibrant pool of young volunteers.
                 </p>
 
                 <h3 className="mt-6 text-lg font-medium text-lime-800">Mia Brown</h3>
@@ -65,13 +63,11 @@ const Home = () => {
               
 
                 <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
-                    Help us improve our productivity
+                For Our Youth: Earn While You Assist
                 </h1>
 
                 <p className="max-w-lg mt-6 text-gray-500 dark:text-gray-400 ">
-                    “ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quibusdam ducimus libero ad
-                    tempora doloribus expedita laborum saepe voluptas perferendis delectus assumenda rerum, culpa
-                    aperiam dolorum, obcaecati corrupti aspernatur a. ”
+                Young adults, here's your chance to make a meaningful impact. Sign up, accept help requests, and start earning time credits. Each task you complete helps someone in need and adds credits to your account, which you can redeem for your own future needs or transfer to someone else as an act of kindness.
                 </p>
 
                 <h3 className="mt-6 text-lg font-medium text-lime-800">Mia Brown</h3>
