@@ -2,6 +2,7 @@ import authService from "@/services/auth.service";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 // const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
 const people = [
@@ -33,6 +34,7 @@ function Navbar() {
     });
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");
+    toast.success("logged out successfully");
     setIsAuthenticated(false);
     navigate("/login");
   };
@@ -47,7 +49,7 @@ function Navbar() {
   ));
 
   return (
-    <div className="m-auto p-3 flex justify-between items-center w-screen flex-wrap bg-transparent">
+    <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent"> {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
         src={"src/assets/images/logo.png"}
         alt="ElderLink Logo"
@@ -126,6 +128,7 @@ function Navbar() {
           </>
         )}
       </div>
+
     </div>
   );
 }

@@ -44,7 +44,7 @@ const Home = () => {
                 Are you in need of a helping hand? Register with us, and you'll find a community ready to support you. From grocery shopping to tech support — no task is too small. To get you started, we're offering bonus time credits to everyone over 60. These credits can be used to request help from our vibrant pool of young volunteers.
                 </p>
 
-                <h3 className="mt-6 text-lg font-medium text-lime-800">Mia Brown</h3>
+                <h3 className="mt-6 text-lg font-medium text-lime-800"></h3>
                 <p className="text-gray-600 dark:text-gray-300"></p>
 
             </div>
@@ -70,7 +70,7 @@ const Home = () => {
                 Young adults, here's your chance to make a meaningful impact. Sign up, accept help requests, and start earning time credits. Each task you complete helps someone in need and adds credits to your account, which you can redeem for your own future needs or transfer to someone else as an act of kindness.
                 </p>
 
-                <h3 className="mt-6 text-lg font-medium text-lime-800">Mia Brown</h3>
+                <h3 className="mt-6 text-lg font-medium text-lime-800"></h3>
                 <p className="text-gray-600 dark:text-gray-300"></p>
 
                 <div className="flex items-center justify-between mt-12 lg:justify-start">
