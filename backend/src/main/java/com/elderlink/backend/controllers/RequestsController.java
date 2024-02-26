@@ -53,4 +53,21 @@ public class RequestsController {
             );
     }
 
+    @PatchMapping("/{requestId}")
+    public ResponseEntity<RequestDto> updateRequest(
+            @Valid @PathVariable Long requestId,
+            @Valid @RequestBody RequestDto updateRequestDto
+    ){
+        RequestEntity requestEntity = requestMapper.toEntity (updateRequestDto);
+        RequestEntity updatedRequest = requestService.updateRequest(requestId,requestEntity);
+        return ResponseEntity.status (HttpStatus.OK).body (requestMapper.toDto(updatedRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteRequest(@Valid @PathVariable("id") Long requestId){
+        requestService.deleteRequest(requestId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }
