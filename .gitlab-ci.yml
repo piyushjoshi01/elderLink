@@ -1,29 +1,47 @@
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
   - test
   # - quality
   - publish
   - deploy
 
-build:
-# This is a job
-  stage: build
-  # Need to tell which stage this job belongs to
+backend_build:
   image: maven:latest
-  # Which image does the Gitlab needs to be select to run the program
-  # Images come from the Dockerhub - to see or refer the images, you need to go to dockerhub
+  stage: build
+  tags:
+    - elderlink
   script:
     - cd backend
-    - mvn clean package 
-    # Script is failing here
-    # What do you want to do here, we give the terminal scripts here...
+    - echo "Building Backend Application..."
+    - ./mvnw clean package
+    - echo "Backend Build Complete"
+
+frontend_build:
+  image: node:latest
+  stage: build
+  tags:
+    - elderlink
+  script:
+    - echo "Building Frontend Application..."
+    - cd frontend
+    - npm install
+    - npm run build
+    - ls -a
+    - echo "Frontend Build Complete"
+  artifacts:
+    paths:
+      - frontend/build
 
 test:
-  stage: test
   image: maven:latest
-  # If you are working on a front end thing, you will have a Node Image
+  stage: test
+  tags:
+    - elderlink
   script:
-    - mvn test
+    - echo "Backend Testing Started..."
+    - cd backend
+    - ./mvnw test
+    - echo "Backend Testing Complete"
 
 # quality:
 #   stage: quality
@@ -38,60 +56,60 @@ test:
 #       - $CI_PROJECT_DIR
 
 publish:
-# We just need a "package" - we can do it via other techs too, not only docker
   image: docker:latest
-  # Why are we using a docker image in this stage? - we need to package our code
   stage: publish
-  tags: 
-    - dalfcs_docker_autoscale
-
+  tags:
+    - elderlink
   variables:
-    # these values may need to be different if using TLS, k8s, etc.
-    # You can alternatively set defaults in your runner config
     DOCKER_TLS_CERTDIR: ""
     DOCKER_HOST: "tcp://docker:2375"
   services:
     - docker:dind
-
   script:
-    - pwd 
+    - pwd
     - echo $SERVER_IP
-    # SERVER_IP - this is an environment variable
-    # we need to keep it lean and as configurable as possible.
     - docker --version
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
-    # This script is used to login into docker
-    - docker build -t docker.io/kapoor98ak/test:$CI_COMMIT_SHORT_SHA .
-    # This is a gitlab system generated
-    - docker push docker.io/kapoor98ak/test:$CI_COMMIT_SHORT_SHA
-  only:
-    - main
-    # This tells us that the CD Part only needs to run on the main branch
-    
-    # Automate the creation of the code's image.
 
+    - cd backend/
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA
 
-deploy:
+    - cd ..
+
+    - cd frontend/
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:$CI_COMMIT_SHORT_SHA .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:$CI_COMMIT_SHORT_SHA
+    - cd ..
+    - ls -a
+
+deploy-backend:
   image: alpine:latest
   stage: deploy
   tags:
-    - deployment-lab4
+    - elderlink
   script:
-    - chmod og= $ID_RSA
-    # This ID_RSA is the RSA ID from the VM that we need to run the code in 
-    # We also need to change the permission of this file so that it can be accessed.
-    - apk update && apk add openssh-client
-    # Just for the security, we need to update the apk and openssh client to be installed as we will be sshing into this VM from our system.
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io"
-    # We need to authenticate but we can not do it interactively.
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/shahmehil/test:$CI_COMMIT_SHORT_SHA"
-    # We need to pull the image back to the VM
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f my-app || true"
-    # What is my-app - this will delete any container called "my-app" - this will remove any existing or past container that I am goin to make in the next step.
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8073:8073 --name my-app docker.io/shahmehil/test:$CI_COMMIT_SHORT_SHA"
-    
-  environment:
-    name: production
-    url: http://172.17.0.236:8073
-  only:
-    - main
+    - cd backend/
+    - echo "Deploying Backend..."
+    - chmod og-rwx $ID_RSA
+    - apk update && apk add openssh-client sshpass
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f elderlink-backend || true"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name elderlink-backend docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker images -a"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container ls -a"
+
+deploy-frontend:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+    - chmod og-rwx $ID_RSA
+    - echo "Frontend Build Files Transfer in progress!"
+    - apk update && apk add openssh-client sshpass
+    - ls -a
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "rm -r /var/www/html/*" || true
+    - sshpass -p "dalw24" scp -o StrictHostKeyChecking=no -r -v frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html
+    - echo "Frontend Deplyoment Complete!"
+  tags:
+    - elderlink
