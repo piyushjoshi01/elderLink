@@ -9,6 +9,8 @@ const Requests: React.FC = () => {
 
   const [request, setRequest] = useState<RequestModel>(new RequestModel());
   const [requestArr, setRequestArr] = useState([]);
+  const[editflag,setEditFlag]=useState({id:null,flag:false});
+  const [newValue,setNewValue]=useState<any>({});
 
   //   type FormData = {
   //     category: string;
@@ -75,13 +77,15 @@ console.log("reqarr",requestArr);
 
 
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
-  //   const { value } = e.target;
-  //   setFormData(prevData => ({
-  //     ...prevData,
-  //     [field]: value
-  //   }));
-  // };
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value,name } = e.target;
+    setNewValue((prevData:any) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+console.log("setNewValue",setNewValue);
+
 
   const toggleEditing = (field: string) => {
     setIsEditing(prevState => ({
@@ -115,6 +119,9 @@ console.log("reqarr",requestArr);
   //   }));
   // };
 
+  console.log("editflag",editflag);
+  
+
   return (
     <div>
       <Navbar />
@@ -147,15 +154,87 @@ console.log("reqarr",requestArr);
                 {/* </thead> */}
                 <tbody>
                     {requestArr.map((elem:any)=><tr>
-                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestCategory}</th>
-                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestUrgencyLevel}</th>
+                      {editflag.flag && elem.id==editflag.id ? 
+                       <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+
+
+                     <input onChange={handleChangeInput} name="requestCategory" type="text" 
+                    //  value={newValue.requestCategory} 
+                     />
+                       </th>
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.requestCategory}</th>}
+                     
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.requestUrgencyLevel} 
+                       name="requestUrgencyLevel" type="text" />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.requestUrgencyLevel}</th>}
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.requestDescription} 
+                       name="requestDescription" type="text"  />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.requestDescription}</th>}
+                     
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.location} 
+                       name="location" type="text"  />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.location}</th>}
+                     
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.date} 
+                       name="date" type="text"  />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.date}</th>}
+                     
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.time} 
+                       name="time" type="text" />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.time}</th>}
+                     
+                      {editflag.flag && elem.id==editflag.id ? 
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                       <input onChange={handleChangeInput} 
+                      //  value={newValue.durationInMinutes} 
+                       name="durationInMinutes" type="text" />
+                     </th> 
+                     :
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                     {elem.durationInMinutes}</th>}
+                     
+                     
+                     
+                     {/* <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestUrgencyLevel}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestDescription}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.location}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.date}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.time}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.
-durationInMinutes}</th>
-                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"><button className='bg-lime-800'>Edit</button></th>
+durationInMinutes}</th> */}
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"><button className='bg-lime-800' onClick={()=>setEditFlag({flag:!editflag.flag,id:elem.id})}>Edit</button></th>
                    </tr>)
                     }
                   
