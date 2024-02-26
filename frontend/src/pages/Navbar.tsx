@@ -1,5 +1,5 @@
 import authService from "@/services/auth.service";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -121,10 +121,12 @@ function Navbar() {
             >
               Logout
             </button>
-            <div onClick={() => navigate("/Userprofile")} className="text-lime-800  border-black mr-2 p-2 ">
-            <FaUserAlt  size="30px"  />
+            <div
+              onClick={() => navigate("/Userprofile")}
+              className="text-lime-800  border-black mr-2 p-2 "
+            >
+              <FaUserAlt size="30px" />
             </div>
-
           </>
         )}
       </div>

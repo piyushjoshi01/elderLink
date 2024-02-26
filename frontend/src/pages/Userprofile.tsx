@@ -148,8 +148,8 @@ const UserProfile = () => {
       time: formData.get("time") as string,
       requestStatus: "OPEN",
     };
-    
-    requestService.createRequest(accessToken, data).then((res) => {
+
+    requestService.createRequest(accessToken, data).then((_res: any) => {
       toast.success("Request Sent Successfully");
       // console.log(data);
     });

@@ -1,12 +1,4 @@
-import { create } from "domain";
-import { url } from "inspector";
-import {
-  CreateUserModel,
-  LogOutModel,
-  LoginModel,
-  TokenModel,
-} from "../models/AuthModel";
-import UserModel from "../models/UserModel";
+import { CreateUserModel, LoginModel } from "../models/AuthModel";
 
 import request from "./request";
 
