@@ -1,6 +1,6 @@
-import React from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
+import Png7 from "../assets/images/7.png"
 
 
 const Home = () => {
@@ -134,7 +134,7 @@ const Home = () => {
   <div className="p-6 bg-gray-100 flex flex-col items-center"> 
 	<p className="text-center text-4xl">
 	  <img
-		src="/src/assets/images/7.png" 
+		src={Png7} 
 	  />
 	</p>
 

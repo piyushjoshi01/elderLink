@@ -1,223 +1,67 @@
 
-// import React, { useState } from 'react';
-// import { useNavigate } from "react-router-dom";
-// import Navbar from './Navbar';
-// import Footer from "../components/ui/Footer";
-
-// const Requests: React.FC = () => {
-//   type FormData = {
-//     category: string;
-//     urgency: string;
-//     description: string;
-//     location: string;
-//     date: string;
-//     time: string;
-//     duration: number;
-//   };
-
-//   const initialCategory: FormData = {
-//     category: "",
-//     urgency: "Urgent",
-//     description: "Lorem ipsum dolor sit amet.",
-//     location: "",
-//     date: "",
-//     time: "",
-//     duration: 0
-//   };
-
-//   const [formData, setFormData] = useState<FormData | null>(null);
-//   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-//   const openCard = () => {
-//     const data: FormData = {
-//       category: "Transportation",
-//       urgency: "Urgent",
-//       description: "Lorem ipsum dolor sit amet.",
-//       location: "Sample Location",
-//       date: "2024-02-21",
-//       time: "14:30",
-//       duration: 0
-//     };
-
-//     setFormData(data);
-//     setIsEditing(false); // Enable editing when card opens
-//   };
-
-//   const closeCard = () => {
-//     setFormData(null);
-//     setIsEditing(false);
-//   };
-
-//   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   //   const { name, value } = e.target;
-//   //   if (formData) {
-//   //     setFormData(prevState => ({
-//   //       ...prevState,
-//   //       [name]: value
-//   //     }));
-//   //   }
-//   // };
-
-//   function handleSubmit() {
-//     // Handle form submission here
-//     setIsEditing(false); // Disable editing after submission
-//   }
-
-//   const toggleEditing = () => {
-//     setIsEditing((prevIsEditing) => !prevIsEditing);
-//     setIsEditing(true); // Set to true when "Edit" button is clicked
-//   };
-
-//   return (
-//     <div>
-//       <Navbar/>
-//       <div className='p-20'>
-        
-//         {formData && (
-//           <div className="bg-gray-100 p-5 rounded-md shadow-md max-w-xl">
-//             <div className="flex flex-col text-sm gap-2">
-//               <p><strong>Category:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="category" 
-//                     value={formData.category} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.category
-//                 )}
-//               </p>
-//               <p><strong>Urgency:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="urgency" 
-//                     value={formData.urgency} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.urgency
-//                 )}
-//               </p>
-//               <p><strong>Description:</strong> 
-//                 {isEditing ? (
-//                   <textarea 
-//                     name="description" 
-//                     value={formData.description} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.description
-//                 )}
-//               </p>
-//               <p><strong>Location:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="location" 
-//                     value={formData.location} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.location
-//                 )}
-//               </p>
-//               <p><strong>Date:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="date" 
-//                     value={formData.date} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.date
-//                 )}
-//               </p>
-//               <p><strong>Time:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="time" 
-//                     value={formData.time} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.time
-//                 )}
-//               </p>
-//               <p><strong>Duration:</strong> 
-//                 {isEditing ? (
-//                   <input 
-//                     type="text" 
-//                     name="duration" 
-//                     value={formData.duration} 
-//                     // onChange={handleChange} 
-//                   />
-//                 ) : (
-//                   formData.duration
-//                 )}
-//               </p>
-//               {/* {isEditing ? (
-//                 <button onClick={handleSubmit} className="bg-lime-800 p-2 rounded-md text-white">
-//                   Submit
-//                 </button>
-//               ) : (
-//                 <button onClick={toggleEditing} className="bg-lime-800 p-2 rounded-md text-white">
-//                   Edit
-//                 </button>
-//               )} */}
-//               <button onClick={closeCard} className="bg-lime-800 p-2 rounded-md text-white">
-//                 Close
-//               </button>
-//             </div>
-//           </div>
-//         )}
-
-//         {!formData && (
-//           <div className="bg-gray-100 p-5 rounded-md shadow-md max-w-xl flex flex-col gap-3">
-//             <p className='text-sm'><strong>Category:</strong> {initialCategory.description}</p>
-//             <p className='text-sm'><strong>Urgency:</strong> {initialCategory.urgency}</p>
-//             <button onClick={openCard} className="bg-lime-800 p-2 rounded-md text-white">
-//               Open
-//             </button>
-//           </div>
-//         )}
-//       </div> 
-      
-//       <Footer/>
-//     </div>
-//   );
-// };
-
-// export default Requests;
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import Footer from "../components/ui/Footer";
+import requestService from "@/services/request.service";
+import RequestModel from '@/models/RequestModel';
 
 const Requests: React.FC = () => {
-  type FormData = {
-    category: string;
-    urgency: string;
-    description: string;
-    location: string;
-    date: string;
-    time: string;
-    duration: number;
-  };
 
-  const initialCategory: FormData = {
-    category: "transport",
-    urgency: "Urgent",
-    description: "Lorem ipsum dolor sit amet.",
-    location: "surat",
-    date: "2024-2-26",
-    time: "10:30",
-    duration: 0
-  };
+  const [request, setRequest] = useState<RequestModel>(new RequestModel());
+  const [requestArr, setRequestArr] = useState([]);
 
-  const [formData, setFormData] = useState<FormData>(initialCategory);
+  //   type FormData = {
+  //     category: string;
+  //     urgency: string;
+  //     description: string;
+  //     location: string;
+  //     date: string;
+  //     time: string;
+  //     duration: number;
+  //   };
+
+  const accessToken = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    if (!accessToken) {
+      console.log("No access token available");
+      return;
+    }
+    requestService
+      .getRequestById(accessToken, 43)
+      .then((res) => {
+
+        console.log(res.data);
+        setRequestArr(res.data)
+        const requestSave = new RequestModel();
+        requestSave.category = res.data.category;
+        requestSave.urgency = res.data.urgency;
+        requestSave.description = res.data.description;
+        requestSave.location = res.data.location;
+        requestSave.date = res.data.date;
+        requestSave.time = res.data.time;
+        requestSave.duration = res.data.duration;
+
+        setRequest(requestSave);
+      }
+
+      )
+      .catch((error) => {
+        console.error("Failed to fetch user details", error);
+      });
+  }, [localStorage.getItem("accessToken")]);
+
+  // const initialCategory: FormData = {
+  //   category: "transport",
+  //   urgency: "Urgent",
+  //   description: "Want to transport Furniture.",
+  //   location: "nova scotia halifax",
+  //   date: "2024-2-27",
+  //   time: "10:30",
+  //   duration: 190
+  // };
+
+  // const [formData, setFormData] = useState<FormData>(initialCategory);
   const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({
     category: false,
     urgency: false,
@@ -227,14 +71,17 @@ const Requests: React.FC = () => {
     time: false,
     duration: false
   });
+console.log("reqarr",requestArr);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
-    const { value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [field]: value
-    }));
-  };
+
+
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
+  //   const { value } = e.target;
+  //   setFormData(prevData => ({
+  //     ...prevData,
+  //     [field]: value
+  //   }));
+  // };
 
   const toggleEditing = (field: string) => {
     setIsEditing(prevState => ({
@@ -257,20 +104,20 @@ const Requests: React.FC = () => {
     });
   };
 
-  const handleCancel = (field: string) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [field]: initialCategory[field as keyof FormData]
-    }));
-    setIsEditing(prevState => ({
-      ...prevState,
-      [field]: false
-    }));
-  };
+  // const handleCancel = (field: string) => {
+  //   setFormData(prevData => ({
+  //     ...prevData,
+  //     [field]: initialCategory[field as keyof FormData]
+  //   }));
+  //   setIsEditing(prevState => ({
+  //     ...prevState,
+  //     [field]: false
+  //   }));
+  // };
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <section className="py-1 bg-blueGray-50">
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
@@ -286,104 +133,117 @@ const Requests: React.FC = () => {
             </div>
             <div className="block w-full overflow-x-auto">
               <table className="items-center bg-transparent w-full border-collapse">
-                <thead>
+                {/* <thead> */}
                   <tr>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Category</th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Urgency</th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Description</th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Location</th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Date</th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Time</th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Duration</th>
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Time</th>{request.time}
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Duration</th>{request.duration}
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Action</th>
                   </tr>
-                </thead>
+                {/* </thead> */}
                 <tbody>
-                  <tr>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
+                    {requestArr.map((elem:any)=><tr>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestCategory}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestUrgencyLevel}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestDescription}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.location}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.date}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.time}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.
+durationInMinutes}</th>
+                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"><button className='bg-lime-800'>Edit</button></th>
+                   </tr>)
+                    }
+                  
+                    {/* <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">{request.category}
                       {isEditing.category ? (
                         <input
                           type="text"
-                          value={formData.category}
-                          onChange={(e) => handleInputChange(e, 'category')}
+                          value={request.category}
+                        // onChange={(e) => handleInputChange(e, 'category')}
                         />
                       ) : (
-                        formData.category
+                        request.category
                       )}
                     </td>
-                 
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{request.urgency}
                       {isEditing.urgency ? (
                         <input
                           type="text"
-                          value={formData.urgency}
-                          onChange={(e) => handleInputChange(e, 'urgency')}
+                          value={request.urgency}
+                        // onChange={(e) => handleInputChange(e, 'urgency')}
                         />
                       ) : (
-                        formData.urgency
+                        request.urgency
                       )}
                     </td>
-                  
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{request.description}
                       {isEditing.description ? (
                         <textarea
-                          value={formData.description}
-                          onChange={(e) => handleInputChange(e, 'description')}
+                          value={request.description}
+                        // onChange={(e) => handleInputChange(e, 'description')}
                         />
                       ) : (
-                        formData.description
+                        request.description
                       )}
                     </td>
-                
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+
+                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{request.location}
                       {isEditing.location ? (
                         <input
                           type="text"
-                          value={formData.location}
-                          onChange={(e) => handleInputChange(e, 'location')}
+                          value={request.location}
+                        // onChange={(e) => handleInputChange(e, 'location')}
                         />
                       ) : (
-                        formData.location
+                        request.location
                       )}
                     </td>
-                
+
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {isEditing.date ? (
                         <input
                           type="text"
-                          value={formData.date}
-                          onChange={(e) => handleInputChange(e, 'date')}
+                          value={request.date}
+                        // onChange={(e) => handleInputChange(e, 'date')}
                         />
                       ) : (
-                        formData.date
+                        request.date
                       )}
                     </td>
-                 
+
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {isEditing.time ? (
                         <input
                           type="text"
-                          value={formData.time}
-                          onChange={(e) => handleInputChange(e, 'time')}
+                          value={request.time}
+                        // onChange={(e) => handleInputChange(e, 'time')}
                         />
                       ) : (
-                        formData.time
+                        request.time
                       )}
                     </td>
-                
+
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {isEditing.duration ? (
                         <input
                           type="number"
-                          value={formData.duration}
-                          onChange={(e) => handleInputChange(e, 'duration')}
+                          value={request.duration}
+                        // onChange={(e) => handleInputChange(e, 'duration')}
                         />
                       ) : (
-                        formData.duration
+                        request.duration
                       )}
-                    </td>
-                  
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                      {request.duration}
+                    </td> */}
+
+                    {/* <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {Object.values(isEditing).some(editing => editing) ? (
                         <>
                           <button onClick={handleSave} className="bg-lime-800 p-2 rounded-md text-white mr-2">Save</button>
@@ -392,17 +252,26 @@ const Requests: React.FC = () => {
                       ) : (
                         <button onClick={() => setIsEditing({ category: true, urgency: true, description: true, location: true, date: true, time: true, duration: true })} className="bg-lime-800 p-2 rounded-md text-white">Edit</button>
                       )}
-                    </td>
-                  </tr>
+                    </td> */}
+                  {/* </tr> */}
                 </tbody>
               </table>
             </div>
+
+
           </div>
         </div>
       </section>
-      <Footer/>
+
+
+      <Footer />
     </div>
   );
 };
 
 export default Requests;
+function getById(accessToken: string, requestId: number) {
+  throw new Error('Function not implemented.');
+}
+
+

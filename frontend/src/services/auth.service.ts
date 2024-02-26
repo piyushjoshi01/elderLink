@@ -29,7 +29,7 @@ class AuthService {
 
   public async logout(refreshToken: string): Promise<any> {
     const url = `${this.ENDPOINT}/logout`;
-    return request.post<any>(url, refreshToken).then((res) => {
+    return request.post<any>(url, { refreshToken: refreshToken }).then((res) => {
       return res.data;
     });
   }

@@ -13,7 +13,7 @@ class UserService {
     };
     const url = `${this.ENDPOINT}/getUser`;
     return request.get<any>(url, config).then((res) => {
-      console.log("from user service", res);
+      // console.log("from user service", res);
       return res;
     });
   }

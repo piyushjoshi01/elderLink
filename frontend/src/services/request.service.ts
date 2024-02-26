@@ -48,5 +48,53 @@ class RequestService {
       return res.data;
     });
   }
+
+  
+  public async updateRequestByID(accessToken: string, id?: Number, data?: any)
+   {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const url = `${this.ENDPOINT}/${id}`;
+    await request.patch<any>(url, data, config).then((res) => {
+      return res.data;
+    });
+  }
+
+  public async getRequestById(accessToken: string,id?:Number):Promise<any>{
+    console.log("token", accessToken);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const url = `${this.ENDPOINT}/${id}`;
+    return request.get<any>(url, config).then((res) => {
+      console.log("from user service", res);
+      return res;
+    });
+  }
+
+  public async updateById(accessToken: string,id?: Number,data?:any): Promise<any> {
+    console.log("token", accessToken);
+    let endObj:any="";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const url = `${this.ENDPOINT}/users/${id}`;
+    console.log({url});
+    
+    await request.patch<any>(url,data, config).then((res) => {
+      console.log("from update service", res);
+      endObj= res.data;
+    });
+    return endObj;
+  }
 }
+
+
 export default new RequestService();
