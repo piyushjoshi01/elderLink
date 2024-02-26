@@ -42,10 +42,6 @@ test:
     - cd backend
     - ./mvnw test
     - echo "Backend Testing Complete"
-    - echo "Backend Testing Started..."
-    - cd backend
-    - ./mvnw test
-    - echo "Backend Testing Complete"
 
 # quality:
 #   stage: quality
