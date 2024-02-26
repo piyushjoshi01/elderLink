@@ -53,4 +53,14 @@ public class RequestsController {
             );
     }
 
+    @PatchMapping("/{requestId}")
+    public ResponseEntity<RequestDto> updateRequest(
+            @Valid @PathVariable Long requestId,
+            @Valid @RequestBody RequestDto updateRequestDto
+    ){
+        RequestEntity requestEntity = requestMapper.toEntity (updateRequestDto);
+        RequestEntity updatedRequest = requestService.updateRequest(requestId,requestEntity);
+        return ResponseEntity.status (HttpStatus.OK).body (requestMapper.toDto(updatedRequest));
+    }
+
 }

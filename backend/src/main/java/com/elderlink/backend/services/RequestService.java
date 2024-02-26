@@ -9,4 +9,6 @@ public interface RequestService {
 
     public List<RequestEntity> findRequestsByUserId(Long userId);
 
+    public RequestEntity updateRequest(Long id, RequestEntity requestEntity);
+
 }

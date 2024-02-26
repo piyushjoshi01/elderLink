@@ -55,4 +55,31 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    @Override
+    public RequestEntity updateRequest(Long requestId, RequestEntity requestEntity) {
+        try {
+
+            RequestEntity existingRequest = requestRepository.findById (requestId)
+                    .orElseThrow (() -> new RuntimeException ("Request with this id is not exist!"));
+
+            //To check user is not updating other user's requests
+            isUserAuthorized.checkUserAuthority(requestEntity.getUser ().getId ());
+
+            modelMapper.getConfiguration ().setSkipNullEnabled (true);
+
+            modelMapper.map(requestEntity,existingRequest);
+
+            modelMapper.getConfiguration ().setSkipNullEnabled (false);
+
+            requestRepository.save(existingRequest);
+
+            logger.info ("Request updated successfully.");
+
+            return existingRequest;
+        }catch (RuntimeException e){
+            logger.error ("An error occurred while updating the request. -> {}",e.getMessage ());
+            throw new RuntimeException(e.getMessage ());
+        }
+    }
 }
