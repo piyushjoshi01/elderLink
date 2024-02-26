@@ -15,6 +15,9 @@ backend_build:
     - echo "Building Backend Application..."
     - ./mvnw clean package
     - echo "Backend Build Complete"
+  artifacts:
+    paths:
+      - backend/target
 
 frontend_build:
   image: node:latest
