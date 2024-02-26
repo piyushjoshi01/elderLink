@@ -17,7 +17,7 @@ const SignUp = () => {
     const address: Address = {
       street_name: formData.get("street_name") as string,
       suite_number: formData.get("suite_number") as string,
-
+      city: formData.get("city") as string,
       state: formData.get("state") as string,
       country: formData.get("country") as string,
       pincode: formData.get("pincode") as string,
@@ -31,7 +31,7 @@ const SignUp = () => {
       phone: formData.get("phone") as string,
       address: address,
       birthDate: birthdateString,
-      userType: "VOLUNTEER",
+      userType: "ELDER_PERSON",
     };
     console.log(data);
     authService.create(data).then((res) => {
@@ -170,7 +170,7 @@ const SignUp = () => {
 
                 <div>
                   <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
-                    Suite Name
+                    Suite Number
                   </label>
                   <input
                     type="text"
@@ -181,6 +181,18 @@ const SignUp = () => {
                   />
                 </div>
 
+                <div>
+                  <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="City"
+                    className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    name="city"
+                    required
+                  />
+                </div>
                 <div>
                   <label className="block mb-2 text-sm text-gray-600 dark:text-gray-200">
                     Country

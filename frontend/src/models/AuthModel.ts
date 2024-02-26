@@ -11,7 +11,7 @@ export interface Address {
   street_name: string;
   suite_number: string;
   pincode: string;
-
+  city: string;
   state: string;
   country: string;
   // postalCode:string;
@@ -28,7 +28,6 @@ export class CreateUserModel {
   birthDate!: string;
   confirmPassword?: string;
   userType!: string;
- 
 }
 export class TokenModel {
   accessToken!: string;
