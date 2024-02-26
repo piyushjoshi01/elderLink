@@ -82,4 +82,24 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage ());
         }
     }
+
+    @Override
+    public void deleteRequest(Long requestId) {
+        try {
+            RequestEntity request = requestRepository.findById(requestId)
+                    .orElseThrow(() -> new RuntimeException ("Request of this id is not exist!"));
+
+            //To check user is not deleting other user's requests
+            isUserAuthorized.checkUserAuthority(request.getUser().getId());
+
+            requestRepository.deleteById(requestId);
+
+            logger.info ("Request deleted successfully.");
+        }catch (RuntimeException e){
+            logger.error ("An error occurred while deleting the request. -> {}",e.getMessage ());
+            throw new RuntimeException(e.getMessage ());
+        }
+    }
+
 }
+

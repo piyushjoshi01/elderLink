@@ -11,4 +11,5 @@ public interface RequestService {
 
     public RequestEntity updateRequest(Long id, RequestEntity requestEntity);
 
+    public void deleteRequest(Long id);
 }

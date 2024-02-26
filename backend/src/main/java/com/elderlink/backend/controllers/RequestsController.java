@@ -63,4 +63,11 @@ public class RequestsController {
         return ResponseEntity.status (HttpStatus.OK).body (requestMapper.toDto(updatedRequest));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteRequest(@Valid @PathVariable("id") Long requestId){
+        requestService.deleteRequest(requestId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }
