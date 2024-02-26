@@ -86,6 +86,9 @@ publish:
     - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:$CI_COMMIT_SHORT_SHA
     - cd ..
     - ls -a
+  only:
+    - develop
+
 
 deploy-backend:
   image: alpine:latest
@@ -117,3 +120,5 @@ deploy-frontend:
     - echo "Frontend Deplyoment Complete!"
   tags:
     - elderlink
+  only:
+    - develop
