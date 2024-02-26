@@ -28,6 +28,7 @@ frontend_build:
     - echo "Building Frontend Application..."
     - cd frontend
     - npm install
+    - npm i react-icons
     - npm run build
     - ls -a
     - echo "Frontend Build Complete"
