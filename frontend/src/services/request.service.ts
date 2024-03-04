@@ -63,13 +63,14 @@ class RequestService {
     });
   }
 
-  public async getRequestById(accessToken: string,id?:Number):Promise<any>{
+  public async getRequestById(accessToken: string,id?:Number|null):Promise<any>{
     console.log("token", accessToken);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+    
     const url = `${this.ENDPOINT}/${id}`;
     return request.get<any>(url, config).then((res) => {
       console.log("from user service", res);
@@ -79,6 +80,7 @@ class RequestService {
 
   public async updateById(accessToken: string,id?: Number,data?:any): Promise<any> {
     console.log("token", accessToken);
+    console.log(data,'data')
     let endObj:any="";
     const config = {
       headers: {
@@ -93,6 +95,20 @@ class RequestService {
       endObj= res.data;
     });
     return endObj;
+  }
+  
+  public async getDeleteById(accessToken: string,id?:Number):Promise<any>{
+    console.log("token", accessToken,id);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const url = `${this.ENDPOINT}/${id}`;
+    return request.delete<any>(url,config).then((res) => {
+      console.log("from ", res.data);
+      return res;
+    });
   }
 }
 

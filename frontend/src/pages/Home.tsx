@@ -2,10 +2,13 @@ import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import Png7 from "../assets/images/7.png"
 
+
 const Home = () => {
+ 
+
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="homebg">
         <div style={{ height: "100vh" }}>
           <div
@@ -23,20 +26,15 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      <section className="bg-gray-100 dark:bg-gray-900 mb-8">
-        <div className="container px-6 py-10 mx-auto">
-          <div className="lg:-mx-6 lg:flex lg:items-center">
-            <img
-              className="object-cover object-center lg:w-1/2 lg:mx-6 w-full h-96 rounded-lg lg:h-[36rem]"
-              src="src/assets/images/9.png"
-              alt=""
-            />
+          
+          
+      <section className="bg-gray-100 dark:bg-gray-900 mb-8"> 
+    <div className="container px-6 py-10 mx-auto">
+        <div className="lg:-mx-6 lg:flex lg:items-center">
+            <img className="object-cover object-center lg:w-1/2 lg:mx-6 w-full h-96 rounded-lg lg:h-[36rem]" src="src/assets/images/9.png" alt=""/>
 
             <div className="mt-8 lg:w-1/2 lg:px-6 lg:mt-0">
-              <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
-                Help us improve our productivity
-              </h1>
+               
 
                 <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
                 For Our Seniors: Gift of Time
@@ -49,22 +47,20 @@ const Home = () => {
                 <h3 className="mt-6 text-lg font-medium text-lime-800"></h3>
                 <p className="text-gray-600 dark:text-gray-300"></p>
 
-              <h3 className="mt-6 text-lg font-medium text-lime-800">
-                Mia Brown
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300"></p>
             </div>
-          </div>
         </div>
-      </section>
+    </div>
+</section>
 
-      <section className="bg-gray-100 dark:bg-gray-900 mt-8">
-        <div className="container px-6 py-10 mx-auto">
-          <div className="lg:-mx-6 lg:flex lg:items-center">
+
+ 
+
+<section className="bg-gray-100 dark:bg-gray-900 mt-8"> 
+    <div className="container px-6 py-10 mx-auto">
+        <div className="lg:-mx-6 lg:flex lg:items-center">
             <div className="mt-8 lg:w-1/2 lg:px-6 lg:mt-0">
-              <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
-                Help us improve our productivity
-              </h1>
+              
+              
 
                 <h1 className="text-2xl font-semibold text-lime-800 dark:text-white lg:text-3xl lg:w-96">
                 For Our Youth: Earn While You Assist
@@ -82,76 +78,55 @@ const Home = () => {
                 </div>
             </div>
 
-            <img
-              className="object-cover object-center lg:w-1/2 lg:mx-6 w-full h-96 rounded-lg lg:h-[36rem]"
-              src="/src/assets/images/8.png"
-              alt=""
-            />
-          </div>
+            <img className="object-cover object-center lg:w-1/2 lg:mx-6 w-full h-96 rounded-lg lg:h-[36rem]" src="/src/assets/images/8.png" alt=""/>
         </div>
-      </section>
+    </div>
+</section>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4 w-full p-4">
-        <div className="p-6 bg-gray-100 flex flex-col items-center">
-          <p className="text-center text-4xl">
-            <img src="/src/assets/images/4.png" />
-          </p>
 
-          <h2 className="font-semibold text-lg text-center text-lime-800 mt-2">
-            In Home Care
-          </h2>
 
-          <p className="mt-2 text-gray-800 text-center">
-            " We offer hourly, daily, dementia, respite, and veterans care
-            services designed to deliver customized In-Home Care services for
-            your loved one."
-          </p>
-        </div>
-        <div className="p-6 bg-gray-100 flex flex-col items-center">
-          <p className="text-center text-4xl">
-            <img src="/src/assets/images/5.png" />
-          </p>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4 w-full p-4">
+  <div className="p-6 bg-gray-100 flex flex-col items-center">
+	<p className="text-center text-4xl">
+  <img
+    src="/src/assets/images/4.png" 
+  />
 
-          <h2 className="font-semibold text-lg text-center text-lime-800 mt-2">
-            Companion Care
-          </h2>
+	</p>
 
-          <p className="mt-2 text-gray-800 text-center">
-            "We provide daily home care, wake up, and tuck in services and peace
-            of mind packages designed to deliver customized companionship to
-            your loved ones. "
-          </p>
-        </div>
-        <div className="p-6 bg-gray-100 flex flex-col items-center">
-          <p className="text-center text-4xl">
-            <img src="/src/assets/images/6.png" />
-          </p>
+	<h2 className="font-semibold text-lg text-center text-lime-800 mt-2">
+	  In Home Care
+	</h2>
 
-          <h2 className="font-semibold text-lg text-center text-gray-800 mt-2">
-            Live in CARE
-          </h2>
+	<p className="mt-2 text-gray-800 text-center">
+	 " We offer hourly, daily, dementia, respite, and veterans care services designed to deliver customized In-Home Care services for your loved one." 
+	</p>
+  </div>
+  <div className="p-6 bg-gray-100 flex flex-col items-center"> 
+	<p className="text-center text-4xl">
+	  <img
+		src="/src/assets/images/5.png" 
+	  />
+	</p>
 
-          <p className="mt-2 text-gray-800 text-center">
-            "We offer live-in packages for clients looking for a caregiver to
-            stay in their home 24 hours a day and are available to help as
-            needed. "{" "}
-          </p>
-        </div>
-        <div className="p-6 bg-gray-100 flex flex-col items-center">
-          <p className="text-center text-4xl">
-            <img src="/src/assets/images/7.png" />
-          </p>
+	<h2 className="font-semibold text-lg text-center text-lime-800 mt-2">
+	  Companion Care
+	</h2>
 
-          <h2 className="font-semibold text-lg text-center text-gray-800 mt-2">
-            Personal Care
-          </h2>
+	<p className="mt-2 text-gray-800 text-center">
+  "We provide daily home care, wake up, and tuck in services and peace of mind packages designed to deliver customized companionship to your loved ones. "
+	</p>
+  </div>
+  <div className="p-6 bg-gray-100 flex flex-col items-center">
+	<p className="text-center text-4xl">
+	  <img
+		src="/src/assets/images/6.png" 
+	  />
+	</p>
 
-          <p className="mt-2 text-gray-800 text-center">
-            "Caregivers can assist with bathing, dressing, toileting, hygiene
-            and other day-to-day personal care need"{" "}
-          </p>
-        </div>
-      </div>
+	<h2 className="font-semibold text-lg text-center text-gray-800 mt-2">
+	  Live in CARE
+	</h2>
 
 	<p className="mt-2 text-gray-800 text-center">
   "We offer live-in packages for clients looking for a caregiver to stay in their home 24 hours a day and are available to help as needed. "	</p>
@@ -180,62 +155,46 @@ const Home = () => {
 </div>
 
       <div className="max-w-full mx-auto bg-white px-4 sm:px-6 lg:py-24 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Our service statistics
-        </h2>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-4 mt-4">
-          <div className="bg-white overflow-hidden shadow sm:rounded-lg">
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our service statistics</h2>
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-4 mt-4">
+        <div className="bg-white overflow-hidden shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:p-6">
-              <dl>
-                <dt className="text-sm leading-5 font-medium text-gray-500 truncate">
-                  Total free servers
-                </dt>
-                <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">
-                  1.6M
-                </dd>
-              </dl>
+                <dl>
+                    <dt className="text-sm leading-5 font-medium text-gray-500 truncate">Total free servers</dt>
+                    <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">1.6M</dd>
+                </dl>
             </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dl>
-                <dt className="text-sm leading-5 font-medium text-gray-500 truncate">
-                  Servers a month
-                </dt>
-                <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">
-                  19.2K
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dl>
-                <dt className="text-sm leading-5 font-medium text-gray-500 truncate">
-                  Servers a week
-                </dt>
-                <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">
-                  4.9K
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dl>
-                <dt className="text-sm leading-5 font-medium text-gray-500 truncate">
-                  Total users
-                </dt>
-                <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">
-                  166.7K
-                </dd>
-              </dl>
-            </div>
-          </div>
         </div>
-      </div>
+        <div className="bg-white overflow-hidden shadow sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+                <dl>
+                    <dt className="text-sm leading-5 font-medium text-gray-500 truncate">Servers a month</dt>
+                    <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">19.2K</dd>
+                </dl>
+            </div>
+        </div>
+        <div className="bg-white overflow-hidden shadow sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+                <dl>
+                    <dt className="text-sm leading-5 font-medium text-gray-500 truncate">Servers a week</dt>
+                    <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">4.9K</dd>
+                </dl>
+            </div>
+        </div>
+        <div className="bg-white overflow-hidden shadow sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+                <dl>
+                    <dt className="text-sm leading-5 font-medium text-gray-500 truncate">Total users</dt>
+                    <dd className="mt-1 text-3xl leading-9 font-semibold text-lime-800">166.7K</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
 
-      <Footer />
+
+<Footer/>
+
     </div>
   );
 };

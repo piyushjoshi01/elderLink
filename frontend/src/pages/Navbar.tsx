@@ -9,7 +9,7 @@ const people = [
   { name: "Home", route: "/" },
   { name: "About Us", route: "/Aboutus" },
   { name: "FAQs", route: "/faq" },
-  { name: "Contact Us", route: "/contactus" },
+  { name: "PostHelp", route: "/posthelp" },
   { name: "Volunteers", route: "/volunteers" },
 ];
 
