@@ -2,7 +2,8 @@ import { LoginModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ const Login = () => {
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
-        navigate("/");
         toast.success("Successfully logged in");
+        navigate("/");
       })
       .catch((_err) => toast.error("Invalid Credentials"));
   };
@@ -81,6 +82,7 @@ const Login = () => {
                   <button className="flex justify-center w-60 px-6 py-3 text-sm text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                     Login
                   </button>
+                 
                 </div>
               </form>
             </div>
@@ -95,6 +97,7 @@ const Login = () => {
           </div>
         </div>
       </section>
+     
     </div>
   );
 };

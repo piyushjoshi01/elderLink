@@ -1,6 +1,9 @@
 import request from "./request";
 
 class UserService {
+  getDeleteById(accessToken: string, userId: undefined) {
+    throw new Error("Method not implemented.");
+  }
   ENDPOINT = "/api";
 
   public async getById(accessToken: string): Promise<any> {
@@ -12,7 +15,7 @@ class UserService {
     };
     const url = `${this.ENDPOINT}/getUser`;
     return request.get<any>(url, config).then((res) => {
-      console.log("from user service", res);
+      // console.log("from user service", res);
       return res;
     });
   }
@@ -38,5 +41,8 @@ class UserService {
     });
     return endObj;
   }
+
+ 
+
 }
 export default new UserService();

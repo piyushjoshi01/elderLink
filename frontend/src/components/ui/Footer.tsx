@@ -5,7 +5,7 @@ const footer = () => {
   return (
     <div>
       <footer className="text-center text-neutral-600  lg:text-left">
-        <div className="flex items-center bg-lime-700  justify-center border-b-2 border-neutral-200 p-6  lg:justify-between rounded-lg shadow-lg">
+        <div className="flex items-center bg-lime-700  justify-center border-b-2 border-neutral-200 p-6  lg:justify-between shadow-lg">
           <div className="mr-12 hidden lg:block text-white">
             <span>Get connected with us on social networks:</span>
           </div>
@@ -210,7 +210,7 @@ const footer = () => {
           </div>
         </div>
 
-        <div className="bg-lime-700 p-6 text-center text-white rounded-lg shadow-lg ">
+        <div className="bg-lime-700 p-6 text-center text-white shadow-lg ">
           <span>© 2023 Copyright:</span>
           <a
             className="font-semibold  text-white"
