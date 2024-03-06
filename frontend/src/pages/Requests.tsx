@@ -1,18 +1,27 @@
-
-import React, { useEffect, useState } from 'react';
-import Navbar from './Navbar';
+import React, { useEffect, useState } from "react";
+import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import requestService from "@/services/request.service";
-import RequestModel from '@/models/RequestModel';
-import axios from 'axios';
+import RequestModel from "@/models/RequestModel";
+// import axios from "axios";
 
 const Requests: React.FC = () => {
-
   const [request, setRequest] = useState<RequestModel>(new RequestModel());
-  const [requestArr, setRequestArr] = useState([]);
-  const [editflag, setEditFlag] = useState({ id: null, flag: false });
+  const [requestArr, setRequestArr] = useState<RequestItemType[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [newValue, setNewValue] = useState<any>({});
 
+  interface RequestItemType {
+    id: number;
+    requestCategory: string;
+    requestUrgencyLevel: string;
+    requestDescription: string;
+    location: string;
+    date: string;
+    time: string;
+    durationInMinutes: string;
+    requestStatus: "OPEN";
+  }
 
   const accessToken = localStorage.getItem("accessToken");
   const id = localStorage.getItem("id");
@@ -25,8 +34,7 @@ const Requests: React.FC = () => {
     requestService
       .getRequestById(accessToken, Number(id))
       .then((res) => {
-
-        setRequestArr(res.data)
+        setRequestArr(res.data);
         const requestSave = new RequestModel();
         requestSave.category = res.data.category;
         requestSave.urgency = res.data.urgency;
@@ -37,48 +45,92 @@ const Requests: React.FC = () => {
         requestSave.duration = res.data.duration;
 
         setRequest(requestSave);
-      }
-
-      )
+        console.log(request);
+      })
       .catch((error) => {
         console.error("Failed to fetch user details", error);
       });
   }, [localStorage.getItem("accessToken")]);
 
-  const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({
-    category: false,
-    urgency: false,
-    description: false,
-    location: false,
-    date: false,
-    time: false,
-    duration: false
-  });
-  console.log("reqarr", requestArr);
-
-
-
-  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { value, name } = e.target;
-    setNewValue((prevData: any) => ({
-      ...prevData,
-      [name]: value
-    }));
+  const handleEditClick = (item: any) => {
+    setEditingId(item.id);
+    console.log(id);
+    setNewValue({
+      userId: id,
+      requestCategory: item.requestCategory,
+      requestUrgencyLevel: item.requestUrgencyLevel,
+      requestDescription: item.requestDescription,
+      location: item.location,
+      date: item.date,
+      time: item.time,
+      durationInMinutes: item.durationInMinutes,
+      requestStatus: "OPEN",
+    });
   };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setNewValue({});
+  };
+
+  const handleSave = async (id: any) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      console.error("Access token is not available");
+      return;
+    }
+
+    // Call your update service with the new values
+    requestService
+      .updateRequestByID(accessToken, id, newValue)
+      .then(() => {
+        setRequestArr((prevArr: RequestItemType[]) =>
+          prevArr.map((item) => {
+            if (item.id === id) {
+              return { ...item, ...newValue };
+            }
+            return item;
+          })
+        );
+        setEditingId(null);
+        setNewValue({});
+      })
+      .catch((error) => {
+        console.error("Failed to update the item", error);
+      });
+  };
+
+  // const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({
+  //   category: false,
+  //   urgency: false,
+  //   description: false,
+  //   location: false,
+  //   date: false,
+  //   time: false,
+  //   duration: false,
+  // });
+  // console.log("reqarr", requestArr);
+
+  // const handleChangeInput = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { value, name } = e.target;
+  //   setNewValue((prevData: any) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
 
   console.log("setNewValue", setNewValue);
 
-  const deleterequest = async(id: any) => {
-    console.log("acctoken ew",accessToken,id);
-    if(accessToken){
-    const deletedobj=  await requestService.getDeleteById(accessToken,id)
-    console.log("deletedobj",deletedobj);
-    
+  const deleterequest = async (id: any) => {
+    console.log("acctoken ew", accessToken, id);
+    if (accessToken) {
+      const deletedobj = await requestService.getDeleteById(accessToken, id);
+      console.log("deletedobj", deletedobj);
     }
     // alert("Delete request");
   };
-  console.log("editflag", editflag);
-
 
   return (
     <div>
@@ -89,7 +141,9 @@ const Requests: React.FC = () => {
             <div className="rounded-t mb-0 px-4 py-3 border-0">
               <div className="flex flex-wrap items-center">
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                  <h3 className="font-semibold text-base text-blueGray-700">Requests</h3>
+                  <h3 className="font-semibold text-base text-blueGray-700">
+                    Requests
+                  </h3>
                 </div>
               </div>
             </div>
@@ -97,119 +151,214 @@ const Requests: React.FC = () => {
               <table className="items-center bg-transparent w-full border-collapse">
                 {/* <thead> */}
                 <tr>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Category</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Urgency</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Description</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Location</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Date</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Time</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Duration</th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Action</th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Category
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Urgency
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Description
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Location
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Date
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Time
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Duration
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Action
+                  </th>
                 </tr>
                 {/* </thead> */}
                 <tbody>
-                  {requestArr.map((elem: any) => <tr>
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  {requestArr.map((elem: any) => (
+                    <tr key={elem.id}>
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                requestCategory: e.target.value,
+                              })
+                            }
+                            name="requestCategory"
+                            type="text"
+                            value={newValue.requestCategory}
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.requestCategory}
+                        </th>
+                      )}
 
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                requestUrgencyLevel: e.target.value,
+                              })
+                            }
+                            value={newValue.requestUrgencyLevel}
+                            name="requestUrgencyLevel"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.requestUrgencyLevel}
+                        </th>
+                      )}
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                requestDescription: e.target.value,
+                              })
+                            }
+                            value={newValue.requestDescription}
+                            name="requestDescription"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.requestDescription}
+                        </th>
+                      )}
 
-                        <input onChange={handleChangeInput} name="requestCategory" type="text"
-                          value={elem.requestCategory}
-                        />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.requestCategory}</th>}
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                location: e.target.value,
+                              })
+                            }
+                            value={newValue.location}
+                            name="location"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.location}
+                        </th>
+                      )}
 
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.requestUrgencyLevel}
-                          name="requestUrgencyLevel" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.requestUrgencyLevel}</th>}
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.requestDescription}
-                          name="requestDescription" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.requestDescription}</th>}
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                date: e.target.value,
+                              })
+                            }
+                            value={elem.date}
+                            name="date"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.date}
+                        </th>
+                      )}
 
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.location}
-                          name="location" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.location}</th>}
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                time: e.target.value,
+                              })
+                            }
+                            value={elem.time}
+                            name="time"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.time}
+                        </th>
+                      )}
 
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.date}
-                          name="date" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.date}</th>}
+                      {editingId === elem.id ? (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          <input
+                            onChange={(e) =>
+                              setNewValue({
+                                ...newValue,
+                                durationInMinutes: e.target.value,
+                              })
+                            }
+                            value={elem.durationInMinutes}
+                            name="durationInMinutes"
+                            type="text"
+                          />
+                        </th>
+                      ) : (
+                        <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          {elem.durationInMinutes}
+                        </th>
+                      )}
 
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.time}
-                          name="time" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.time}</th>}
-
-                    {editflag.flag && elem.id == editflag.id ?
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        <input onChange={handleChangeInput}
-                          value={elem.durationInMinutes}
-
-                          name="durationInMinutes" type="text" />
-                      </th>
-                      :
-                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                        {elem.durationInMinutes}</th>}
-
-
-
-                    {/* <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestUrgencyLevel}</th>
+                      {/* <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestUrgencyLevel}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.requestDescription}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.location}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.date}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.time}</th>
                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">{elem.
 durationInMinutes}</th> */}
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      <button className='bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150' onClick={() => setEditFlag({ flag: !editflag.flag, id: elem.id })}>Edit</button>
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      <button className='bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150' onClick={() => deleterequest(elem.id)}>Delete</button>
-                    </th>
-
-                  </tr>)
-                  }
-
-
+                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                        {editingId === elem.id ? (
+                          <>
+                            <button onClick={() => handleSave(elem.id)}>
+                              Save
+                            </button>
+                            <button onClick={handleCancel}>Cancel</button>
+                          </>
+                        ) : (
+                          <button
+                            className="bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            onClick={() => handleEditClick(elem)}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </th>
+                      <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                        <button
+                          className="bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          onClick={() => deleterequest(elem.id)}
+                        >
+                          Delete
+                        </button>
+                      </th>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
-
-
           </div>
         </div>
       </section>
-
 
       <Footer />
     </div>
@@ -220,5 +369,3 @@ export default Requests;
 // function getById(accessToken: string, requestId: number) {
 //   throw new Error('Function not implemented.');
 // }
-
-

@@ -47,7 +47,7 @@ const SignUp = () => {
         <div className="flex justify-center min-h-screen">
           <div className="hidden bg-cover lg:block lg:w-2/5">
             <img
-              src="src/assets/images/10.png"
+              src="/assets/images/10.png"
               alt="s  Background Image"
               className="w-full h-full object-cover "
             />
