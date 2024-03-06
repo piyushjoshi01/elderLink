@@ -2,8 +2,7 @@ import { LoginModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -82,7 +81,6 @@ const Login = () => {
                   <button className="flex justify-center w-60 px-6 py-3 text-sm text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                     Login
                   </button>
-                 
                 </div>
               </form>
             </div>
@@ -90,14 +88,13 @@ const Login = () => {
 
           <div className="hidden bg-cover lg:block lg:w-2/5">
             <img
-              src="src/assets/images/11.png"
+              src="/assets/images/11.png"
               alt="Background Image"
               className="w-full h-screen object-cover"
             />
           </div>
         </div>
       </section>
-     
     </div>
   );
 };

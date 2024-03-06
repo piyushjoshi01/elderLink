@@ -1,9 +1,6 @@
 import request from "./request";
 
 class UserService {
-  getDeleteById(accessToken: string, userId: undefined) {
-    throw new Error("Method not implemented.");
-  }
   ENDPOINT = "/api";
 
   public async getById(accessToken: string): Promise<any> {
@@ -41,8 +38,5 @@ class UserService {
     });
     return endObj;
   }
-
- 
-
 }
 export default new UserService();

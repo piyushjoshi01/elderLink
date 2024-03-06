@@ -1,19 +1,18 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import UserModel from "@/models/UserModel";
 import userService from "@/services/user.service";
-import requestService from "@/services/request.service";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
+// import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [user, setUser] = useState<UserModel>(new UserModel());
   const [userId, setUserId] = useState();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
-  
+
   // const refreshToken = localStorage.getItem("refreshToken") || "Fallback Token";
   useEffect(() => {
     if (!accessToken) {
@@ -36,7 +35,7 @@ const UserProfile = () => {
         newUser.userType = res.data.userType;
         newUser.creditBalance = res.data.creditBalance;
 
-        localStorage.setItem("id",res.data.id)
+        localStorage.setItem("id", res.data.id);
 
         setUser(newUser);
         console.log("qwew", user.address);
@@ -137,174 +136,151 @@ const UserProfile = () => {
     }
     return initials;
   };
-  const submitRequest = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const data = {
-      userId: userId,
-      requestCategory: formData.get("category") as string,
-      requestDescription: formData.get("description") as string,
-      requestUrgencyLevel: formData.get("urgency") as string,
-      location: formData.get("location") as string,
-      durationInMinutes: formData.get("duration") as string,
-      date: formData.get("date") as string,
-      time: formData.get("time") as string,
-      requestStatus: "OPEN",
-    };
-
-    requestService.createRequest(accessToken, data).then((_res: any) => {
-      toast.success("Request Sent Successfully");
-      // console.log(data);
-    });
-  };
-
-
 
   return (
     <>
       <Navbar />
-   
+
       <div className="flex justify-center items-center min-h-screen bg-gray-100 p-6">
         <div className="w-full max-w-lg bg-gray-100 p-6">
-            <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
-              User Profile{" "}
-            </h1>
-            <button 
-              onClick={handleEdit}
-              className="px-4 py-2 bg-lime-800 text-white rounded-md"
-            >
-              {isEditing ? "Cancel" : "Edit"}
-            </button>
+          <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
+            User Profile{" "}
+          </h1>
+          <button
+            onClick={handleEdit}
+            className="px-4 py-2 bg-lime-800 text-white rounded-md"
+          >
+            {isEditing ? "Cancel" : "Edit"}
+          </button>
 
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex-shrink-0">
-                <div className="w-48 h-48 flex items-center justify-center bg-gray-300 text-gray-600 text-4xl font-bold rounded-full">
-                  {getInitials(user.firstName, user.lastName)}
-                </div>
-              </div>
-              <div className="ml-6 text-right">
-                <div className="rounded-md bg-gray-200 p-2 mb-2 font-medium">
-                  <p className="text-lime-800">
-                    <strong>User Type:</strong> {user.userType}
-                  </p>
-                </div>
-                <div className="rounded-md bg-lime-800 text-white p-2 mb-4">
-                  <p className=" ">
-                    <strong>Credit Balance:</strong> {user.creditBalance}
-                  </p>
-                </div>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex-shrink-0">
+              <div className="w-48 h-48 flex items-center justify-center bg-gray-300 text-gray-600 text-4xl font-bold rounded-full">
+                {getInitials(user.firstName, user.lastName)}
               </div>
             </div>
-            <div>
-              <p className="text-lime-800 mb-4">
-                <strong>First Name: </strong>{" "}
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedFirstName}
-                    onChange={handleChangeFirstName}
-                  />
-                ) : (
-                  user.firstName
-                )}
-              </p>
-              <p className="text-lime-800 mb-4">
-                <strong>Last Name: </strong>{" "}
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedLastName}
-                    onChange={handleChangeLastName}
-                  />
-                ) : (
-                  user.lastName
-                )}
-              </p>
-              <p className="text-lime-800 mb-4">
-                <strong>Email:{user.email}</strong>
-              </p>
-              <p className="text-lime-800 mb-4">
-                <strong>Phone:</strong>{" "}
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedPhone}
-                    onChange={handleChangePhone}
-                  />
-                ) : (
-                  user.phone
-                )}
-              </p>
-              <p className="text-lime-800 mb-4">
-                <strong>Birth Date:</strong> {user.birthDate}
-              </p>
-              {isEditing && (
-                <div>
-                  {/* <p className="text-lime-800 mb-4"><strong>Password:</strong> <input type="password" value={user.password} onChange={() => { }} /></p> */}
-                  <p className="text-lime-800 mb-4">
-                    <strong>Address:</strong>
-                  </p>
-                  <p className="text-lime-800 mb-4">
-                    <input
-                      type="text"
-                      placeholder="street name"
-                      value={editedAddress?.street_name}
-                      onChange={(e) => handleChangeAddress(e, "street_name")}
-                    />
-                    ,
-                    <input
-                      type="text"
-                      placeholder="suite_number"
-                      value={editedAddress?.suite_number}
-                      onChange={(e) => handleChangeAddress(e, "suite_number")}
-                    />
-                    ,
-                    <input
-                      type="text"
-                      placeholder="city"
-                      value={editedAddress?.city}
-                      onChange={(e) => handleChangeAddress(e, "city")}
-                    />
-                    ,
-                    <input
-                      type="text"
-                      placeholder="state"
-                      value={editedAddress?.state}
-                      onChange={(e) => handleChangeAddress(e, "state")}
-                    />
-                    ,
-                    <input
-                      type="text"
-                      placeholder="country"
-                      value={editedAddress?.country}
-                      onChange={(e) => handleChangeAddress(e, "country")}
-                    />
-                    ,
-                    <input
-                      type="text"
-                      placeholder="pincode"
-                      value={editedAddress?.pincode}
-                      onChange={(e) => handleChangeAddress(e, "pincode")}
-                    />
-                  </p>
-                </div>
-              )}
-              <div className="flex items-center mb-2">
-                <strong className="text-lime-800 mr-2">Address:</strong>
-                <span>{`${user?.address?.street_name}, ${user?.address?.suite_number}, ${user?.address?.city}, ${user?.address?.state}, ${user?.address?.country}, ${user?.address?.pincode}`}</span>
+            <div className="ml-6 text-right">
+              <div className="rounded-md bg-gray-200 p-2 mb-2 font-medium">
+                <p className="text-lime-800">
+                  <strong>User Type:</strong> {user.userType}
+                </p>
               </div>
-              {isEditing && (
-                <button
-                  onClick={handleSave}
-                  className="px-4 py-2 bg-lime-800 text-white rounded-md"
-                >
-                  Save
-                </button>
-              )}
-           
+              <div className="rounded-md bg-lime-800 text-white p-2 mb-4">
+                <p className=" ">
+                  <strong>Credit Balance:</strong> {user.creditBalance}
+                </p>
+              </div>
             </div>
           </div>
-{/* 
+          <div>
+            <p className="text-lime-800 mb-4">
+              <strong>First Name: </strong>{" "}
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedFirstName}
+                  onChange={handleChangeFirstName}
+                />
+              ) : (
+                user.firstName
+              )}
+            </p>
+            <p className="text-lime-800 mb-4">
+              <strong>Last Name: </strong>{" "}
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedLastName}
+                  onChange={handleChangeLastName}
+                />
+              ) : (
+                user.lastName
+              )}
+            </p>
+            <p className="text-lime-800 mb-4">
+              <strong>Email:{user.email}</strong>
+            </p>
+            <p className="text-lime-800 mb-4">
+              <strong>Phone:</strong>{" "}
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedPhone}
+                  onChange={handleChangePhone}
+                />
+              ) : (
+                user.phone
+              )}
+            </p>
+            <p className="text-lime-800 mb-4">
+              <strong>Birth Date:</strong> {user.birthDate}
+            </p>
+            {isEditing && (
+              <div>
+                {/* <p className="text-lime-800 mb-4"><strong>Password:</strong> <input type="password" value={user.password} onChange={() => { }} /></p> */}
+                <p className="text-lime-800 mb-4">
+                  <strong>Address:</strong>
+                </p>
+                <p className="text-lime-800 mb-4">
+                  <input
+                    type="text"
+                    placeholder="street name"
+                    value={editedAddress?.street_name}
+                    onChange={(e) => handleChangeAddress(e, "street_name")}
+                  />
+                  ,
+                  <input
+                    type="text"
+                    placeholder="suite_number"
+                    value={editedAddress?.suite_number}
+                    onChange={(e) => handleChangeAddress(e, "suite_number")}
+                  />
+                  ,
+                  <input
+                    type="text"
+                    placeholder="city"
+                    value={editedAddress?.city}
+                    onChange={(e) => handleChangeAddress(e, "city")}
+                  />
+                  ,
+                  <input
+                    type="text"
+                    placeholder="state"
+                    value={editedAddress?.state}
+                    onChange={(e) => handleChangeAddress(e, "state")}
+                  />
+                  ,
+                  <input
+                    type="text"
+                    placeholder="country"
+                    value={editedAddress?.country}
+                    onChange={(e) => handleChangeAddress(e, "country")}
+                  />
+                  ,
+                  <input
+                    type="text"
+                    placeholder="pincode"
+                    value={editedAddress?.pincode}
+                    onChange={(e) => handleChangeAddress(e, "pincode")}
+                  />
+                </p>
+              </div>
+            )}
+            <div className="flex items-center mb-2">
+              <strong className="text-lime-800 mr-2">Address:</strong>
+              <span>{`${user?.address?.street_name}, ${user?.address?.suite_number}, ${user?.address?.city}, ${user?.address?.state}, ${user?.address?.country}, ${user?.address?.pincode}`}</span>
+            </div>
+            {isEditing && (
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-lime-800 text-white rounded-md"
+              >
+                Save
+              </button>
+            )}
+          </div>
+        </div>
+        {/* 
           <div className="w-1/2 bg-gray-100 p-6 ml-4">
             
             <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
@@ -449,7 +425,6 @@ const UserProfile = () => {
               </div>
             </form>
           </div> */}
-
       </div>
       <Footer />
     </>

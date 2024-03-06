@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import UserModel from "@/models/UserModel";
@@ -7,15 +7,12 @@ import requestService from "@/services/request.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const Posthelp= () => {
+const Posthelp = () => {
   const [user, setUser] = useState<UserModel>(new UserModel());
-  const [userId, setUserId] = useState();
+  // const [userId, setUserId] = useState();
   const navigate = useNavigate();
 
-  
-
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
-  
 
   useEffect(() => {
     if (!accessToken) {
@@ -25,7 +22,7 @@ const Posthelp= () => {
     userService
       .getById(accessToken)
       .then((res) => {
-        setUserId(res.data.id);
+        // setUserId(res.data.id);
         console.log(res.data);
         const newUser = new UserModel();
         newUser.firstName = res.data.firstName;
@@ -38,7 +35,7 @@ const Posthelp= () => {
         newUser.userType = res.data.userType;
         newUser.creditBalance = res.data.creditBalance;
 
-        localStorage.setItem("id",res.data.id)
+        localStorage.setItem("id", res.data.id);
 
         setUser(newUser);
         console.log("qwew", user.address);
@@ -47,103 +44,103 @@ const Posthelp= () => {
         console.error("Failed to fetch user details", error);
       });
   }, [localStorage.getItem("accessToken")]);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedFirstName, setEditedFirstName] = useState<string>(
-    user.firstName
-  );
-  const [editedLastName, setEditedLastName] = useState<string>(user.lastName);
-  const [editedPhone, setEditedPhone] = useState<string>(user.phone);
-  const [editedAddress, setEditedAddress] = useState<{
-    street_name: string;
-    suite_number: string;
-    city: string;
-    state: string;
-    country: string;
-    pincode: string;
-  }>({
-    street_name: user?.address?.street_name,
-    suite_number: user?.address?.suite_number,
-    city: user?.address?.city,
-    state: user?.address?.state,
-    country: user?.address?.country,
-    pincode: user?.address?.pincode,
-  });
+  // const [isEditing, setIsEditing] = useState<boolean>(false);
+  // const [editedFirstName, setEditedFirstName] = useState<string>(
+  //   user.firstName
+  // );
+  // const [editedLastName, setEditedLastName] = useState<string>(user.lastName);
+  // const [editedPhone, setEditedPhone] = useState<string>(user.phone);
+  // const [editedAddress, setEditedAddress] = useState<{
+  //   street_name: string;
+  //   suite_number: string;
+  //   city: string;
+  //   state: string;
+  //   country: string;
+  //   pincode: string;
+  // }>({
+  //   street_name: user?.address?.street_name,
+  //   suite_number: user?.address?.suite_number,
+  //   city: user?.address?.city,
+  //   state: user?.address?.state,
+  //   country: user?.address?.country,
+  //   pincode: user?.address?.pincode,
+  // });
 
-  const handleEdit = () => {
-    setIsEditing(!isEditing);
-  };
+  // const handleEdit = () => {
+  //   setIsEditing(!isEditing);
+  // };
 
-  const handleSave = () => {
-    // Save changes
-    setIsEditing(false);
-    console.log({
-      id: userId,
-      firstName: editedFirstName,
-      lastName: editedLastName,
-      phone: editedPhone,
-      address: editedAddress,
-    });
-    const data = {
-      id: userId,
-      firstName: editedFirstName,
-      lastName: editedLastName,
-      phone: editedPhone,
-      address: editedAddress,
-    };
-    const dataRes = userService.updateById(accessToken, userId, data);
-    console.log("dataRe", dataRes);
-    dataRes.then((res: UserModel) => {
-      const newUser = new UserModel();
-      newUser.firstName = res.firstName;
-      newUser.lastName = res.lastName;
-      newUser.birthDate = res.birthDate;
-      newUser.email = res.email;
-      newUser.phone = res.phone;
-      newUser.address = res.address;
-      newUser.password = res.password;
-      newUser.userType = res.userType;
-      newUser.creditBalance = res.creditBalance;
-      setUser(newUser);
-    });
+  // const handleSave = () => {
+  //   // Save changes
+  //   setIsEditing(false);
+  //   console.log({
+  //     id: userId,
+  //     firstName: editedFirstName,
+  //     lastName: editedLastName,
+  //     phone: editedPhone,
+  //     address: editedAddress,
+  //   });
+  //   const data = {
+  //     id: userId,
+  //     firstName: editedFirstName,
+  //     lastName: editedLastName,
+  //     phone: editedPhone,
+  //     address: editedAddress,
+  //   };
+  //   const dataRes = userService.updateById(accessToken, userId, data);
+  //   console.log("dataRe", dataRes);
+  //   dataRes.then((res: UserModel) => {
+  //     const newUser = new UserModel();
+  //     newUser.firstName = res.firstName;
+  //     newUser.lastName = res.lastName;
+  //     newUser.birthDate = res.birthDate;
+  //     newUser.email = res.email;
+  //     newUser.phone = res.phone;
+  //     newUser.address = res.address;
+  //     newUser.password = res.password;
+  //     newUser.userType = res.userType;
+  //     newUser.creditBalance = res.creditBalance;
+  //     setUser(newUser);
+  //   });
 
-    // You can perform further actions like API calls to update the user information
-  };
+  //   // You can perform further actions like API calls to update the user information
+  // };
 
-  const handleChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditedFirstName(event.target.value);
-  };
+  // const handleChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setEditedFirstName(event.target.value);
+  // };
 
-  const handleChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditedLastName(event.target.value);
-  };
+  // const handleChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setEditedLastName(event.target.value);
+  // };
 
-  const handleChangePhone = (event: ChangeEvent<HTMLInputElement>) => {
-    setEditedPhone(event.target.value);
-  };
+  // const handleChangePhone = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setEditedPhone(event.target.value);
+  // };
 
-  const handleChangeAddress = (
-    event: ChangeEvent<HTMLInputElement>,
-    key: string
-  ) => {
-    setEditedAddress({
-      ...editedAddress,
-      [key]: event.target.value,
-    });
-  };
+  // const handleChangeAddress = (
+  //   event: ChangeEvent<HTMLInputElement>,
+  //   key: string
+  // ) => {
+  //   setEditedAddress({
+  //     ...editedAddress,
+  //     [key]: event.target.value,
+  //   });
+  // };
 
-  const getInitials = (firstName?: string, lastName?: string) => {
-    console.log(firstName, lastName);
-    let initials;
-    if (firstName && lastName) {
-      initials = `${firstName[0]}${lastName[0]}`;
-    }
-    return initials;
-  };
+  // const getInitials = (firstName?: string, lastName?: string) => {
+  //   console.log(firstName, lastName);
+  //   let initials;
+  //   if (firstName && lastName) {
+  //     initials = `${firstName[0]}${lastName[0]}`;
+  //   }
+  //   return initials;
+  // };
   const submitRequest = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
-      userId: userId,
+      userId: localStorage.getItem("id"),
       requestCategory: formData.get("category") as string,
       requestDescription: formData.get("description") as string,
       requestUrgencyLevel: formData.get("urgency") as string,
@@ -154,168 +151,164 @@ const Posthelp= () => {
       requestStatus: "OPEN",
     };
 
-
-    
     requestService.createRequest(accessToken, data).then((_res: any) => {
       toast.success("Request Sent Successfully");
       // console.log(data);
     });
   };
 
-
   return (
     <>
       <Navbar />
       <div className="flex justify-center items-start min-h-screen bg-gray-100 p-6">
-       
-       
-
-      <div className="w-full max-w-lg bg-gray-100 p-6">
-            
-            <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
-              Post Help Request
-            </h1>
-            <div className="mt-8 mb-8 flex justify-left  gap-5"onClick={() => navigate("/Requests")}>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
-                >See All Requests</button></div>
-            <form className="w-full" onSubmit={submitRequest}>
+        <div className="w-full max-w-lg bg-gray-100 p-6">
+          <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
+            Post Help Request
+          </h1>
+          <div
+            className="mt-8 mb-8 flex justify-left  gap-5"
+            onClick={() => navigate("/Requests")}
+          >
+            <button
+              type="submit"
+              className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
+            >
+              See All Requests
+            </button>
+          </div>
+          <form className="w-full" onSubmit={submitRequest}>
+            <div className="mb-4 grid grid-cols-2">
+              <div className="mr-4">
+                <label
+                  htmlFor="category"
+                  className="block text-lime-800 font-bold mb-2"
+                >
+                  Category:
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  className="w-full border rounded-md p-2"
+                >
+                  <option value="TRANSPORTATION"> Transportation</option>
+                  <option value="HOUSEHOLD_CHORES"> Household-chores</option>
+                  <option value="COMPANIONSHIP">Companionship</option>
+                  <option value="PET_CARE">Pet-care</option>
+                  <option value="MEAL_SERVICES">Meal Services</option>
+                  <option value="FINANCIAL_ASSISTANCE">
+                    Financial Assistance
+                  </option>
+                  <option value="HEALTH_CARE">Health Care</option>
+                  <option value="OTHERS">Others</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="urgency"
+                  className="block text-lime-800 font-bold mb-2"
+                >
+                  Urgency level:
+                </label>
+                <select
+                  id="urgency"
+                  name="urgency"
+                  className="w-full border rounded-md p-2"
+                >
+                  <option value="URGENT"> Urgent</option>
+                  <option value="MODERATE"> Moderate</option>
+                  <option value="LOW">Low</option>
+                </select>
+              </div>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="description"
+                className="block text-lime-800 font-bold mb-2"
+              >
+                Description:
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                className="w-full border rounded-md p-2"
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="location"
+                className="block text-lime-800 font-bold mb-2"
+              >
+                Location:
+              </label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="duration"
+                className="block text-lime-800 font-bold mb-2"
+              >
+                Duration (in minutes):
+              </label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                className="w-full border rounded-md p-2"
+                min="0"
+                step="1" // Allow only integer values
+              />
               <div className="mb-4 grid grid-cols-2">
                 <div className="mr-4">
                   <label
-                    htmlFor="category"
+                    htmlFor="date"
                     className="block text-lime-800 font-bold mb-2"
                   >
-                    Category:
+                    Date:
                   </label>
-                  <select
-                    id="category"
-                    name="category"
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
                     className="w-full border rounded-md p-2"
-                  >
-                    <option value="TRANSPORTATION"> Transportation</option>
-                    <option value="HOUSEHOLD_CHORES"> Household-chores</option>
-                    <option value="COMPANIONSHIP">Companionship</option>
-                    <option value="PET_CARE">Pet-care</option>
-                    <option value="MEAL_SERVICES">Meal Services</option>
-                    <option value="FINANCIAL_ASSISTANCE">
-                      Financial Assistance
-                    </option>
-                    <option value="HEALTH_CARE">Health Care</option>
-                    <option value="OTHERS">Others</option>
-                  </select>
+                  />
                 </div>
+
                 <div>
                   <label
-                    htmlFor="urgency"
+                    htmlFor="time"
                     className="block text-lime-800 font-bold mb-2"
                   >
-                    Urgency level:
+                    Time:
                   </label>
-                  <select
-                    id="urgency"
-                    name="urgency"
+                  <input
+                    type="time"
+                    id="time"
+                    name="time"
                     className="w-full border rounded-md p-2"
-                  >
-                    <option value="URGENT"> Urgent</option>
-                    <option value="MODERATE"> Moderate</option>
-                    <option value="LOW">Low</option>
-                  </select>
+                  />
                 </div>
               </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="description"
-                  className="block text-lime-800 font-bold mb-2"
-                >
-                  Description:
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  className="w-full border rounded-md p-2"
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="location"
-                  className="block text-lime-800 font-bold mb-2"
-                >
-                  Location:
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  className="w-full border rounded-md p-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="duration"
-                  className="block text-lime-800 font-bold mb-2"
-                >
-                  Duration (in minutes):
-                </label>
-                <input
-                  type="number"
-                  id="duration"
-                  name="duration"
-                  className="w-full border rounded-md p-2"
-                  min="0"
-                  step="1" // Allow only integer values
-                />
-                <div className="mb-4 grid grid-cols-2">
-                  <div className="mr-4">
-                    <label
-                      htmlFor="date"
-                      className="block text-lime-800 font-bold mb-2"
-                    >
-                      Date:
-                    </label>
-                    <input
-                      type="date"
-                      id="date"
-                      name="date"
-                      className="w-full border rounded-md p-2"
-                    />
-                  </div>
+            </div>
 
-                  <div>
-                    <label
-                      htmlFor="time"
-                      className="block text-lime-800 font-bold mb-2"
-                    >
-                      Time:
-                    </label>
-                    <input
-                      type="time"
-                      id="time"
-                      name="time"
-                      className="w-full border rounded-md p-2"
-                    />
-                  </div>
-                </div>
-              </div>
+            <div className="mt-8 flex justify-center gap-5">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
+              >
+                Submit Request
+              </button>
+            </div>
 
-              <div className="mt-8 flex justify-center gap-5">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
-                >
-                  Submit Request
-                </button>
-          
-              </div>
-
-              <div className="flex justify-between">
-              
-              </div>
-            </form>
-          </div>
+            <div className="flex justify-between"></div>
+          </form>
         </div>
- 
+      </div>
+
       <Footer />
     </>
   );
