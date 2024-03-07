@@ -7,6 +7,7 @@ import Login from "@/pages/Login";
 import UserProfile from "@/pages/Userprofile";
 import Requests from "@/pages/Requests";
 import Posthelp from "@/pages/Posthelp";
+import Aboutus from "@/pages/AboutUs";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.Userprofile} Component={UserProfile} />
       <Route path={RoutePaths.Posthelp} Component={Posthelp} />
       <Route path={RoutePaths.Requests} Component={Requests} />
+      <Route path={RoutePaths.Aboutus} Component={Aboutus} />
     </Routes>
   );
 };
