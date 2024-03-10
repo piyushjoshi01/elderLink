@@ -6,7 +6,9 @@ export enum RoutePaths {
   Faq = "/faq",
   ContactUs = "/contactus",
   Userprofile = "/Userprofile",
-  SeeReuest = "SeeReuest",
-  Requests = "Requests",
-  Posthelp = "Posthelp"
+  SeeReuest = "seeReuest",
+  Requests = "requests",
+  Posthelp = "posthelp",
+  ElderRequest = "elderrequest",
+  VolunteerRequest = "volunteerrequest"
 }

@@ -51,7 +51,7 @@ function Navbar() {
   return (
     <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent"> {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
-        src={"src/assets/images/logo.png"}
+        src={"/src/assets/images/logo.png"}
         alt="ElderLink Logo"
         className="h-16 w-auto"
       />
