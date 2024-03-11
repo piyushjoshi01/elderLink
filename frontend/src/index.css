@@ -76,7 +76,7 @@
 }
 
 .mybg{
-  background: rgba(0,0, 0,0.6) url("./assets/images/1.jpg");
+  background: rgba(0,0, 0,0.6) url("/assets/images/1.jpg");
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
@@ -85,7 +85,7 @@
   background-attachment: fixed;
 }
 .homebg{
-  background: rgba(0,0, 0,0.6) url("./assets/images/2.png");
+  background: rgba(0,0, 0,0.6) url("/assets/images/2.png");
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
