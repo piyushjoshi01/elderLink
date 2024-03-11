@@ -31,7 +31,7 @@ const SignUp = () => {
       phone: formData.get("phone") as string,
       address: address,
       birthDate: birthdateString,
-      userType: "ELDER_PERSON",
+      userType: "VOLUNTEER",
     };
     console.log(data);
     authService.create(data).then((res) => {

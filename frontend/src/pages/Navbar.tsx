@@ -53,7 +53,7 @@ function Navbar() {
       {" "}
       {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
-        src={"/assets/images/logo.png"}
+        src={"/src/assets/images/logo.png"}
         alt="ElderLink Logo"
         className="h-16 w-auto"
       />
