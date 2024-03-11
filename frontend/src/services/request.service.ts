@@ -1,7 +1,7 @@
 import request from "./request";
 
 class RequestService {
-  ENDPOINT = "/api/requests";
+  ENDPOINT = "api/requests";
 
   constructor() {
     this.initInterceptor();
@@ -63,7 +63,7 @@ class RequestService {
     });
   }
 
-  public async getRequestById(accessToken: string,id?:Number|null):Promise<any>{
+  public async getRequestById(accessToken: string|null,id?:Number|null):Promise<any>{
     console.log("token", accessToken);
     const config = {
       headers: {
@@ -77,7 +77,20 @@ class RequestService {
       return res;
     });
   }
-
+  public async getRequest(accessToken: string|null):Promise<any>{
+    console.log("token", accessToken);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    
+    const url = `${this.ENDPOINT}`;
+    return request.get<any>(url, config).then((res) => {
+      console.log("from Request service", res);
+      return res;
+    });
+  }
   public async updateById(accessToken: string,id?: Number,data?:any): Promise<any> {
     console.log("token", accessToken);
     console.log(data,'data')
@@ -110,7 +123,11 @@ class RequestService {
       return res;
     });
   }
+
+  
+
 }
+
 
 
 export default new RequestService();

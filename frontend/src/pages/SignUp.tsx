@@ -31,6 +31,7 @@ const SignUp = () => {
       phone: formData.get("phone") as string,
       address: address,
       birthDate: birthdateString,
+
       userType: "ELDER_PERSON" || "VOLUNTEER",
     };
     console.log(data);

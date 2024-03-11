@@ -3,7 +3,7 @@ import request from "./request";
 class UserService {
   ENDPOINT = "/api";
 
-  public async getById(accessToken: string): Promise<any> {
+  public async getById(accessToken: string|null,id?: number|null): Promise<any> {
     console.log("token", accessToken);
     const config = {
       headers: {
