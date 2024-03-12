@@ -16,14 +16,14 @@ const Aboutus = () => {
                                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                                     <div className="py-3 sm:py-4">
                                         <img
-                                            src="src/assets/images/12.png"
+                                            src="/assets/images/12.png"
                                             alt=""
                                             className="w-full rounded-2xl"
                                         />
                                     </div>
                                     <div className="py-3 sm:py-4">
                                         <img
-                                            src="src/assets/images/13.png"
+                                            src="/assets/images/13.png"
                                             alt=""
                                             className="w-full rounded-2xl"
                                         />
@@ -32,7 +32,7 @@ const Aboutus = () => {
                                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                                     <div className="relative z-10 my-4">
                                         <img
-                                            src="src/assets/images/14.png"
+                                            src="/assets/images/14.png"
                                             alt=""
                                             className="w-full rounded-2xl"
                                         />
@@ -90,7 +90,7 @@ const Aboutus = () => {
                     <div className="grid gap-x-6 md:grid-cols-3 lg:gap-x-12">
                         <div className="mb-12 md:mb-0">
                             <div className="mb-6 flex justify-center">
-                                <img src="src/assets/images/15.png"
+                                <img src="/assets/images/15.png"
                                     className="w-32 rounded-full shadow-lg dark:shadow-black/20" />
                             </div>
                             <h5 className="mb-2 text-lg font-bold">Maria Smantha</h5>
@@ -138,7 +138,7 @@ const Aboutus = () => {
                         </div>
                         <div className="mb-12 md:mb-0">
                             <div className="mb-6 flex justify-center">
-                                <img src="src/assets/images/17.jpg"
+                                <img src="/assets/images/17.jpg"
                                     className="w-32 rounded-full shadow-lg dark:shadow-black/20" />
                             </div>
                             <h5 className="mb-2 text-lg font-bold">Lisa Cudrow</h5>
@@ -186,7 +186,7 @@ const Aboutus = () => {
                         </div>
                         <div className="mb-0">
                             <div className="mb-6 flex justify-center">
-                                <img src="src/assets/images/16.png"
+                                <img src="/assets/images/16.png"
                                     className="w-32 rounded-full shadow-lg dark:shadow-black/20" />
                             </div>
                             <h5 className="mb-2 text-lg font-bold">John Smith</h5>
