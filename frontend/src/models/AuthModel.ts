@@ -27,7 +27,6 @@ export class CreateUserModel {
   phone!: string;
   birthDate!: string;
   confirmPassword?: string;
-  userType!: string;
 }
 export class TokenModel {
   accessToken!: string;

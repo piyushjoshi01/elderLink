@@ -202,7 +202,7 @@ const footer = () => {
             </div>
             <div className="item center">
               <img
-                src={"src/assets/images/logo.png"}
+                src={"/assets/images/logo.png"}
                 alt="ElderLink Logo"
                 className="h-50 w-auto"
               />

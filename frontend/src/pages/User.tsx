@@ -39,7 +39,7 @@ const User = () => {
     <div className="bg-gray-100 p-10 rounded-md shadow-md max-w-md">
         <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">Seeker Profile</h1>
         <div className="flex flex-col gap-3 text-lime-800 ">
-            <p ><strong>First Name:</strong> {user.firstName}</p>
+            <p><strong>First Name:</strong> {user.firstName}</p>
             <p><strong>Last Name:</strong> {user.lastName}</p>
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Phone:</strong> {user.phone}</p>

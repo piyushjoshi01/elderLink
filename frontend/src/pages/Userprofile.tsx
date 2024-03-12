@@ -20,7 +20,7 @@ const UserProfile = () => {
       return;
     }
     userService
-      .getById(accessToken)
+      .getUser(accessToken)
       .then((res) => {
         setUserId(res.data.id);
         console.log(res.data);

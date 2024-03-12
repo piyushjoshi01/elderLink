@@ -123,7 +123,17 @@ class RequestService {
       return res;
     });
   }
+  public async getById(accessToken: string|null, id: number|null){
+    const config ={
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
 
+    }
+      const url = `${this.ENDPOINT}/requestId/${id}`;
+    const res = await request.get<any>(url, config);
+    return res.data;
+  }
   
 
 }
