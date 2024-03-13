@@ -27,6 +27,16 @@ public class RequestServiceImpl implements RequestService {
     private IsUserAuthorized isUserAuthorized;
 
     @Override
+    public boolean isRequestExists(Long id) {
+        try {
+            return requestRepository.existsById(id);
+        }catch (Exception e){
+            logger.error("An error occurred while checking if request exists or not. -> {}",e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public RequestEntity createRequest(RequestEntity requestEntity) {
         try {
             //To check user is not creating request of other user

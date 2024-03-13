@@ -3,20 +3,21 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useUser } from "@/context/UserContext";
 
-// const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
-const people = [
-  { name: "Home", route: "/" },
-  { name: "About Us", route: "/Aboutus" },
-  { name: "FAQs", route: "/faq" },
-  { name: "PostHelp", route: "/posthelp" },
-  { name: "Volunteers", route: "/volunteers" },
-];
+// // const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
+// const people = [
+//   { name: "Home", route: "/" },
+//   { name: "About Us", route: "/Aboutus" },
+//   { name: "FAQs", route: "/faq" },
+//   { name: "PostHelp", route: "/posthelp" },
+//   { name: "Volunteers", route: "/volunteers" },
+// ];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const { user } = useUser();
   const navigate = useNavigate();
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -38,13 +39,31 @@ function Navbar() {
     setIsAuthenticated(false);
     navigate("/login");
   };
-  const listItems = people.map((person, index) => (
+
+  const volunteerLinks = [
+    { name: "Home", route: "/" },
+    { name: "About Us", route: "Aboutus" },
+    { name: "FAQs", route: "/faq" },
+    { name: "Contact Us", route: "/" },
+  ];
+
+  const ElderPersonLinks = [
+    { name: "Home", route: "/" },
+    { name: "About Us", route: "/Aboutus" },
+    { name: "FAQs", route: "/faq" },
+    { name: "PostHelp", route: "/posthelp" },
+    { name: "Volunteer", route: "/volunteers" },
+  ];
+
+  const links =
+    user?.userType === "ELDER_PERSON" ? volunteerLinks : ElderPersonLinks;
+  const listItems = links.map((link, index) => (
     <li
       key={index}
       className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
-      onClick={() => navigate(`${person.route}`)}
+      onClick={() => navigate(`${link.route}`)}
     >
-      {person.name}
+      {link.name}
     </li>
   ));
 
@@ -53,7 +72,7 @@ function Navbar() {
       {" "}
       {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
-        src={"/assets/images/logo.png"}
+        src={"/src/assets/images/logo.png"}
         alt="ElderLink Logo"
         className="h-16 w-auto"
       />
