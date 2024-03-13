@@ -5,6 +5,8 @@ import com.elderlink.backend.domains.entities.RequestEntity;
 import java.util.List;
 
 public interface RequestService {
+
+    public boolean isRequestExists(Long id);
     public RequestEntity createRequest(RequestEntity requestEntity);
 
     public List<RequestEntity> findRequestsByUserId(Long userId);
