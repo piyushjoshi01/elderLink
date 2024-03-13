@@ -59,6 +59,9 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> {
                     requests.requestMatchers("/api/auth/**").permitAll();
+                    requests.requestMatchers ("/api/requests").hasAuthority ("VOLUNTEER");
+                    requests.requestMatchers("/api/requests/**").hasAuthority("ELDER_PERSON");
+                    requests.requestMatchers("/api/requestsHistory/create").hasAuthority("VOLUNTEER");
                     requests.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

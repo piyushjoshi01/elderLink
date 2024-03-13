@@ -1,2 +1,4 @@
-package com.elderlink.backend.services;public class RequestsHistoryService {
+package com.elderlink.backend.services;
+
+public interface RequestsHistoryService{
 }
