@@ -41,6 +41,16 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public boolean isUserExisted(Long id) {
+        try {
+            return userRepository.existsById(id);
+        }catch (Exception e){
+            logger.error ("An error occurred while checking if user exists or not!. -> {}",e.getMessage ());
+            throw new RuntimeException("An error occurred while checking if user exists or not.");
+        }
+    }
+
+    @Override
     public void isUserExistByEmail(String email) {
         Optional<UserEntity> existedUser = userRepository.findByEmail(email);
            if(existedUser.isPresent()){
