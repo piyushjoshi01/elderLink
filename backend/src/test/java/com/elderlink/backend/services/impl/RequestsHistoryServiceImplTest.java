@@ -99,7 +99,26 @@ class RequestsHistoryServiceImplTest{
 
         doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
 
-        when(userService.isUserExisted (anyLong ())).thenReturn (false);
+        when(requestHistoryEntity.getVolunteer ().getId ()).thenReturn (1L);
+
+        when(userRepository.existsById (volunteer.getId ())).thenReturn (false);
+        when(userService.isUserExisted (volunteer.getId ())).thenReturn (false);
+
+        assertThrows (EntityNotFoundException.class,()-> requestHistoryService.createRequestHistory (requestHistoryEntity));
+    }
+
+    @Test
+    void testCreateRequestHistoryThrowsEntityNotFoundExceptionForElderPerson(){
+        doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
+
+        when(requestHistoryEntity.getVolunteer ().getId ()).thenReturn (1L);
+        when(requestHistoryEntity.getElderPerson ().getId ()).thenReturn (2L);
+
+        when(userRepository.existsById (volunteer.getId ())).thenReturn (true);
+        when(userService.isUserExisted (volunteer.getId ())).thenReturn (true);
+
+        when(userRepository.existsById (elderPerson.getId ())).thenReturn (false);
+        when(userService.isUserExisted (elderPerson.getId ())).thenReturn (false);
 
         assertThrows (EntityNotFoundException.class,()-> requestHistoryService.createRequestHistory (requestHistoryEntity));
     }
