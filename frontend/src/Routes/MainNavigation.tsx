@@ -7,9 +7,7 @@ import Login from "@/pages/Login";
 import UserProfile from "@/pages/Userprofile";
 import Requests from "@/pages/Requests";
 import Posthelp from "@/pages/Posthelp";
-import  User  from "@/pages/User";
-import ElderRequest from "@/pages/ElderRequest";
-import VolunteerRequest from "@/pages/VolunteerRequest";
+import Aboutus from "@/pages/AboutUs";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -20,10 +18,7 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.Userprofile} Component={UserProfile} />
       <Route path={RoutePaths.Posthelp} Component={Posthelp} />
       <Route path={RoutePaths.Requests} Component={Requests} />
-      <Route path="/userProfile/:userId" Component={User}/>
-      <Route path={RoutePaths.ElderRequest} Component={ElderRequest}/>
-      <Route path={RoutePaths.Requests} Component={Requests} />
-      <Route path={RoutePaths.VolunteerRequest} Component={VolunteerRequest}/>
+      <Route path={RoutePaths.Aboutus} Component={Aboutus} />
     </Routes>
   );
 };
