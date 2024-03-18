@@ -63,6 +63,7 @@ public class SecurityConfig {
                     requests.requestMatchers("/api/requests/**").hasAuthority("ELDER_PERSON");
                     requests.requestMatchers("/api/requestsHistory/create").hasAuthority("VOLUNTEER");
                     requests.requestMatchers("/api/review/create").hasAuthority("ELDER_PERSON");
+                    requests.requestMatchers("/api/transaction/create").hasAuthority("ELDER_PERSON");
                     requests.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
