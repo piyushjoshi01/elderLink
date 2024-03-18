@@ -1,11 +1,13 @@
+import { UserContext, useUser } from "@/context/UserContext";
 import { LoginModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
+  // const {setUserFun} = useUser();
   const handleRedirect = () => {
     navigate("/register");
   };
@@ -24,9 +26,10 @@ const Login = () => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         toast.success("Successfully logged in");
-        navigate("/");
+        navigate("/");  
       })
       .catch((_err) => toast.error("Invalid Credentials"));
+      // setUserFun();
   };
   return (
     <div>

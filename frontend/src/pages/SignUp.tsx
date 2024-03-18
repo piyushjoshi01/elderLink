@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Address, CreateUserModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import { toast } from "react-toastify";
+import { useUser } from "@/context/UserContext";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  // const {setUserFun} = useUser();
 
   const handleRedirect = () => {
     navigate("/login");
@@ -32,15 +34,18 @@ const SignUp = () => {
       address: address,
       birthDate: birthdateString,
 
-      userType: "ELDER_PERSON" || "VOLUNTEER",
     };
     console.log(data);
-    authService.create(data).then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      navigate("/");
-      toast.success("Successfully registered");
-    });
+    authService
+      .create(data)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        navigate("/");
+        toast.success("Successfully registered");
+    })
+      .catch((_err)=>toast.error("Invalid Credentials!"));
+    // setUserFun();
   };
   return (
     <div className="h-screen">

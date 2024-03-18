@@ -39,14 +39,7 @@ const VolunteerRequest: React.FC = () => {
     }
 
   
-  const showCard = (index: number) => {
-    setCurrentRequestIndex(index);
-    setRequestDetailsVisible(true);
-  };
-
-  const closeCard = () => {
-    setRequestDetailsVisible(false);
-  };
+ 
 
   // const handleChangeInput = 
 

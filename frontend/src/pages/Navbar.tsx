@@ -17,7 +17,7 @@ import { useUser } from "@/context/UserContext";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user } = useUser();
+  const { user,resetUser } = useUser();
   const navigate = useNavigate();
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -30,49 +30,71 @@ function Navbar() {
 
   const handleLogout = () => {
     const refreshToken = localStorage.getItem("refreshToken");
+    resetUser();
     authService.logout(refreshToken || "").then((res) => {
-      console.log(res);
+      // console.log(res);
     });
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("id");
+    
     toast.success("logged out successfully");
     setIsAuthenticated(false);
     navigate("/login");
   };
 
-  const volunteerLinks = [
-    { name: "Home", route: "/" },
-    { name: "About Us", route: "Aboutus" },
-    { name: "FAQs", route: "/faq" },
-    { name: "Contact Us", route: "/" },
-  ];
+  // const volunteerLinks = [
+  //   { name: "Home", route: "/" },
+  //   { name: "About Us", route: "Aboutus" },
+  //   { name: "FAQs", route: "/faq" },
+  //   { name: "Requests", route: "/volunteerrequest" }
+  // ];
 
-  const ElderPersonLinks = [
-    { name: "Home", route: "/" },
-    { name: "About Us", route: "/Aboutus" },
-    { name: "FAQs", route: "/faq" },
-    { name: "PostHelp", route: "/posthelp" },
-    { name: "Volunteer", route: "/volunteers" },
-  ];
-
-  const links =
-    user?.userType === "ELDER_PERSON" ? volunteerLinks : ElderPersonLinks;
-  const listItems = links.map((link, index) => (
-    <li
-      key={index}
-      className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
-      onClick={() => navigate(`${link.route}`)}
-    >
-      {link.name}
-    </li>
-  ));
+  // const ElderPersonLinks = [
+  //   { name: "Home", route: "/" },
+  //   { name: "About Us", route: "/Aboutus" },
+  //   { name: "FAQs", route: "/faq" },
+  //   { name: "PostHelp", route: "/posthelp" },
+  //   { name: "Volunteer", route: "/elderrequest" },
+  // ];
+  // console.log(user?.userType)
+  // // console.log(user?.firstName)
+  // const links =
+  //   user?.userType === "VOLUNTEER" ? volunteerLinks: ElderPersonLinks ;
+ 
+  let links: any[] = []; // Initialize as empty array
+    if (user?.userType === "VOLUNTEER") {
+        links = [
+            { name: "Home", route: "/" },
+            { name: "About Us", route: "/Aboutus" },
+            { name: "FAQs", route: "/faq" },
+            { name: "Requests", route: "/volunteerrequest" }
+        ];
+    } else if (user?.userType === "ELDER_PERSON") {
+        links = [
+            { name: "Home", route: "/" },
+            { name: "About Us", route: "/Aboutus" },
+            { name: "FAQs", route: "/faq" },
+            { name: "PostHelp", route: "/posthelp" },
+            { name: "Volunteer", route: "/elderrequest" },
+        ];
+    }
+    const listItems = links.map((link, index) => (
+      <li
+        key={index}
+        className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
+        onClick={() => navigate(`${link.route}`)}
+      >
+        {link.name}
+      </li>
+    ));
 
   return (
     <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent">
       {" "}
       {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
-        src={"/src/assets/images/logo.png"}
+        src={"/assets/images/logo.png"}
         alt="ElderLink Logo"
         className="h-16 w-auto"
       />
@@ -144,7 +166,7 @@ function Navbar() {
             </button>
             <div
               onClick={() => navigate("/Userprofile")}
-              className="text-lime-800  border-black mr-2 p-2 "
+              className="text-lime-800  hover:bg-lime-200  border-black mr-2 p-2 "
             >
               <FaUserAlt size="30px" />
             </div>

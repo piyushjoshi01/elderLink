@@ -10,6 +10,19 @@ class UserService {
         Authorization: `Bearer ${accessToken}`,
       },
     };
+    const url = `${this.ENDPOINT}/getUser/${id}`;
+    return request.get<any>(url, config).then((res) => {
+      // console.log("from user service", res);
+      return res;
+    });
+  }
+  public async getUser(accessToken: string|null): Promise<any> {
+    console.log("token", accessToken);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
     const url = `${this.ENDPOINT}/getUser`;
     return request.get<any>(url, config).then((res) => {
       // console.log("from user service", res);

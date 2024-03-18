@@ -1,5 +1,6 @@
 import UserModel from "@/models/UserModel";
 import userService from "@/services/user.service";
+import { RefreshCcw } from "lucide-react";
 import React, {
   useState,
   createContext,
@@ -11,6 +12,9 @@ import React, {
 interface UserContextType {
   user: UserModel | null;
   setUser: (user: UserModel | null) => void;
+  resetUser: () => void;
+  // setUserFun: () => void;
+  
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -21,9 +25,28 @@ interface UserProviderProps {
 }
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserModel | null>(null);
+  const accessToken = localStorage.getItem("accessToken");
+
+  const resetUser = () => {
+    localStorage.clear();
+    setUser(null);
+  }
+
+  // const setUserFun = () => {
+  //   userService
+  //   .getUser(accessToken)
+  //   .then((res) => {
+  //     setUser(res.data); 
+  //     console.log(user);// Assuming res.data is an instance of UserModel
+  //     localStorage.setItem("id", res.data.id);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Failed to fetch user details", error);
+  //   });
+  // }
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
+    // accessToken = localStorage.getItem("accessToken"); // || "Fallback token"
 
     if (!accessToken) {
       console.log("No access token available");
@@ -31,7 +54,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
 
     userService
-      .getById(accessToken)
+      .getUser(accessToken)
       .then((res) => {
         setUser(res.data); // Assuming res.data is an instance of UserModel
         localStorage.setItem("id", res.data.id);
@@ -39,10 +62,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       .catch((error) => {
         console.error("Failed to fetch user details", error);
       });
-  }, []);
+  }, [accessToken]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser,resetUser }}>
       {children}
     </UserContext.Provider>
   );
