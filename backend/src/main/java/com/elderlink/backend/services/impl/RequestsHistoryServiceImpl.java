@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 @Service
 public class RequestsHistoryServiceImpl implements RequestsHistoryService{
@@ -68,4 +69,23 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new EntityNotFoundException ("An error occurred while creating the requestHistory."+ e.getMessage ());
         }
     }
+
+    @Override
+    public List<RequestHistoryEntity> getRequestHistoriesByRequestId(Long requestId) {
+        try{
+            return requestHistoryRepository.findByRequestId (requestId);
+        }catch (Exception e){
+            throw new RuntimeException ("An error occurred while fetching requestHistoryByRequestId");
+        }
+    }
+
+    @Override
+    public List<RequestHistoryEntity> getRequestHistoriesByElderPersonId(Long elderPersonId) {
+        try{
+            return requestHistoryRepository.findByElderPersonId (elderPersonId);
+        }catch (Exception e){
+            throw new RuntimeException ("An error occurred while fetching requestHistory by ElderPersonId!");
+        }
+    }
+
 }

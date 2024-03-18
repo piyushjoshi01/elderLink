@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -122,4 +123,62 @@ class RequestsHistoryServiceImplTest{
 
         assertThrows (EntityNotFoundException.class,()-> requestHistoryService.createRequestHistory (requestHistoryEntity));
     }
+
+    @Test
+    void testGetRequestHistoriesByRequestIdSuccess() {
+        // Arrange
+        Long requestId = 1L;
+        List<RequestHistoryEntity> expectedRequestHistories = List.of(requestHistoryEntity);
+        when(requestHistoryRepository.findByRequestId(requestId)).thenReturn(expectedRequestHistories);
+
+        // Act
+        List<RequestHistoryEntity> result = requestHistoryService.getRequestHistoriesByRequestId(requestId);
+
+        // Assert
+        assertEquals(expectedRequestHistories, result);
+        verify(requestHistoryRepository).findByRequestId(requestId);
+    }
+
+    @Test
+    void testGetRequestHistoriesByRequestIdThrowsException() {
+        // Arrange
+        Long requestId = 1L;
+        when(requestHistoryRepository.findByRequestId(requestId)).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class,
+                () -> requestHistoryService.getRequestHistoriesByRequestId(requestId));
+        assertEquals("An error occurred while fetching requestHistoryByRequestId", exception.getMessage());
+    }
+
+    @Test
+    void testGetRequestHistoriesByElderPersonIdSuccess() {
+        // Arrange
+        Long elderPersonId = 2L;
+        List<RequestHistoryEntity> expectedRequestHistories = List.of(requestHistoryEntity);
+        when(requestHistoryRepository.findByElderPersonId(elderPersonId)).thenReturn(expectedRequestHistories);
+
+        // Act
+        List<RequestHistoryEntity> result = requestHistoryService.getRequestHistoriesByElderPersonId(elderPersonId);
+
+        // Assert
+        assertEquals(expectedRequestHistories, result);
+        verify(requestHistoryRepository).findByElderPersonId(elderPersonId);
+    }
+
+    @Test
+    void testGetRequestHistoriesByElderPersonIdThrowsException() {
+        // Arrange
+        Long elderPersonId = 2L;
+        when(requestHistoryRepository.findByElderPersonId(elderPersonId)).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class,
+                () -> requestHistoryService.getRequestHistoriesByElderPersonId(elderPersonId));
+        assertEquals("An error occurred while fetching requestHistory by ElderPersonId!", exception.getMessage());
+    }
+
+
+
+
 }
