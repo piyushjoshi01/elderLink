@@ -1,5 +1,11 @@
 package com.elderlink.backend.services.impl;
 
+import com.elderlink.backend.domains.entities.RequestEntity;
+import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.repositories.RequestRepository;
+import com.elderlink.backend.repositories.UserRepository;
+import com.elderlink.backend.services.UserService;
+import com.elderlink.backend.utils.IsUserAuthorized;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +27,10 @@ class CreditTransactionImplTest{
     private UserRepository userRepository;
     @Mock
     private UserService userService;
+    @Mock
+    private RequestServiceImpl requestService;
+    @Mock
+    private RequestRepository requestRepository;
 
     @Mock
     private CreditTransactionRepository creditTransactionRepository;
@@ -34,6 +44,8 @@ class CreditTransactionImplTest{
     private UserEntity sender;
     private CreditTransactionEntity creditTransactionEntity;
     private UserEntity recipient;
+    private RequestEntity request;
+    private UserEntity user;
 
     @BeforeEach
     public void setup() {
@@ -42,6 +54,11 @@ class CreditTransactionImplTest{
         sender = mock(UserEntity.class);
 
         recipient = mock(UserEntity.class);
+
+        user = mock (UserEntity.class);
+
+        request = mock (RequestEntity.class);
+        when(request.getUser ()).thenReturn (user);
 
         creditTransactionEntity = mock (CreditTransactionEntity.class);
         when (creditTransactionEntity.getSender ()).thenReturn (sender);
@@ -54,8 +71,12 @@ class CreditTransactionImplTest{
         when(userService.getUserById (anyLong ())).thenReturn (Optional.of (sender));
         when(userRepository.findById (anyLong ())).thenReturn (Optional.of (sender));
 
+        when(requestService.findRequestById (anyLong ())).thenReturn (Optional.of (request));
+        when(requestRepository.findById (anyLong ())).thenReturn (Optional.of (request));
+
         when(creditTransactionEntity.getSender ().getId ()).thenReturn (1L);
         when(creditTransactionEntity.getRecipient ().getId ()).thenReturn (2L);
+        when(request.getUser ().getId ()).thenReturn (1L);
 
         doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
 
@@ -75,8 +96,12 @@ class CreditTransactionImplTest{
         when(userService.getUserById (anyLong ())).thenReturn (Optional.of (sender));
         when(userRepository.findById (anyLong ())).thenReturn (Optional.of (sender));
 
+        when(requestService.findRequestById (anyLong ())).thenReturn (Optional.of (request));
+        when(requestRepository.findById (anyLong ())).thenReturn (Optional.of (request));
+
         when(creditTransactionEntity.getSender ().getId ()).thenReturn (1L);
         when(creditTransactionEntity.getRecipient ().getId ()).thenReturn (2L);
+        when(request.getUser ().getId ()).thenReturn (1L);
 
         doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
 
@@ -94,6 +119,23 @@ class CreditTransactionImplTest{
         doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
 
         assertThrows (EntityNotFoundException.class,()-> creditTransactionService.createCreditTransaction (creditTransactionEntity));
+    }
+
+    @Test
+    public void testCreateCreditTransactionSenderIsNotTheOneWhoCreatedRequest() {
+
+        when(userService.getUserById (anyLong ())).thenReturn (Optional.of (sender));
+        when(userRepository.findById (anyLong ())).thenReturn (Optional.of (sender));
+
+        when(requestService.findRequestById (anyLong ())).thenReturn (Optional.of (request));
+        when(requestRepository.findById (anyLong ())).thenReturn (Optional.of (request));
+
+        when(creditTransactionEntity.getSender ().getId ()).thenReturn (3L);
+        when(request.getUser ().getId ()).thenReturn (2L);
+
+        doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
+
+        assertThrows (RuntimeException.class,()-> creditTransactionService.createCreditTransaction (creditTransactionEntity));
     }
 
 }

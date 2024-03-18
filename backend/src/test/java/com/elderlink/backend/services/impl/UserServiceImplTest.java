@@ -34,7 +34,7 @@ public class UserServiceImplTest{
     @Test
     public void testGetUserByIdSuccess(){
 
-        when (userService.getUserById (user.getId ())).thenReturn (Optional.of (user));
+        when (userRepository.findById (user.getId ())).thenReturn (Optional.of (user));
 
         assertTrue (userService.getUserById (user.getId ()).isPresent ());
         assertEquals (userService.getUserById (user.getId ()).get (),user);
@@ -44,7 +44,7 @@ public class UserServiceImplTest{
     @Test
     public void testGetUserByIdFailure(){
 
-        when (userService.getUserById (user.getId ())).thenThrow (new RuntimeException ());
+        when (userRepository.findById (user.getId ())).thenThrow (new RuntimeException ());
 
         assertThrows (RuntimeException.class,()-> userService.getUserById (user.getId ()));
     }
