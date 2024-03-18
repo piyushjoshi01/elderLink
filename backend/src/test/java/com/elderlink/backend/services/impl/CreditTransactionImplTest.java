@@ -1,7 +1,9 @@
 package com.elderlink.backend.services.impl;
 
+import com.elderlink.backend.domains.entities.CreditTransactionEntity;
 import com.elderlink.backend.domains.entities.RequestEntity;
 import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.repositories.CreditTransactionRepository;
 import com.elderlink.backend.repositories.RequestRepository;
 import com.elderlink.backend.repositories.UserRepository;
 import com.elderlink.backend.services.UserService;
@@ -63,6 +65,7 @@ class CreditTransactionImplTest{
         creditTransactionEntity = mock (CreditTransactionEntity.class);
         when (creditTransactionEntity.getSender ()).thenReturn (sender);
         when(creditTransactionEntity.getRecipient ()).thenReturn (recipient);
+        when(creditTransactionEntity.getRequest ()).thenReturn (request);
     }
 
     @Test

@@ -60,6 +60,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserEntity> getUserById(Long id) {
+        try {
+            return userRepository.findById(id);
+        }catch (Exception e){
+            logger.error ("An error occurred while fetching the user. -> {}",e.getMessage ());
+            throw new RuntimeException("An error occurred while fetching the user.");
+        }
+    }
+
+    @Override
     public UserEntity updateUser(Long id, UserEntity userEntity) {
         try {
 

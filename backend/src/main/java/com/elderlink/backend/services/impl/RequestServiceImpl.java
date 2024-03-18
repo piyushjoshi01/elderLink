@@ -4,6 +4,7 @@ import com.elderlink.backend.domains.entities.RequestEntity;
 import com.elderlink.backend.repositories.RequestRepository;
 import com.elderlink.backend.services.RequestService;
 import com.elderlink.backend.utils.IsUserAuthorized;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -33,6 +35,19 @@ public class RequestServiceImpl implements RequestService {
         }catch (Exception e){
             logger.error("An error occurred while checking if request exists or not. -> {}",e.getMessage());
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<RequestEntity> findRequestById(Long requestId) {
+        try {
+            if(!requestRepository.existsById (requestId)){
+                throw new EntityNotFoundException ("Request with this id doesn't exist!");
+            }
+            return requestRepository.findById (requestId);
+        }catch (Exception e){
+            logger.error("An error occurred while finding request by id. -> {}",e.getMessage());
+            throw new EntityNotFoundException ("An error occurred while finding request by id!");
         }
     }
 

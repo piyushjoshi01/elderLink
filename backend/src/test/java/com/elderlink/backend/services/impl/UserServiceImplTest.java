@@ -1,5 +1,7 @@
 package com.elderlink.backend.services.impl;
 
+import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
