@@ -1,7 +1,7 @@
 import acceptRequestService from '@/services/acceptRequest.service';
 import userService from '@/services/user.service';
-import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 
 

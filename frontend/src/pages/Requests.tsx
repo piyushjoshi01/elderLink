@@ -100,26 +100,7 @@ const Requests: React.FC = () => {
       });
   };
 
-  // const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({
-  //   category: false,
-  //   urgency: false,
-  //   description: false,
-  //   location: false,
-  //   date: false,
-  //   time: false,
-  //   duration: false,
-  // });
-  // console.log("reqarr", requestArr);
 
-  // const handleChangeInput = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { value, name } = e.target;
-  //   setNewValue((prevData: any) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
 
   console.log("setNewValue", setNewValue);
 
