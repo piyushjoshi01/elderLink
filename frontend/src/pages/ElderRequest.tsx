@@ -1,69 +1,89 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import Footer from "../components/ui/Footer";
-import { FetchRequestModel } from "@/models/RequestModel";
-import requestService from "@/services/request.service";
-import userService from "@/services/user.service";
-import RequestCard from "./RequestCard";
+import Footer from "@/components/ui/Footer";
 import ElderRequestCard from "./ElderRequestCard";
+import Navbar from "./Navbar";
 import acceptRequestService from "@/services/acceptRequest.service";
+import { useEffect, useState } from "react";
+import AddReviewPage from "./AddReviewPage";
+import VolunteerDetails from "./Review";
 
 const ElderRequest: React.FC = () => {
-
-  
-
-  const [requestData, setRequestData] = useState<any[]>([]);
-  const [currentRequestIndex, setCurrentRequestIndex] = useState(0);
-  const [requestDetailsVisible, setRequestDetailsVisible] = useState(false);
-  const [userId, setUserId] = useState();
- 
-
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
+  const [acceptedRequestData, setAcceptedRequestData] = useState<any[]>([]);
+  const [acceptedRequestId, setAcceptedRequestId] = useState<string | null>(
+    null
+  ); // Track the ID of the accepted request
+  const [isRequestAccepted, setIsRequestAccepted] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken");
-  const currentUserId =localStorage.getItem("id"); 
+  const currentUserId = localStorage.getItem("id");
 
   useEffect(() => {
-    // Simulate fetching data from backend
-    console.log("Before")
-    fetchData();
-    console.log("After")
+    fetchAcceptedRequestData();
   }, []);
- 
 
+  const fetchAcceptedRequestData = () => {
+    acceptRequestService
+      .getAcceptedRequest(accessToken, currentUserId)
+      .then((res) => {
+        setAcceptedRequestData(res);
+      });
+  };
 
-
-  const fetchData = () => {
-    acceptRequestService.getAcceptedRequest(accessToken).then((res) => {
-      setRequestData(res)
-     console.log(res);
-    })
-    
+  const handleAccept = (id: string) => {
+    setIsRequestAccepted(true);
+    setAcceptedRequestId(id); // Set the ID of the accepted request
+  };
+  const handleReview = () => {
+    setShowReviewPopup(true); // Open the AddReviewPage as a modal
+  };
+  const renderRequests = () => {
+    if (isRequestAccepted && acceptedRequestId) {
+      // Find the accepted request and render it
+      const acceptedRequest = acceptedRequestData.find(
+        (request) => request.id === acceptedRequestId
+      );
+      if (acceptedRequest) {
+        return (
+          <ElderRequestCard
+            acceptedrequest={acceptedRequest}
+            onAccept={() => handleAccept(acceptedRequest.id)}
+            onReview={handleReview}
+            showDoneButton={true}
+          />
+        );
+      }
+    } else {
+      // Render all requests
+      return acceptedRequestData.map((request, index) => (
+        <ElderRequestCard
+          acceptedrequest={request}
+          key={index}
+          onAccept={() => handleAccept(request.id)}
+          onReview={handleReview}
+          showDoneButton={false}
+        />
+      ));
     }
-   
-          
-  
+  };
 
   return (
     <div>
       <Navbar />
       <div className="px-10 py-3 overflow-scroll h-96">
         <div>
-          <h1 className="text-center text-3xl mb-5 text-lime-800 font-bold"> ACCEPTED REQUEST LIST</h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 ">
-            
-            {requestData.map((acceptedrequest, index ) => (
-              // <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50" >
-              <ElderRequestCard acceptedrequest={acceptedrequest} key={index} />
-            // </div>
-            ))}
-            
-          </div>    
+          <h1 className="text-center text-3xl mb-5 text-lime-800 font-bold">
+            ACCEPTED REQUEST LIST
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+            {renderRequests()}
+          </div>
         </div>
-        {/* {requestDetailsVisible && (
-          // <RequestDetails formData={requestData[currentRequestIndex] || initialCategory} onClose={closeCard} />
-        )} */}
+        {showReviewPopup && (
+          <AddReviewPage onClose={() => setShowReviewPopup(false)} />
+        )}
+        <VolunteerDetails acceptedrequest={acceptedRequestData} />
       </div>
+
       <Footer />
     </div>
   );

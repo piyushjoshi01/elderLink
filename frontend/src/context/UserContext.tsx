@@ -13,8 +13,7 @@ interface UserContextType {
   user: UserModel | null;
   setUser: (user: UserModel | null) => void;
   resetUser: () => void;
-  // setUserFun: () => void;
-  
+  setUserFun: () => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -30,42 +29,43 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const resetUser = () => {
     localStorage.clear();
     setUser(null);
-  }
+  };
 
-  // const setUserFun = () => {
-  //   userService
-  //   .getUser(accessToken)
-  //   .then((res) => {
-  //     setUser(res.data); 
-  //     console.log(user);// Assuming res.data is an instance of UserModel
-  //     localStorage.setItem("id", res.data.id);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Failed to fetch user details", error);
-  //   });
-  // }
-
-  useEffect(() => {
-    // accessToken = localStorage.getItem("accessToken"); // || "Fallback token"
-
-    if (!accessToken) {
-      console.log("No access token available");
-      return;
-    }
-
+  const setUserFun = () => {
     userService
       .getUser(accessToken)
       .then((res) => {
-        setUser(res.data); // Assuming res.data is an instance of UserModel
+        setUser(res.data);
+        // console.log(user);// Assuming res.data is an instance of UserModel
         localStorage.setItem("id", res.data.id);
       })
       .catch((error) => {
         console.error("Failed to fetch user details", error);
       });
-  }, [accessToken]);
+  };
+
+  // useEffect(() => {
+  //   // accessToken = localStorage.getItem("accessToken"); // || "Fallback token"
+
+  //   if (!accessToken) {
+  //     console.log("No access token available");
+  //     return;
+  //   }
+
+  //   userService
+  //     .getUser(accessToken)
+  //     .then((res) => {
+  //       setUser(res.data); // Assuming res.data is an instance of UserModel
+
+  //       localStorage.setItem("id", res.data.id);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to fetch user details", error);
+  //     });
+  // }, [localStorage.getItem("id")]);
 
   return (
-    <UserContext.Provider value={{ user, setUser,resetUser }}>
+    <UserContext.Provider value={{ user, setUser, resetUser,setUserFun }}>
       {children}
     </UserContext.Provider>
   );

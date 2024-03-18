@@ -5,19 +5,10 @@ import { FaUserAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/UserContext";
 
-// // const people = ["Home", "Contact Us", "FAQs", "About Us", "Volunteers"];
-// const people = [
-//   { name: "Home", route: "/" },
-//   { name: "About Us", route: "/Aboutus" },
-//   { name: "FAQs", route: "/faq" },
-//   { name: "PostHelp", route: "/posthelp" },
-//   { name: "Volunteers", route: "/volunteers" },
-// ];
-
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user,resetUser } = useUser();
+  const { user, resetUser } = useUser();
   const navigate = useNavigate();
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -37,66 +28,48 @@ function Navbar() {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("id");
-    
+
     toast.success("logged out successfully");
     setIsAuthenticated(false);
     navigate("/login");
   };
 
-  // const volunteerLinks = [
-  //   { name: "Home", route: "/" },
-  //   { name: "About Us", route: "Aboutus" },
-  //   { name: "FAQs", route: "/faq" },
-  //   { name: "Requests", route: "/volunteerrequest" }
-  // ];
-
-  // const ElderPersonLinks = [
-  //   { name: "Home", route: "/" },
-  //   { name: "About Us", route: "/Aboutus" },
-  //   { name: "FAQs", route: "/faq" },
-  //   { name: "PostHelp", route: "/posthelp" },
-  //   { name: "Volunteer", route: "/elderrequest" },
-  // ];
-  // console.log(user?.userType)
-  // // console.log(user?.firstName)
-  // const links =
-  //   user?.userType === "VOLUNTEER" ? volunteerLinks: ElderPersonLinks ;
- 
+  console.log("Navbar:", user?.userType);
   let links: any[] = []; // Initialize as empty array
-    if (user?.userType === "VOLUNTEER") {
-        links = [
-            { name: "Home", route: "/" },
-            { name: "About Us", route: "/Aboutus" },
-            { name: "FAQs", route: "/faq" },
-            { name: "Requests", route: "/volunteerrequest" }
-        ];
-    } else if (user?.userType === "ELDER_PERSON") {
-        links = [
-            { name: "Home", route: "/" },
-            { name: "About Us", route: "/Aboutus" },
-            { name: "FAQs", route: "/faq" },
-            { name: "PostHelp", route: "/posthelp" },
-            { name: "Volunteer", route: "/elderrequest" },
-        ];
-    }
-    const listItems = links.map((link, index) => (
-      <li
-        key={index}
-        className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
-        onClick={() => navigate(`${link.route}`)}
-      >
-        {link.name}
-      </li>
-    ));
+  if (user?.userType === "VOLUNTEER") {
+    links = [
+      { name: "Home", route: "/" },
+      { name: "About Us", route: "/Aboutus" },
+      { name: "FAQs", route: "/faq" },
+      { name: "Requests", route: "/volunteerrequest" },
+    ];
+  } else if (user?.userType === "ELDER_PERSON") {
+    links = [
+      { name: "Home", route: "/" },
+      { name: "About Us", route: "/Aboutus" },
+      { name: "FAQs", route: "/faq" },
+      { name: "PostHelp", route: "/posthelp" },
+      { name: "Volunteer", route: "/elderrequest" },
+    ];
+  }
+  const listItems = links.map((link, index) => (
+    <li
+      key={index}
+      className="px-4 py-3 cursor-pointer rounded hover:bg-lime-200 font-bold text-lime-800"
+      onClick={() => navigate(`${link.route}`)}
+    >
+      {link.name}
+    </li>
+  ));
 
   return (
     <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent">
       {" "}
-      {/* Here the w-screen is removed to remove the horizontal scroll bar*/}
       <img
+        onClick={() => navigate("/")}
         src={"/assets/images/logo.png"}
         alt="ElderLink Logo"
-        className="h-16 w-auto"
+        className="h-16 w-auto cursor-pointer rounded"
       />
       <nav className={`md:flex ${isOpen ? "block" : "hidden"}`}>
         <ul className="flex flex-col md:flex-row md:space-x-4 md:items-center">

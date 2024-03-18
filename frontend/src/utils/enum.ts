@@ -10,5 +10,7 @@ export enum RoutePaths {
   Requests = "requests",
   Posthelp = "posthelp",
   ElderRequest = "elderrequest",
-  VolunteerRequest = "volunteerrequest"
+  VolunteerRequest = "volunteerrequest",
+  Review = "/review",
+  RatingStar = "/addreviewpage",
 }

@@ -7,7 +7,12 @@ import Login from "@/pages/Login";
 import UserProfile from "@/pages/Userprofile";
 import Requests from "@/pages/Requests";
 import Posthelp from "@/pages/Posthelp";
-import Aboutus from "@/pages/AboutUs";
+import User from "@/pages/User";
+import ElderRequest from "@/pages/ElderRequest";
+import VolunteerRequest from "@/pages/VolunteerRequest";
+import volunteerDetails from "@/pages/Review";
+
+import AddReviewPage from "@/pages/AddReviewPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -18,7 +23,12 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.Userprofile} Component={UserProfile} />
       <Route path={RoutePaths.Posthelp} Component={Posthelp} />
       <Route path={RoutePaths.Requests} Component={Requests} />
-      <Route path={RoutePaths.Aboutus} Component={Aboutus} />
+      <Route path="/userProfile/:userId" Component={User} />
+      <Route path={RoutePaths.ElderRequest} Component={ElderRequest} />
+      <Route path={RoutePaths.Requests} Component={Requests} />
+      <Route path={RoutePaths.VolunteerRequest} Component={VolunteerRequest} />
+      <Route path={RoutePaths.Review} Component={volunteerDetails} />
+      <Route path={RoutePaths.RatingStar} Component={AddReviewPage} />
     </Routes>
   );
 };

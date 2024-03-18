@@ -5,10 +5,11 @@ import { Address, CreateUserModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/UserContext";
+import userService from "@/services/user.service";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  // const {setUserFun} = useUser();
+  const { setUserFun } = useUser();
 
   const handleRedirect = () => {
     navigate("/login");
@@ -33,7 +34,6 @@ const SignUp = () => {
       phone: formData.get("phone") as string,
       address: address,
       birthDate: birthdateString,
-
     };
     console.log(data);
     authService
@@ -41,11 +41,11 @@ const SignUp = () => {
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
+        setUserFun();
         navigate("/");
         toast.success("Successfully registered");
-    })
-      .catch((_err)=>toast.error("Invalid Credentials!"));
-    // setUserFun();
+      })
+      .catch((_err) => toast.error("Invalid Credentials!"));
   };
   return (
     <div className="h-screen">
@@ -263,3 +263,6 @@ const SignUp = () => {
 };
 
 export default SignUp;
+// function setUserFun() {
+//   throw new Error("Function not implemented.");
+// }
