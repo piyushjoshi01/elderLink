@@ -80,4 +80,70 @@ class MessageServiceImplTest{
                 () -> messageService.createMessage (messageEntity));
         assertEquals ("Database error", exception.getMessage ());
     }
+
+    @Test
+    void testGetMessageBySenderIdReceiverIdSuccess() {
+        // Arrange
+        Long senderId = 1L;
+        Long receiverId = 2L;
+        List<MessageEntity> expectedMessages = new ArrayList<> ();
+        when(userService.isUserExisted(senderId)).thenReturn(true);
+        when(userService.isUserExisted(receiverId)).thenReturn(true);
+        when(messageRepository.findBySenderIdAndReceiverId(senderId, receiverId)).thenReturn(expectedMessages);
+
+        // Act
+        List<MessageEntity> result = messageService.getMessageBySenderIdReceiverId(senderId, receiverId);
+
+        // Assert
+        assertEquals(expectedMessages, result);
+        verify(messageRepository).findBySenderIdAndReceiverId(senderId, receiverId);
+    }
+
+    @Test
+    void testGetMessageBySenderIdReceiverIdThrowsEntityNotFoundExceptionForSender() {
+        // Arrange
+        Long senderId = 1L;
+        Long receiverId = 2L;
+        when(userService.isUserExisted(senderId)).thenReturn(false);
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> messageService.getMessageBySenderIdReceiverId(senderId, receiverId));
+        assertEquals("Sender with this id doesn't exist!", exception.getMessage());
+        verify(messageRepository, never()).findBySenderIdAndReceiverId(anyLong(), anyLong());
+    }
+
+    @Test
+    void testGetMessageBySenderIdReceiverIdThrowsEntityNotFoundExceptionForReceiver() {
+        // Arrange
+        Long senderId = 1L;
+        Long receiverId = 2L;
+        when(userService.isUserExisted(senderId)).thenReturn(true);
+        when(userService.isUserExisted(receiverId)).thenReturn(false);
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> messageService.getMessageBySenderIdReceiverId(senderId, receiverId));
+        assertEquals("Receiver with this id doesn't exist!", exception.getMessage());
+        verify(messageRepository, never()).findBySenderIdAndReceiverId(anyLong(), anyLong());
+    }
+
+    @Test
+    void testGetMessageBySenderIdReceiverIdThrowsRuntimeException() {
+        // Arrange
+        Long senderId = 1L;
+        Long receiverId = 2L;
+        when(userService.isUserExisted(senderId)).thenReturn(true);
+        when(userService.isUserExisted(receiverId)).thenReturn(true);
+        when(messageRepository.findBySenderIdAndReceiverId(senderId, receiverId)).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> messageService.getMessageBySenderIdReceiverId(senderId, receiverId));
+        assertEquals("Database error", exception.getMessage());
+    }
+
+
+
+
 }
