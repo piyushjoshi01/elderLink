@@ -141,4 +141,42 @@ class CreditTransactionImplTest{
         assertThrows (RuntimeException.class,()-> creditTransactionService.createCreditTransaction (creditTransactionEntity));
     }
 
+    @Test
+    void getTransactionBySenderIdSuccess() {
+        Long senderId = 1L;
+        List<CreditTransactionEntity> expectedTransactions = new ArrayList<>();
+        expectedTransactions.add(creditTransactionEntity);
+
+        when(userService.isUserExisted(senderId)).thenReturn(true);
+        when(creditTransactionRepository.getCreditTransactionBySenderId(senderId)).thenReturn(expectedTransactions);
+
+        List<CreditTransactionEntity> actualTransactions = creditTransactionService.getTransactionBySenderId(senderId);
+
+        assertEquals(expectedTransactions.size(), actualTransactions.size());
+        verify(creditTransactionRepository).getCreditTransactionBySenderId(senderId);
+    }
+
+    @Test
+    void getTransactionBySenderIdUserNotExist() {
+        Long senderId = 1L;
+
+        when(userService.isUserExisted(senderId)).thenReturn(false);
+
+        EntityNotFoundException thrown = assertThrows(EntityNotFoundException.class, () -> creditTransactionService.getTransactionBySenderId(senderId));
+
+        assertTrue(thrown.getMessage().contains("Sender with this id doesn't exist!"));
+    }
+
+    @Test
+    void getTransactionByRecipientIdUserNotExist() {
+        Long recipientId = 2L;
+
+        when(userService.isUserExisted(recipientId)).thenReturn(false);
+
+        EntityNotFoundException thrown = assertThrows(EntityNotFoundException.class, () -> creditTransactionService.getTransactionRecipientId(recipientId));
+
+        assertTrue(thrown.getMessage().contains("Recipient with this id doesn't exist!"));
+    }
+
+
 }
