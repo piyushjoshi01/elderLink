@@ -108,4 +108,57 @@ class AuthControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
+    @Test
+    void logOut_WhenExceptionThrown() {
+        LogoutReq logoutReq = new LogoutReq("invalidRefreshToken");
+
+        doThrow(new RuntimeException("Some error occurred")).when(refreshTokenService).deleteRefreshToken(anyString());
+
+        ResponseEntity response = authController.logOut(logoutReq);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void authenticateUser_UserNotFound() {
+        AuthReq authReq = new AuthReq("nonexistent@example.com", "password");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        ResponseEntity<Object> response = authController.authenticateUser(authReq);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().toString().contains("User with this email doesn't exist."));
+    }
+
+    @Test
+    void authenticateUser_WhenGeneralExceptionOccurs() {
+        AuthReq authReq = new AuthReq("error@example.com", "password");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new UserEntity()));
+        when(authService.userAuth(any(AuthReq.class))).thenThrow(new RuntimeException("Unexpected error"));
+
+        ResponseEntity<Object> response = authController.authenticateUser(authReq);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().toString().contains("Unexpected error"));
+    }
+
+    @Test
+    void refreshToken_WhenExceptionThrown() {
+        RefreshTokenReq refreshTokenReq = new RefreshTokenReq("invalidRefreshToken");
+
+        // Simulate an exception when verifying the refresh token
+        doThrow(new RuntimeException("Some error occurred")).when(refreshTokenService).verifyRefreshToken(anyString());
+
+        ResponseEntity<Object> response = authController.refreshToken(refreshTokenReq);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().toString().contains("Some error occurred"));
+    }
+
+
+
+
+
 }
