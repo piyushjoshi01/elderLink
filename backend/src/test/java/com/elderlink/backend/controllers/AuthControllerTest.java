@@ -157,8 +157,4 @@ class AuthControllerTest {
         assertTrue(response.getBody().toString().contains("Some error occurred"));
     }
 
-
-
-
-
 }
