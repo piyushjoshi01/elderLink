@@ -1,6 +1,8 @@
 package com.elderlink.backend.services.impl;
 
+import com.elderlink.backend.domains.entities.MessageEntity;
 import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.repositories.MessageRepository;
 import com.elderlink.backend.repositories.UserRepository;
 import com.elderlink.backend.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
