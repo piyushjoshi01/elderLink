@@ -1,70 +1,50 @@
-import Footer from "@/components/ui/Footer";
 import ElderRequestCard from "./ElderRequestCard";
 import Navbar from "./Navbar";
 import acceptRequestService from "@/services/acceptRequest.service";
 import { useEffect, useState } from "react";
 import AddReviewPage from "./AddReviewPage";
 import VolunteerDetails from "./Review";
+import Footer from "@/components/ui/Footer";
+import { useUser } from "@/context/UserContext";
 
 const ElderRequest: React.FC = () => {
+  const { user } = useUser();
   const [showReviewPopup, setShowReviewPopup] = useState(false);
   const [acceptedRequestData, setAcceptedRequestData] = useState<any[]>([]);
   const [acceptedRequestId, setAcceptedRequestId] = useState<string | null>(
     null
   ); // Track the ID of the accepted request
-  const [isRequestAccepted, setIsRequestAccepted] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken");
-  const currentUserId = localStorage.getItem("id");
-
+  // const currentUserId = localStorage.getItem("id");
+  const id = user?.id;
   useEffect(() => {
     fetchAcceptedRequestData();
   }, []);
+  console.log(user?.userType);
+  console.log(user?.id);
 
   const fetchAcceptedRequestData = () => {
-    acceptRequestService
-      .getAcceptedRequest(accessToken, currentUserId)
-      .then((res) => {
-        setAcceptedRequestData(res);
-      });
+    console.log("Id insdie eldeReqeust: ", id);
+    acceptRequestService.getAcceptedRequest(accessToken, id).then((res) => {
+      console.log("res ", res);
+      setAcceptedRequestData(res);
+    });
   };
 
   const handleAccept = (id: string) => {
-    setIsRequestAccepted(true);
     setAcceptedRequestId(id); // Set the ID of the accepted request
   };
   const handleReview = () => {
     setShowReviewPopup(true); // Open the AddReviewPage as a modal
   };
-  const renderRequests = () => {
-    if (isRequestAccepted && acceptedRequestId) {
-      // Find the accepted request and render it
-      const acceptedRequest = acceptedRequestData.find(
-        (request) => request.id === acceptedRequestId
-      );
-      if (acceptedRequest) {
-        return (
-          <ElderRequestCard
-            acceptedrequest={acceptedRequest}
-            onAccept={() => handleAccept(acceptedRequest.id)}
-            onReview={handleReview}
-            showDoneButton={true}
-          />
-        );
-      }
-    } else {
-      // Render all requests
-      return acceptedRequestData.map((request, index) => (
-        <ElderRequestCard
-          acceptedrequest={request}
-          key={index}
-          onAccept={() => handleAccept(request.id)}
-          onReview={handleReview}
-          showDoneButton={false}
-        />
-      ));
-    }
-  };
+
+  // Filter out other cards based on the accepted request ID
+  const filteredRequests = acceptedRequestId
+    ? acceptedRequestData.filter(
+        (request: { id: any }) => request.id === acceptedRequestId
+      )
+    : acceptedRequestData;
 
   return (
     <div>
@@ -75,7 +55,17 @@ const ElderRequest: React.FC = () => {
             ACCEPTED REQUEST LIST
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-            {renderRequests()}
+            {filteredRequests.map(
+              (acceptedrequest: { id: string }, index: any) => (
+                <ElderRequestCard
+                  acceptedrequest={acceptedrequest}
+                  key={index}
+                  onAccept={() => handleAccept(acceptedrequest.id)}
+                  onReview={handleReview}
+                  showDoneButton={acceptedRequestId === acceptedrequest.id}
+                />
+              )
+            )}
           </div>
         </div>
         {showReviewPopup && (

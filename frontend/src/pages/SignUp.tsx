@@ -8,8 +8,8 @@ import { useUser } from "@/context/UserContext";
 import userService from "@/services/user.service";
 
 const SignUp = () => {
+  const {fetchUserData} = useUser();
   const navigate = useNavigate();
-  const { setUserFun } = useUser();
 
   const handleRedirect = () => {
     navigate("/login");
@@ -41,7 +41,7 @@ const SignUp = () => {
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
-        setUserFun();
+        fetchUserData();
         navigate("/");
         toast.success("Successfully registered");
       })

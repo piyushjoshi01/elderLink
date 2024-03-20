@@ -14,7 +14,7 @@ class acceptRequestservice {
       return res.data;
     });
   }
-  public getAcceptedRequest(accessToken: string | null, id?: string | null) {
+  public getAcceptedRequest(accessToken: string | null, id?: number | null) {
     // const elderPersonId = localStorage.getItem("id");
     // console.log("ELderPersonID : ",elderPersonId);
     const config = {
