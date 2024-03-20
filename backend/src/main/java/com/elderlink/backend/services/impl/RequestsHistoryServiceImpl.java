@@ -2,8 +2,11 @@ package com.elderlink.backend.services.impl;
 
 import com.elderlink.backend.domains.entities.RequestEntity;
 import com.elderlink.backend.domains.entities.RequestHistoryEntity;
+import com.elderlink.backend.domains.enums.ActionType;
+import com.elderlink.backend.domains.enums.RequestStatus;
 import com.elderlink.backend.repositories.RequestHistoryRepository;
 import com.elderlink.backend.repositories.RequestRepository;
+import com.elderlink.backend.repositories.UserRepository;
 import com.elderlink.backend.services.RequestService;
 import com.elderlink.backend.services.RequestsHistoryService;
 import com.elderlink.backend.services.UserService;
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
 @Service
 public class RequestsHistoryServiceImpl implements RequestsHistoryService{
 
@@ -29,6 +34,9 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RequestService requestService;
@@ -88,4 +96,12 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
         }
     }
 
+
 }
+
+
+
+
+
+
+
