@@ -8,10 +8,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transaction")
@@ -30,5 +30,27 @@ public class CreditTransactionsController {
         CreditTransactionEntity createdCreditTransaction = creditTransactionService.createCreditTransaction(creditTransactionEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(creditTransactionMapper.toDto(createdCreditTransaction));
     }
+    @GetMapping("/getSender/{senderId}")
+    public ResponseEntity<List<CreditTransactionDto>> getTransactionBySenderId(
+            @Valid @PathVariable("senderId") Long senderId
+    ){
+        List<CreditTransactionEntity> transactions = creditTransactionService.getTransactionBySenderId(senderId);
+        return ResponseEntity.status (HttpStatus.OK).body (
+                transactions.stream ()
+                        .map (creditTransactionMapper::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
 
+    @GetMapping("/getRecipient/{recipientId}")
+    public ResponseEntity<List<CreditTransactionDto>> getTransactionByRecipientId(
+            @Valid @PathVariable("recipientId") Long recipientId
+    ){
+        List<CreditTransactionEntity> transactions = creditTransactionService.getTransactionRecipientId (recipientId);
+        return ResponseEntity.status (HttpStatus.OK).body (
+                transactions.stream ()
+                        .map (creditTransactionMapper::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
 }

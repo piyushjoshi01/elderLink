@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -78,4 +79,39 @@ public class CreditTransactionImpl implements CreditTransactionService{
             throw new RuntimeException(e.getMessage ());
         }
     }
+
+    @Override
+    public List<CreditTransactionEntity> getTransactionBySenderId(Long senderId) {
+        try{
+            if(!userService.isUserExisted (senderId)){
+                throw new EntityNotFoundException ("Sender with this id doesn't exist!");
+            }
+            return creditTransactionRepository.getCreditTransactionBySenderId (senderId);
+        }catch (EntityNotFoundException e){
+            logger.error (e.getMessage ());
+            throw new EntityNotFoundException (e.getMessage ());
+        }catch (Exception e){
+            logger.error (e.getMessage ());
+            throw new RuntimeException (e.getMessage ());
+        }
+    }
+
+    @Override
+    public List<CreditTransactionEntity> getTransactionRecipientId(Long recipientId) {
+        try{
+            if(!userService.isUserExisted (recipientId)){
+                throw new EntityNotFoundException ("Recipient with this id doesn't exist!");
+            }
+            return creditTransactionRepository.getCreditTransactionBySenderId (recipientId);
+        }catch (EntityNotFoundException e){
+            logger.error (e.getMessage ());
+            throw new EntityNotFoundException (e.getMessage ());
+        }catch (Exception e){
+            logger.error (e.getMessage ());
+            throw new RuntimeException (e.getMessage ());
+        }
+    }
+
+
+
 }
