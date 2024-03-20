@@ -41,12 +41,32 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public boolean isUserExisted(Long id) {
+        try {
+            return userRepository.existsById(id);
+        }catch (Exception e){
+            logger.error ("An error occurred while checking if user exists or not!. -> {}",e.getMessage ());
+            throw new RuntimeException("An error occurred while checking if user exists or not.");
+        }
+    }
+
+    @Override
     public void isUserExistByEmail(String email) {
         Optional<UserEntity> existedUser = userRepository.findByEmail(email);
            if(existedUser.isPresent()){
                log.warn("User with email {} already exists." , email);
                throw new UserAlreadyExistException("User with this email " + email + " already exists.");
            }
+    }
+
+    @Override
+    public Optional<UserEntity> getUserById(Long id) {
+        try {
+            return userRepository.findById(id);
+        }catch (Exception e){
+            logger.error ("An error occurred while fetching the user. -> {}",e.getMessage ());
+            throw new RuntimeException("An error occurred while fetching the user.");
+        }
     }
 
     @Override
