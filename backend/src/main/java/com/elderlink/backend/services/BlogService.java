@@ -7,6 +7,8 @@ import java.util.Optional;
 public interface BlogService {
     public boolean doesBlogExistById(Long id);
 
+    public BlogEntity updateBlog(Long id, BlogEntity blogEntity);
+
     public Optional<BlogEntity> doesBlogExistByTitle(String title);
 
     public BlogEntity createBlog(BlogEntity blogEntity);
