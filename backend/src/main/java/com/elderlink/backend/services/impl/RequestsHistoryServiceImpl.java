@@ -160,7 +160,6 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new RuntimeException("An error occurred while updating the requestHistory.");
         }
     }
-
     @Override
     public void deleteRequestHistory(Long id) {
         try{
