@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ReviewServiceImpl implements ReviewService{
 
@@ -64,5 +67,11 @@ public class ReviewServiceImpl implements ReviewService{
         }catch (Exception e){
             throw new RuntimeException ("An error occurred while creating a review! "+e.getMessage ());
         }
+    }
+
+    public List<ReviewEntity> getReviewByVolunteerId(Long volunteerId){
+
+        return null;
+
     }
 }
