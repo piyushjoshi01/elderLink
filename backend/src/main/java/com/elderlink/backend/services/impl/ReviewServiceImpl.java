@@ -71,7 +71,27 @@ public class ReviewServiceImpl implements ReviewService{
 
     public List<ReviewEntity> getReviewByVolunteerId(Long volunteerId){
 
-        return null;
+        try {
+            //To check if user exist
+            if(!userService.isUserExisted (volunteerId)){
+                throw new EntityNotFoundException ("User with this id doesn't exist!");
+            }
+//            25th April
+
+            List<ReviewEntity> VolunteerReviews = reviewRepository.findByVolunteerId(volunteerId);
+
+
+            return VolunteerReviews;
+
+        }catch (EntityNotFoundException e){
+            logger.error (e.getMessage ());
+            throw new EntityNotFoundException (e.getMessage ());
+        }catch (IllegalArgumentException e){
+            logger.error (e.getMessage ());
+            throw new IllegalArgumentException (e.getMessage ());
+        }catch (Exception e){
+            throw new RuntimeException ("An error occurred while fetching the reviews! "+e.getMessage ());
+        }
 
     }
 }
