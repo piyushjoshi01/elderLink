@@ -111,7 +111,4 @@ public class CreditTransactionImpl implements CreditTransactionService{
             throw new RuntimeException (e.getMessage ());
         }
     }
-
-
-
 }
