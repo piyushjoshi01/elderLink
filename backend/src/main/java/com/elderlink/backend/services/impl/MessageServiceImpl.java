@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageServiceImpl implements MessageService{
 
@@ -45,6 +47,32 @@ public class MessageServiceImpl implements MessageService{
             throw new RuntimeException (e.getMessage ());
         }
 
+    }
+
+    @Override
+    public List<MessageEntity> getMessageBySenderIdReceiverId(Long senderId, Long receiverId) {
+
+        try{
+            if(!userService.isUserExisted(senderId)){
+                throw new EntityNotFoundException ("Sender with this id doesn't exist!");
+            }
+
+            if(!userService.isUserExisted (receiverId)){
+                throw new EntityNotFoundException ("Receiver with this id doesn't exist!");
+            }
+
+            List<MessageEntity> messages = messageRepository.findBySenderIdAndReceiverId (senderId,receiverId);
+
+            logger.info ("Fetched messages successfully.");
+
+            return messages;
+        }catch (EntityNotFoundException e){
+            logger.error (e.getMessage ());
+            throw new EntityNotFoundException (e.getMessage ());
+        }catch (Exception e){
+            logger.error (e.getMessage ());
+            throw new RuntimeException (e.getMessage ());
+        }
     }
 }
 
