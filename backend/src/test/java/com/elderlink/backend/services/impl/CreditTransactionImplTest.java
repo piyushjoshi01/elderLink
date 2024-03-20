@@ -25,7 +25,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class CreditTransactionImplTest{
-
     @Mock
     private UserRepository userRepository;
     @Mock
