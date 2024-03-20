@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -86,7 +89,7 @@ class MessageServiceImplTest{
         // Arrange
         Long senderId = 1L;
         Long receiverId = 2L;
-        List<MessageEntity> expectedMessages = new ArrayList<> ();
+        List<MessageEntity> expectedMessages = new ArrayList<>();
         when(userService.isUserExisted(senderId)).thenReturn(true);
         when(userService.isUserExisted(receiverId)).thenReturn(true);
         when(messageRepository.findBySenderIdAndReceiverId(senderId, receiverId)).thenReturn(expectedMessages);

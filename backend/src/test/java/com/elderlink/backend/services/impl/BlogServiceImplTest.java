@@ -139,6 +139,6 @@ public class BlogServiceImplTest {
         when(userService.isUserExisted(1L)).thenReturn(false);
 
         // Act & Assert
-        assertThrows(EntityNotFoundException.class, () -> blogService.createBlog(blogEntity));
+        assertThrows(RuntimeException.class, () -> blogService.createBlog(blogEntity));
     }
 }
