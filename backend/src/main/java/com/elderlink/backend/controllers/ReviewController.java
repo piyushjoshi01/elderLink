@@ -8,10 +8,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/review")
@@ -30,6 +29,16 @@ public class ReviewController{
         ReviewEntity reviewEntity = reviewMapper.toEntity(reviewDto);
         ReviewEntity createdReview = reviewService.createReview(reviewEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewMapper.toDto(createdReview));
+    }
+
+    @GetMapping("/get/{volunteerId}")
+    public ResponseEntity<List<ReviewEntity>> getReview(
+            @Valid @PathVariable("volunteerId") Long volunteerId
+    ){
+        List<ReviewEntity> reviewEntityList = reviewService.getReviewByVolunteerId(volunteerId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reviewEntityList);
+
     }
 
 }

@@ -12,8 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -125,5 +127,71 @@ public class ReviewServiceImplTest{
 
     }
 
+//    get All Reviews for a volunteer - test cases
 
+    @Test
+    void testGetReviewByVolunteerId_UserNotFound() {
+        // Arrange
+        Long volunteerId = 123L;
+        when(userService.isUserExisted(volunteerId)).thenReturn(false);
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> reviewService.getReviewByVolunteerId(volunteerId));
+        assertEquals("User with this id doesn't exist!", exception.getMessage());
+
+        // Verify
+        verify(userService).isUserExisted(volunteerId);
+        verifyNoInteractions(reviewRepository);
+    }
+
+    @Test
+    void testGetReviewByVolunteerId_ReviewFound() {
+        // Arrange
+        Long volunteerId = 123L;
+        when(userService.isUserExisted(volunteerId)).thenReturn(true);
+        List<ReviewEntity> mockReviews = new ArrayList<>();
+        // Populate mockReviews as needed
+        when(reviewRepository.findByVolunteerId(volunteerId)).thenReturn(mockReviews);
+
+        // Act
+        List<ReviewEntity> result = reviewService.getReviewByVolunteerId(volunteerId);
+
+        // Assert
+        assertSame(mockReviews, result);
+
+        // Verify
+        verify(userService).isUserExisted(volunteerId);
+        verify(reviewRepository).findByVolunteerId(volunteerId);
+    }
+
+    @Test
+    void testGetReviewByVolunteerId_InvalidArgument() {
+        // Arrange
+        Long volunteerId = null;
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> reviewService.getReviewByVolunteerId(volunteerId));
+        assertNotNull(exception.getMessage());
+
+        // Verify
+        verifyNoInteractions(userService, reviewRepository);
+    }
+
+    @Test
+    void testGetReviewByVolunteerId_RuntimeException() {
+        // Arrange
+        Long volunteerId = 123L;
+        when(userService.isUserExisted(volunteerId)).thenThrow(new RuntimeException("Test Exception"));
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> reviewService.getReviewByVolunteerId(volunteerId));
+        assertEquals("An error occurred while fetching the reviews! Test Exception", exception.getMessage());
+
+        // Verify
+        verify(userService).isUserExisted(volunteerId);
+        verifyNoMoreInteractions(reviewRepository);
+    }
 }
