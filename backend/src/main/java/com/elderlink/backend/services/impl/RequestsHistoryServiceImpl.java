@@ -96,7 +96,87 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
         }
     }
 
+    @Override
+    public boolean isRequestHistoryExists(Long id) {
+        return requestHistoryRepository.existsById(id);
+    }
+    @Override
+    public List<RequestHistoryEntity> getRequestHistories() {
+        try {
+            return requestHistoryRepository.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("An error occurred while fetching requestHistories.");
+        }
+    }
+    @Override
+    public RequestHistoryEntity updateRequestHistory(Long id,RequestHistoryEntity requestHistoryEntity) {
+        try {
 
+            //checking if requestHistory is existed or not
+            RequestHistoryEntity existingRequestHistory = requestHistoryRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("RequestHistory with this id doesn't not exist!"));
+
+            //checking if request is exsited or not
+            if(!requestRepository.existsById (requestHistoryEntity.getRequest ().getId ())){
+                throw new EntityNotFoundException ("Request with this id doesn't exist!");
+            }
+
+            if(!userRepository.existsById (requestHistoryEntity.getVolunteer ().getId ())){
+                throw new EntityNotFoundException ("Volunteer with this id doesn't exist!");
+            }
+
+            //Here we are checking that user(ELDER_PERSON) which has issued the request can update the requestHistory status to either ACTED or NOT_ACTED
+            isUserAuthorized.checkUserAuthority(existingRequestHistory.getElderPerson ().getId ());
+
+
+            //To set all other requests to DECLINED if elderPerson is ACCEPTING one volunteer's request
+            if(Objects.equals (requestHistoryEntity.getActionType ().toString (), "ACCEPTED")){
+                List<RequestHistoryEntity> requestHistoryByRequestId = requestHistoryRepository.findByRequestId (requestHistoryEntity.getRequest ().getId ());
+                requestHistoryByRequestId.forEach (reqHistory -> {
+                    if(Objects.equals (reqHistory.getId (), id)){
+                        reqHistory.setActionType (ActionType.ACCEPTED);
+                    }else {
+                        reqHistory.setActionType (ActionType.DECLINED);
+                    }
+                    requestHistoryRepository.save (reqHistory);
+                });
+                //setting request status to CLOSE
+                Optional<RequestEntity> request = requestRepository.findById (requestHistoryEntity.getRequest ().getId ());
+                //updating status and database if request is present
+                request.ifPresent (requestEntity -> {
+                    requestEntity.setRequestStatus (RequestStatus.CLOSE);
+                    //updating into database
+                    requestRepository.save (requestEntity);
+                });
+                return existingRequestHistory;
+            }else{
+                existingRequestHistory.setActionType(requestHistoryEntity.getActionType());
+                return requestHistoryRepository.save(existingRequestHistory);
+            }
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            throw new RuntimeException("An error occurred while updating the requestHistory.");
+        }
+    }
+
+    @Override
+    public void deleteRequestHistory(Long id) {
+        try{
+            RequestHistoryEntity existingRequestHistory = requestHistoryRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("RequestHistory with this id doesn't exist!"));
+
+            //Here we are checking that user(ELDER_PERSON) which has issued the request can delete the requestHistory
+            //Basically the idea is that multiple volunteers can accept the same request and
+            // it's upto ElderPerson whom request he wants to accept so others requestHistory will be deleted by elderPerson when he will click on decline
+            isUserAuthorized.checkUserAuthority(existingRequestHistory.getRequest().getUser().getId());
+            requestHistoryRepository.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("An error occurred while deleting the requestHistory.");
+        }
+    }
 }
 
 
