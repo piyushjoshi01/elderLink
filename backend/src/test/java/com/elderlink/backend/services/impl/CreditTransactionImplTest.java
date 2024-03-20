@@ -180,4 +180,76 @@ class CreditTransactionImplTest{
     }
 
 
+    @Test
+    void testGetTransactionBySenderId_SenderNotFound() {
+        // Arrange
+        Long senderId = 123L;
+        when(userService.isUserExisted(senderId)).thenReturn(false);
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> creditTransactionService.getTransactionBySenderId(senderId));
+        assertEquals("Sender with this id doesn't exist!", exception.getMessage());
+
+        // Verify
+        verify(userService).isUserExisted(senderId);
+        verifyNoInteractions(creditTransactionRepository);
+    }
+
+    @Test
+    void testGetTransactionBySenderId_TransactionsFound() {
+        // Arrange
+        Long senderId = 123L;
+        when(userService.isUserExisted(senderId)).thenReturn(true);
+        List<CreditTransactionEntity> mockTransactions = new ArrayList<>();
+        // Populate mockTransactions as needed
+        when(creditTransactionRepository.getCreditTransactionBySenderId(senderId)).thenReturn(mockTransactions);
+
+        // Act
+        List<CreditTransactionEntity> result = creditTransactionService.getTransactionBySenderId(senderId);
+
+        // Assert
+        assertSame(mockTransactions, result);
+
+        // Verify
+        verify(userService).isUserExisted(senderId);
+        verify(creditTransactionRepository).getCreditTransactionBySenderId(senderId);
+    }
+
+    @Test
+    void testGetTransactionRecipientId_RecipientNotFound() {
+        // Arrange
+        Long recipientId = 123L;
+        when(userService.isUserExisted(recipientId)).thenReturn(false);
+
+        // Act & Assert
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> creditTransactionService.getTransactionRecipientId(recipientId));
+        assertEquals("Recipient with this id doesn't exist!", exception.getMessage());
+
+        // Verify
+        verify(userService).isUserExisted(recipientId);
+        verifyNoInteractions(creditTransactionRepository);
+    }
+
+    @Test
+    void testGetTransactionRecipientId_TransactionsFound() {
+        // Arrange
+        Long recipientId = 123L;
+        when(userService.isUserExisted(recipientId)).thenReturn(true);
+        List<CreditTransactionEntity> mockTransactions = new ArrayList<>();
+        // Populate mockTransactions as needed
+        when(creditTransactionRepository.getCreditTransactionBySenderId(recipientId)).thenReturn(mockTransactions);
+
+        // Act
+        List<CreditTransactionEntity> result = creditTransactionService.getTransactionRecipientId(recipientId);
+
+        // Assert
+        assertSame(mockTransactions, result);
+
+        // Verify
+        verify(userService).isUserExisted(recipientId);
+        verify(creditTransactionRepository).getCreditTransactionBySenderId(recipientId);
+    }
+
 }
