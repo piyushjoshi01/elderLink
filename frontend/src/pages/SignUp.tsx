@@ -47,6 +47,7 @@ const SignUp = () => {
       })
       .catch((_err) => toast.error("Invalid Credentials!"));
   };
+
   return (
     <div className="h-screen">
       <section className="bg-white dark:bg-gray-900 overflow-hidden">
