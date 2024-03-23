@@ -34,4 +34,14 @@ public class BlogController {
         BlogEntity createdBlog = blogService.createBlog(blogEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(blogMapper.toDto(createdBlog));
     }
+
+    @PatchMapping("/{blogId}")
+    public ResponseEntity<BlogDto> updateBlog(
+            @Valid @PathVariable Long blogId,
+            @Valid @RequestBody BlogDto updateBlogDto
+    ){
+        BlogEntity blogEntity = blogMapper.toEntity (updateBlogDto);
+        BlogEntity updatedBlog = blogService.updateBlog(blogId,blogEntity);
+        return ResponseEntity.status (HttpStatus.OK).body (blogMapper.toDto(updatedBlog));
+    }
 }

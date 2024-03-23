@@ -10,17 +10,26 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 public class BlogServiceImplTest {
 
     @Mock
     private BlogRepository blogRepository;
+
+    @Mock
+    private Configuration configuration;
+
+    @Mock private ModelMapper modelMapper;
 
     @Mock
     private UserService userService;
@@ -31,6 +40,7 @@ public class BlogServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        configuration = mock (Configuration.class);
     }
 
     @Test
@@ -124,6 +134,34 @@ public class BlogServiceImplTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> blogService.createBlog(blogEntity));
+    }
+
+    @Test
+    void updateBlogSuccess() {
+        Long blogId = 1L;
+        BlogEntity existingBlog = new BlogEntity(); // Assume a constructor or builder pattern
+        BlogEntity updatedBlogDetails = new BlogEntity(); // Assume updated details
+
+        when(blogRepository.existsById(blogId)).thenReturn(true);
+        when(blogRepository.findById(blogId)).thenReturn(Optional.of(existingBlog));
+
+        when(modelMapper.getConfiguration()).thenReturn(configuration); // Return the mock Configuration when getConfiguration is called
+
+        doNothing().when(modelMapper).map(any(BlogEntity.class), any(BlogEntity.class));
+
+        blogService.updateBlog(blogId, updatedBlogDetails);
+
+        verify(blogRepository).save(existingBlog); // Verify save was called
+    }
+
+    @Test
+    void updateBlogNotExist() {
+        Long blogId = 1L;
+        BlogEntity updatedBlogDetails = new BlogEntity(); // Assume updated details
+
+        when(blogRepository.existsById(blogId)).thenReturn(false);
+
+        assertThrows(RuntimeException.class, () -> blogService.updateBlog(blogId, updatedBlogDetails));
     }
 
     @Test

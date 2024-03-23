@@ -53,6 +53,28 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public BlogEntity updateBlog(Long id, BlogEntity blogEntity) {
+        try {
+            if(!doesBlogExistById(id)){
+                throw new RuntimeException("Blog with this id, does not exists.");
+            }
+
+            BlogEntity existingBlog = blogRepository.findById (id)
+                    .orElseThrow(() -> new EntityNotFoundException("Blog doesn't exists!"));
+
+            modelMapper.getConfiguration().setSkipNullEnabled (true);
+            modelMapper.map(blogEntity,existingBlog);
+            modelMapper.getConfiguration().setSkipNullEnabled (false);
+
+            return blogRepository.save(existingBlog);
+
+        } catch (RuntimeException e){
+            logger.error("An error occurred while updating the user. -> {}",e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public BlogEntity createBlog(BlogEntity blogEntity) {
         try {
 //            Long userId = blogEntity.getUser().getId();
