@@ -108,7 +108,17 @@ public class BlogServiceImpl implements BlogService {
         }
     }
 
-    public void deleteBlog(Long blogId) {
+    public void deleteBlog(Long id) {
+        try {
+            if(!doesBlogExistById(id)){
+                throw new RuntimeException("Blog with this id, does not exists.");
+            }
+            blogRepository.deleteById (id);
 
+            log.info("Blog deleted successfully.");
+        } catch (RuntimeException e){
+            logger.error("An error occurred while updating the blog. -> {}",e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
