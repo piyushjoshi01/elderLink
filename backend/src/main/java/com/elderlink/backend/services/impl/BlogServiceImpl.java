@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,21 +56,21 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogEntity updateBlog(Long id, BlogEntity blogEntity) {
         try {
-            if(!doesBlogExistById(id)){
+            if (!doesBlogExistById(id)) {
                 throw new RuntimeException("Blog with this id, does not exists.");
             }
 
-            BlogEntity existingBlog = blogRepository.findById (id)
+            BlogEntity existingBlog = blogRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Blog doesn't exists!"));
 
-            modelMapper.getConfiguration().setSkipNullEnabled (true);
-            modelMapper.map(blogEntity,existingBlog);
-            modelMapper.getConfiguration().setSkipNullEnabled (false);
+            modelMapper.getConfiguration().setSkipNullEnabled(true);
+            modelMapper.map(blogEntity, existingBlog);
+            modelMapper.getConfiguration().setSkipNullEnabled(false);
 
             return blogRepository.save(existingBlog);
 
-        } catch (RuntimeException e){
-            logger.error("An error occurred while updating the user. -> {}",e.getMessage());
+        } catch (RuntimeException e) {
+            logger.error("An error occurred while updating the user. -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -110,15 +111,19 @@ public class BlogServiceImpl implements BlogService {
 
     public void deleteBlog(Long id) {
         try {
-            if(!doesBlogExistById(id)){
+            if (!doesBlogExistById(id)) {
                 throw new RuntimeException("Blog with this id, does not exists.");
             }
-            blogRepository.deleteById (id);
+            blogRepository.deleteById(id);
 
             log.info("Blog deleted successfully.");
-        } catch (RuntimeException e){
-            logger.error("An error occurred while updating the blog. -> {}",e.getMessage());
+        } catch (RuntimeException e) {
+            logger.error("An error occurred while updating the blog. -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public List<BlogEntity> getBlogs() {
+    }
+
 }
