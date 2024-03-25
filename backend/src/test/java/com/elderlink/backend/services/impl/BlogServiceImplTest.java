@@ -179,4 +179,25 @@ public class BlogServiceImplTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> blogService.createBlog(blogEntity));
     }
+    @Test
+    void deleteBlogSuccess() {
+        Long blogId = 1L;
+
+        when(blogRepository.existsById(blogId)).thenReturn(true);
+        doNothing().when(blogRepository).deleteById(blogId);
+
+        blogService.deleteBlog(blogId);
+
+        verify(blogRepository).deleteById(blogId); // Verify delete was called
+    }
+
+    // Delete Blog - Blog Does Not Exist
+    @Test
+    void deleteBlogNotExist() {
+        Long blogId = 1L;
+
+        when(blogRepository.existsById(blogId)).thenReturn(false);
+
+        assertThrows(RuntimeException.class, () -> blogService.deleteBlog(blogId));
+    }
 }

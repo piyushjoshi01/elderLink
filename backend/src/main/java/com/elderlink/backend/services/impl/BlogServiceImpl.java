@@ -107,4 +107,8 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("An error occurred while creating a blog! " + e.getMessage());
         }
     }
+
+    public void deleteBlog(Long blogId) {
+
+    }
 }
