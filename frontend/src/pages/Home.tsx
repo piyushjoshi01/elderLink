@@ -1,12 +1,12 @@
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import Png7 from "/assets/images/7.png";
-import { useUser } from "@/context/UserContext";
+
 import LoadingPage from "./loading";
 import { useEffect, useState } from "react";
 
 const Home = () => {
-  const { loading } = useUser();
+ 
   const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {

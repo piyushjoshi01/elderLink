@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
-import UserModel from "@/models/UserModel";
-import userService from "@/services/user.service";
+
 import requestService from "@/services/request.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

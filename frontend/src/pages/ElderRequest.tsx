@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import acceptRequestService from "@/services/acceptRequest.service";
 import { useEffect, useState } from "react";
 import AddReviewPage from "./AddReviewPage";
-import VolunteerDetails from "./Review";
+
 import Footer from "@/components/ui/Footer";
 import { useUser } from "@/context/UserContext";
 
@@ -28,6 +28,7 @@ const ElderRequest: React.FC = () => {
     console.log("Id insdie eldeReqeust: ", id);
     acceptRequestService.getAcceptedRequest(accessToken, id).then((res) => {
       console.log("res ", res);
+
       setAcceptedRequestData(res);
     });
   };
@@ -71,7 +72,6 @@ const ElderRequest: React.FC = () => {
         {showReviewPopup && (
           <AddReviewPage onClose={() => setShowReviewPopup(false)} />
         )}
-        <VolunteerDetails acceptedrequest={acceptedRequestData} />
       </div>
 
       <Footer />

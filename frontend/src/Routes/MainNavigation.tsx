@@ -28,7 +28,7 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.ElderRequest} Component={ElderRequest} />
       <Route path={RoutePaths.Requests} Component={Requests} />
       <Route path={RoutePaths.VolunteerRequest} Component={VolunteerRequest} />
-      <Route path={RoutePaths.Review} Component={volunteerDetails} />
+      <Route path="/volunteer/:volunteerId" Component={volunteerDetails} />
       <Route path={RoutePaths.RatingStar} Component={AddReviewPage} />
       <Route path={RoutePaths.Chat} Component={Chat} />
     </Routes>

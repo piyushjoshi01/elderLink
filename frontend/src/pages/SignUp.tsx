@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuthContext } from "@/context/auth";
+
 import { Address, CreateUserModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/UserContext";
-import userService from "@/services/user.service";
+
 
 const SignUp = () => {
   const {fetchUserData} = useUser();

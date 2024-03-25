@@ -83,7 +83,7 @@ const ElderRequestCard = ({
       <div className="mb-4 text-left">
         <p
           className="text-lime-800 cursor-pointer rounded hover:bg-lime-200"
-          onClick={() => navigate("/review")}
+          onClick={() => navigate(`/volunteer/${acceptedrequest.volunteerId}`)}
         >
           <strong>Volunteer Name:</strong> {userFirstName} {userLastName}
         </p>

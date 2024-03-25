@@ -17,7 +17,7 @@ const User = () => {
   }, []);
 
   const userData = () => {
-    userService.getById(accessToken, parseInt(userId!)).then((res) => {
+    userService.getById(accessToken, userId).then((res) => {
       console.log(res.data);
       setUser(res.data);
     });
