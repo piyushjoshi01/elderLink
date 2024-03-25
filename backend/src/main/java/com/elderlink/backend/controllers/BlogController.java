@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/blog")
 public class BlogController {
@@ -48,5 +50,10 @@ public class BlogController {
     public ResponseEntity deleteBlog(@Valid @PathVariable("id") Long blogId){
         blogService.deleteBlog(blogId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @GetMapping("/getAll")
+    public ResponseEntity<List<BlogEntity>> getAllBlogs(){
+        List<BlogEntity> blogList = blogService.getBlogs();
+        return ResponseEntity.status (HttpStatus.OK).body (blogList);
     }
 }

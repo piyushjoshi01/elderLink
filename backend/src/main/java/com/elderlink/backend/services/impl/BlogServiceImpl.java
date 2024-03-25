@@ -124,6 +124,10 @@ public class BlogServiceImpl implements BlogService {
     }
 
     public List<BlogEntity> getBlogs() {
+        try {
+            return blogRepository.findAll ();
+        }catch (Exception e){
+            throw new RuntimeException (e.getMessage ());
+        }
     }
-
 }
