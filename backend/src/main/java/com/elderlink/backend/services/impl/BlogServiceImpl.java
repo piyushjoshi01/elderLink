@@ -107,4 +107,18 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("An error occurred while creating a blog! " + e.getMessage());
         }
     }
+
+    public void deleteBlog(Long id) {
+        try {
+            if(!doesBlogExistById(id)){
+                throw new RuntimeException("Blog with this id, does not exists.");
+            }
+            blogRepository.deleteById (id);
+
+            log.info("Blog deleted successfully.");
+        } catch (RuntimeException e){
+            logger.error("An error occurred while updating the blog. -> {}",e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

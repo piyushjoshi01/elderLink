@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public interface BlogService {
     public boolean doesBlogExistById(Long id);
+    public void deleteBlog(Long id);
 
     public BlogEntity updateBlog(Long id, BlogEntity blogEntity);
 
