@@ -27,7 +27,12 @@ public class RequestServiceImpl implements RequestService {
 
     @Autowired
     private IsUserAuthorized isUserAuthorized;
-
+    /**
+     * Check if a request exists by its ID.
+     *
+     * @param id The ID of the request
+     * @return True if the request exists, false otherwise
+     */
     @Override
     public boolean isRequestExists(Long id) {
         try {
@@ -37,6 +42,13 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    /**
+     * Find a request by its ID.
+     *
+     * @param requestId The ID of the request to find
+     * @return Optional containing the request entity if found, otherwise empty
+     */
 
     @Override
     public Optional<RequestEntity> findRequestById(Long requestId) {
@@ -50,7 +62,12 @@ public class RequestServiceImpl implements RequestService {
             throw new EntityNotFoundException ("An error occurred while finding request by id!");
         }
     }
-
+    /**
+     * Create a new request.
+     *
+     * @param requestEntity The request entity to create
+     * @return The created request entity
+     */
     @Override
     public RequestEntity createRequest(RequestEntity requestEntity) {
         try {
@@ -67,6 +84,12 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage());
         }
     }
+    /**
+     * Find all requests made by a user.
+     *
+     * @param userId The ID of the user
+     * @return List of requests made by the user
+     */
 
     @Override
     public List<RequestEntity> findRequestsByUserId(Long userId) {
@@ -80,7 +103,13 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
+    /**
+     * Update a request.
+     *
+     * @param requestId      The ID of the request to update
+     * @param requestEntity  The updated request entity
+     * @return The updated request entity
+     */
     @Override
     public RequestEntity updateRequest(Long requestId, RequestEntity requestEntity) {
         try {
@@ -107,7 +136,11 @@ public class RequestServiceImpl implements RequestService {
             throw new RuntimeException(e.getMessage ());
         }
     }
-
+    /**
+     * Delete a request.
+     *
+     * @param requestId The ID of the request to delete
+     */
     @Override
     public void deleteRequest(Long requestId) {
         try {

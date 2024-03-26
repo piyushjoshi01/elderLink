@@ -21,7 +21,12 @@ public class ReviewController{
 
     @Autowired
     private ReviewService reviewService;
-
+    /**
+     * Endpoint to create a new review.
+     *
+     * @param reviewDto The DTO containing the review details
+     * @return ResponseEntity containing the created review details or error status
+     */
     @PostMapping("/create")
     public ResponseEntity<ReviewDto> createReview(
             @Valid @RequestBody ReviewDto reviewDto
@@ -30,6 +35,12 @@ public class ReviewController{
         ReviewEntity createdReview = reviewService.createReview(reviewEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewMapper.toDto(createdReview));
     }
+    /**
+     * Endpoint to get reviews by volunteer ID.
+     *
+     * @param volunteerId The ID of the volunteer whose reviews are to be fetched
+     * @return ResponseEntity containing the list of reviews or error status
+     */
 
     @GetMapping("/get/{volunteerId}")
     public ResponseEntity<List<ReviewEntity>> getReview(

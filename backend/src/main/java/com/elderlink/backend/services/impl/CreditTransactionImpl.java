@@ -33,7 +33,12 @@ public class CreditTransactionImpl implements CreditTransactionService{
     private CreditTransactionRepository creditTransactionRepository;
     @Autowired
     private IsUserAuthorized isUserAuthorized;
-
+    /**
+     * Create a credit transaction.
+     *
+     * @param creditTransactionEntity The credit transaction entity to create
+     * @return The created credit transaction entity
+     */
     @Override
     public CreditTransactionEntity createCreditTransaction(CreditTransactionEntity creditTransactionEntity) {
         try {
@@ -79,7 +84,12 @@ public class CreditTransactionImpl implements CreditTransactionService{
             throw new RuntimeException(e.getMessage ());
         }
     }
-
+    /**
+     * Get all credit transactions made by a sender.
+     *
+     * @param senderId The ID of the sender
+     * @return List of credit transactions made by the sender
+     */
     @Override
     public List<CreditTransactionEntity> getTransactionBySenderId(Long senderId) {
         try{
@@ -95,7 +105,12 @@ public class CreditTransactionImpl implements CreditTransactionService{
             throw new RuntimeException (e.getMessage ());
         }
     }
-
+    /**
+     * Get all credit transactions received by a recipient.
+     *
+     * @param recipientId The ID of the recipient
+     * @return List of credit transactions received by the recipient
+     */
     @Override
     public List<CreditTransactionEntity> getTransactionRecipientId(Long recipientId) {
         try{

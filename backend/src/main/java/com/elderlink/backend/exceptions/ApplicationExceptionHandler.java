@@ -12,7 +12,12 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
-    //To check request arguments are valid or not
+
+    /**
+     * Handles MethodArgumentNotValidException for invalid request arguments.
+     * @param e The MethodArgumentNotValidException instance.
+     * @return A map containing field names and corresponding error messages.
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String,String> handleInvalidArgument(MethodArgumentNotValidException e){

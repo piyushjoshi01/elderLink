@@ -22,7 +22,11 @@ public class MessageServiceImpl implements MessageService{
 
     @Autowired
     private UserService userService;
-
+    /**
+     * Create a new message.
+     *
+     * @param messageEntity The message entity to create
+     */
     @Override
     public void createMessage(MessageEntity messageEntity) {
 
@@ -48,6 +52,13 @@ public class MessageServiceImpl implements MessageService{
         }
 
     }
+    /**
+     * Get messages by sender ID and receiver ID.
+     *
+     * @param senderId   The ID of the sender
+     * @param receiverId The ID of the receiver
+     * @return List of messages sent from sender to receiver
+     */
 
     @Override
     public List<MessageEntity> getMessageBySenderIdReceiverId(Long senderId, Long receiverId) {

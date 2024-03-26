@@ -43,14 +43,20 @@ public class UsersController {
 
     @Autowired
     private Mapper<UserEntity,UserDto> userMapper;
-
+    /**
+     * Endpoint to get user details by email.
+     *
+     * @param authHeader The authorization header containing the access token
+     * @return ResponseEntity containing the user details or error status
+     */
     @GetMapping("/getUser")
     public ResponseEntity<UserDto> getUserByEmail(
             @RequestHeader("Authorization") String authHeader
     ){
         try{
             //Extracting the accessToken from header as token starts with "Bearer "
-            String accessToken = authHeader.substring(7);
+            int accessTokenStartInd = 7;
+            String accessToken = authHeader.substring(accessTokenStartInd);
             String email = jwtService.extractUsername(accessToken);
             if(!userRepository.existsByEmail(email)){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -66,7 +72,13 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
+    /**
+     * Endpoint to update user details.
+     *
+     * @param userId   The ID of the user to update
+     * @param userDto  The DTO containing the updated user details
+     * @return ResponseEntity containing the updated user details or error status
+     */
     @PatchMapping("/users/{userId}")
     public ResponseEntity<UserDto> updateUser(
             @Valid @PathVariable("userId") Long userId,

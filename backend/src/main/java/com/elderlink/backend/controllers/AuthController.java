@@ -45,7 +45,12 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
-
+    /**
+     * Endpoint to register a new user.
+     *
+     * @param regReq The registration request body
+     * @return ResponseEntity with status 201 if successful or error status
+     */
     @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@Valid @RequestBody RegReq regReq) {
         try {
@@ -57,6 +62,12 @@ public class AuthController {
         AuthRes authRes = authService.userRegister(userEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(authRes);
     }
+    /**
+     * Endpoint to log out a user.
+     *
+     * @param logoutReq The logout request body
+     * @return ResponseEntity with status 204 if successful or error status
+     */
     @PostMapping("/logout")
     public ResponseEntity logOut(@Valid @RequestBody LogoutReq logoutReq){
         try {
@@ -66,6 +77,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+    /**
+     * Endpoint to authenticate a user.
+     *
+     * @param authReq The authentication request body
+     * @return ResponseEntity with status 200 if successful or error status
+     */
 
     @PostMapping("/login")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody AuthReq authReq) {
@@ -79,6 +96,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    /**
+     * Endpoint to refresh authentication token.
+     *
+     * @param refreshTokenReq The refresh token request body
+     * @return ResponseEntity with status 200 if successful or error status
+     */
 
     @PostMapping("/refresh")
     public ResponseEntity<Object> refreshToken(@Valid @RequestBody RefreshTokenReq refreshTokenReq){

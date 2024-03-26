@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Check if a user exists based on the provided ID.
+     *
+     * @param id The ID of the user to check
+     * @return True if the user exists, false otherwise
+     */
     @Override
     public boolean isUserExisted(Long id) {
         try {
@@ -49,6 +55,11 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("An error occurred while checking if user exists or not.");
         }
     }
+    /**
+     * Check if a user exists based on the provided email.
+     *
+     * @param email The email of the user to check
+     */
 
     @Override
     public void isUserExistByEmail(String email) {
@@ -58,6 +69,12 @@ public class UserServiceImpl implements UserService {
                throw new UserAlreadyExistException("User with this email " + email + " already exists.");
            }
     }
+    /**
+     * Get a user by ID.
+     *
+     * @param id The ID of the user to retrieve
+     * @return An Optional containing the user if found, otherwise empty
+     */
 
     @Override
     public Optional<UserEntity> getUserById(Long id) {
@@ -68,6 +85,13 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("An error occurred while fetching the user.");
         }
     }
+    /**
+     * Update a user.
+     *
+     * @param id         The ID of the user to update
+     * @param userEntity The updated user entity
+     * @return The updated user entity
+     */
 
     @Override
     public UserEntity updateUser(Long id, UserEntity userEntity) {

@@ -26,7 +26,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     private static final long refreshTokenExpirationTime = 1000 * 60 * 60;
     private static final Logger logger = LoggerFactory.getLogger(RefreshTokenService.class);
-
+    /**
+     * Creates a new refresh token for the user with the given email.
+     *
+     * @param userEmail The email of the user
+     * @return The created refresh token entity
+     */
     @Override
     public RefreshTokenEntity createRefreshToken(String userEmail) {
         try {
@@ -53,6 +58,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
             throw new RuntimeException("Error occurred while creating refreshToken. -> " + e.getMessage());
         }
     }
+    /**
+     * Verifies the given refresh token and returns its entity if valid.
+     *
+     * @param refreshToken The refresh token to verify
+     * @return The refresh token entity
+     */
     @Override
     public RefreshTokenEntity verifyRefreshToken(String refreshToken) {
        try{
@@ -75,7 +86,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
            throw new RuntimeException("Error occurred while verifying the refreshToken. -> " + e.getMessage());
        }
     }
-
+    /**
+     * Deletes the refresh token with the given value.
+     *
+     * @param refreshToken The refresh token to delete
+     */
     @Override
     public void deleteRefreshToken(String refreshToken) {
         try{

@@ -82,6 +82,7 @@ class JwtAuthenticationFilterTest {
 
     @Test
     void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+        // Given a valid token in the Authorization header
         String validToken = "valid.token.here";
         UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
         request.addHeader("Authorization", "Bearer " + validToken);
