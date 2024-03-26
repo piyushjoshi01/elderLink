@@ -45,20 +45,29 @@ class BeneficiaryControllerTest {
 
     @Test
     void createTransaction_Returns201OnSuccess() throws Exception {
-        // Setup DTO and Entity for testing
-        BeneficiaryDto requestDto = new BeneficiaryDto(null, 1L, 2L, new BigDecimal("10"), null);
-        BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity(1L, new UserEntity(), new UserEntity(), new BigDecimal("10"), LocalDateTime.now());
-        BeneficiaryDto responseDto = new BeneficiaryDto(1L, 1L, 2L, new BigDecimal("10"), LocalDateTime.now());
+        // Explicitly exclude LocalDateTime from the test DTO and response expectation
+        String requestDtoJson = "{\"senderId\": 1,\"recipientId\": 2,\"hoursCredited\": 10}";
 
-        // Mocking service and mapper behavior
+        BeneficiaryEntity beneficiaryEntity = new BeneficiaryEntity();
+        beneficiaryEntity.setId(1L);
+        beneficiaryEntity.setSender(new UserEntity());
+        beneficiaryEntity.setRecipient(new UserEntity());
+        beneficiaryEntity.setHoursCredited(new BigDecimal("10"));
+
+
+        BeneficiaryDto responseDto = new BeneficiaryDto();
+        responseDto.setSenderId(1L);
+        responseDto.setRecipientId(2L);
+        responseDto.setHoursCredited(new BigDecimal("10"));
+
         when(beneficiaryMapper.toEntity(any(BeneficiaryDto.class))).thenReturn(beneficiaryEntity);
         when(beneficiaryService.createBeneficiary(any(BeneficiaryEntity.class))).thenReturn(beneficiaryEntity);
         when(beneficiaryMapper.toDto(any(BeneficiaryEntity.class))).thenReturn(responseDto);
 
-        // Execute and Assert
         mockMvc.perform(post("/api/beneficiary/create")
                         .contentType(APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(requestDto)))
+                        .content(requestDtoJson))
                 .andExpect(status().isCreated());
     }
+
 }
