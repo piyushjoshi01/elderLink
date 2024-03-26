@@ -6,6 +6,7 @@ import com.elderlink.backend.auth.services.RefreshTokenService;
 import com.elderlink.backend.auth.utils.AuthReq;
 import com.elderlink.backend.auth.utils.AuthRes;
 import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.domains.enums.UserType;
 import com.elderlink.backend.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,26 +50,25 @@ public class AuthServiceImpl implements AuthService {
     public AuthRes userRegister(UserEntity userReq) {
         try {
 
-
-            String userType = String.valueOf(userReq.getUserType());
+            UserType userType = null;
 
             Period period = Period.between(userReq.getBirthDate(), LocalDate.now());
-            int ageofconcent = 18;
-            int retirnmentage = 60;
-            int multiplicationfactor = 10;
+            int ageOfConsent = 18;
+            int retirementAge = 60;
+            int multiPlicationFactor = 10;
             int userAge = period.getYears();
-            int pointsToAllocate = (userAge - ageofconcent ) * multiplicationfactor;
+            int pointsToAllocate = (userAge - ageOfConsent ) * multiPlicationFactor;
 
-            if(userAge>=retirnmentage && !userType.equals("ELDER_PERSON")){
-                throw new RuntimeException("User with 60 plus age can't register as a VOLUNTEER.");
+            if(userAge>=retirementAge){
+                userType=UserType.ELDER_PERSON;
             }
 
-            if(userAge<retirnmentage && !userType.equals("VOLUNTEER")){
-                throw new RuntimeException("User with less than 60 age can't register as a ELDER_PERSON");
+            if(userAge<retirementAge){
+                userType=UserType.VOLUNTEER;
             }
 
             //allocate creditBalance based on user's age
-            if(userAge>ageofconcent){
+            if(userAge>ageOfConsent){
                 userReq.setCreditBalance(BigDecimal.valueOf(pointsToAllocate));
             }else{
                 userReq.setCreditBalance(BigDecimal.valueOf(0));
@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
                     .firstName(userReq.getFirstName())
                     .lastName(userReq.getLastName())
                     .password(passwordEncoder.encode(userReq.getPassword()))
-                    .userType(userReq.getUserType())
+                    .userType(userType)
                     .phone(userReq.getPhone())
                     .birthDate(userReq.getBirthDate())
                     .address(userReq.getAddress())
