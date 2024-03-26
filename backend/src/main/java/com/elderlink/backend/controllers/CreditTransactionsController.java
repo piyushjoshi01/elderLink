@@ -21,7 +21,12 @@ public class CreditTransactionsController {
     private CreditTransactionService creditTransactionService;
     @Autowired
     private Mapper<CreditTransactionEntity, CreditTransactionDto> creditTransactionMapper;
-
+    /**
+     * Endpoint to create a new credit transaction.
+     *
+     * @param creditTransactionDto The DTO containing credit transaction information
+     * @return ResponseEntity with status 201 if successful or error status
+     */
     @PostMapping("/create")
     public ResponseEntity<CreditTransactionDto> createTransaction(
             @Valid @RequestBody CreditTransactionDto creditTransactionDto
@@ -30,6 +35,12 @@ public class CreditTransactionsController {
         CreditTransactionEntity createdCreditTransaction = creditTransactionService.createCreditTransaction(creditTransactionEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(creditTransactionMapper.toDto(createdCreditTransaction));
     }
+    /**
+     * Endpoint to retrieve credit transactions by sender ID.
+     *
+     * @param senderId The ID of the sender
+     * @return ResponseEntity containing the list of transactions or error status
+     */
     @GetMapping("/getSender/{senderId}")
     public ResponseEntity<List<CreditTransactionDto>> getTransactionBySenderId(
             @Valid @PathVariable("senderId") Long senderId
@@ -41,7 +52,12 @@ public class CreditTransactionsController {
                         .collect(Collectors.toList())
         );
     }
-
+    /**
+     * Endpoint to retrieve credit transactions by recipient ID.
+     *
+     * @param recipientId The ID of the recipient
+     * @return ResponseEntity containing the list of transactions or error status
+     */
     @GetMapping("/getRecipient/{recipientId}")
     public ResponseEntity<List<CreditTransactionDto>> getTransactionByRecipientId(
             @Valid @PathVariable("recipientId") Long recipientId

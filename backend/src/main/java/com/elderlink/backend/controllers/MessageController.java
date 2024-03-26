@@ -22,7 +22,12 @@ public class MessageController{
 
     @Autowired
     private Mapper<MessageEntity,MessageDto> messageMapper;
-
+    /**
+     * Endpoint to create a new message.
+     *
+     * @param messageDto The DTO containing message information
+     * @return ResponseEntity with status 201 if successful or error status
+     */
     @PostMapping("/create")
     public ResponseEntity createMessage(
             @Valid @RequestBody MessageDto messageDto
@@ -31,6 +36,13 @@ public class MessageController{
         messageService.createMessage (messageEntity);
         return ResponseEntity.status(HttpStatus.CREATED).build ();
     }
+    /**
+     * Endpoint to retrieve messages between two users.
+     *
+     * @param senderId The ID of the message sender
+     * @param receiverId The ID of the message receiver
+     * @return ResponseEntity containing the list of messages or error status
+     */
 
     @GetMapping("/{senderId}/{receiverId}")
     public ResponseEntity<List<MessageDto>> getMessagesBySenderIdReceiverId(

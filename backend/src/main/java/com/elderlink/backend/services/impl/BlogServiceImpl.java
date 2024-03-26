@@ -32,7 +32,12 @@ public class BlogServiceImpl implements BlogService {
     private IsUserAuthorized isUserAuthorized;
     @Autowired
     private UserRepository userRepository;
-
+    /**
+     * Check if a blog exists by its ID.
+     *
+     * @param id The ID of the blog
+     * @return True if the blog exists, otherwise false
+     */
     @Override
     public boolean doesBlogExistById(Long id) {
         try {
@@ -42,6 +47,12 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("An error occurred while checking if blog exists or not.");
         }
     }
+    /**
+     * Check if a blog exists by its title.
+     *
+     * @param title The title of the blog
+     * @return An optional containing the blog if it exists, otherwise empty
+     */
 
     @Override
     public Optional<BlogEntity> doesBlogExistByTitle(String title) {
@@ -52,7 +63,13 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("An error occurred while checking if blog exists or not.");
         }
     }
-
+    /**
+     * Update an existing blog.
+     *
+     * @param id          The ID of the blog to update
+     * @param blogEntity  The updated blog entity
+     * @return The updated blog entity
+     */
     @Override
     public BlogEntity updateBlog(Long id, BlogEntity blogEntity) {
         try {
@@ -74,6 +91,12 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException(e.getMessage());
         }
     }
+    /**
+     * Create a new blog.
+     *
+     * @param blogEntity The blog entity to create
+     * @return The created blog entity
+     */
 
     @Override
     public BlogEntity createBlog(BlogEntity blogEntity) {
@@ -108,7 +131,11 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("An error occurred while creating a blog! " + e.getMessage());
         }
     }
-
+    /**
+     * Delete a blog by its ID.
+     *
+     * @param id The ID of the blog to delete
+     */
     public void deleteBlog(Long id) {
         try {
             if (!doesBlogExistById(id)) {
@@ -122,7 +149,11 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
+    /**
+     * Get all blogs.
+     *
+     * @return A list of all blogs
+     */
     public List<BlogEntity> getBlogs() {
         try {
             return blogRepository.findAll ();

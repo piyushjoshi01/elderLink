@@ -114,5 +114,22 @@ void whenValidToken_thenAuthenticate() throws IOException, ServletException {
     verify(filterChain, times(1)).doFilter(request, response);
 }
 
+//<<<<<<< HEAD
+//    @Test
+//    void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+//        // Given a valid token in the Authorization header
+//        String validToken = "valid.token.here";
+//        UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
+//        request.addHeader("Authorization", "Bearer " + validToken);
+//        when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
+//        when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
+//        when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
+//        jwtAuthenticationFilter.doFilter(request, response, filterChain);
+//        verify(userDetailsService, times(1)).loadUserByUsername(anyString());
+//        verify(jwtService, times(1)).isTokenValid(anyString(), any(UserDetails.class));
+//        verify(filterChain, times(1)).doFilter(request, response);
+//    }
+//=======
+//>>>>>>> 3772ccef2b15ff86dd749e135145f87e49ceb4dd
 
 }

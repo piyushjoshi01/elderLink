@@ -50,6 +50,7 @@ class AuthServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        // Mock the behavior of jwtService and refreshTokenService
         lenient().when(jwtService.generateToken(any(UserEntity.class))).thenReturn(accessToken);
         RefreshTokenEntity mockRefreshTokenEntity = mock(RefreshTokenEntity.class);
         lenient().when(mockRefreshTokenEntity.getRefreshToken()).thenReturn(refreshToken);
@@ -60,6 +61,7 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Successful Elder Person Registration")
     void testSuccessfulElderPersonRegistration() {
+        // Test registration for an elder person
         UserEntity user = new UserEntity();
         user.setFirstName("John");
         user.setLastName("Doe");
@@ -72,20 +74,23 @@ class AuthServiceImplTest {
         when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
 
         AuthRes response = authService.userRegister(user);
-
+        // Assert that the response contains valid access and refresh tokens
         assertNotNull(response);
         assertEquals(accessToken, response.getAccessToken());
         assertEquals(refreshToken, response.getRefreshToken());
+        // Verify that userRepository.save was called once with any UserEntity parameter
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
 
     @Test
     @DisplayName("Fail Registration for Elder Person as Volunteer")
     void testFailRegistrationForElderPersonAsVolunteer() {
+        // Create a user entity for an elder person with the UserType set to VOLUNTEER
         UserEntity user = new UserEntity();
         user.setBirthDate(LocalDate.now().minusYears(65));
         user.setUserType(UserType.VOLUNTEER);
 
+        // Assert that an exception is thrown when attempting to register an elder person as a volunteer
         Exception exception = assertThrows(RuntimeException.class, () -> authService.userRegister(user));
         assertTrue(exception.getMessage().contains("can't register as a VOLUNTEER"));
     }
@@ -93,6 +98,7 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Successful Volunteer Registration")
     void testSuccessfulVolunteerRegistration() {
+        // Create a user entity for a volunteer
         UserEntity user = new UserEntity();
         user.setFirstName("Jane");
         user.setLastName("Doe");
@@ -100,8 +106,9 @@ class AuthServiceImplTest {
         user.setPassword("password");
         user.setBirthDate(LocalDate.now().minusYears(25));
         user.setUserType(UserType.VOLUNTEER);
-
+        // Mock the userRepository save method to return the user entity
         when(userRepository.save(any(UserEntity.class))).thenReturn(user);
+        // Mock the password encoder to return an encoded password
         when(passwordEncoder.encode(anyString())).thenReturn("encoded-password");
 
         AuthRes response = authService.userRegister(user);
@@ -109,13 +116,16 @@ class AuthServiceImplTest {
         assertNotNull(response);
         assertEquals(accessToken, response.getAccessToken());
         assertEquals(refreshToken, response.getRefreshToken());
+        // Verify that userRepository.save was called once with any UserEntity parameter
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
 
     @Test
     @DisplayName("Successful Authentication")
     void testSuccessfulAuthentication() {
+        // Create an authentication request with valid email and password
         AuthReq authReq = new AuthReq("user@example.com", "password");
+        // Create a user entity with the provided email and a password encoded with the password encoder
         UserEntity user = new UserEntity();
         user.setEmail(authReq.getEmail());
         user.setPassword(passwordEncoder.encode(authReq.getPassword()));
@@ -134,10 +144,12 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Authentication With Invalid Credentials")
     void testAuthenticationWithInvalidCredentials() {
+        // Create an authentication request with invalid password
         AuthReq authReq = new AuthReq("user@example.com", "wrongpassword");
+        // Mock the authentication manager to throw a runtime exception with message "Bad credentials"
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new RuntimeException("Bad credentials"));
-
+        // Assert that a runtime exception with message "Bad credentials" is thrown
         Exception exception = assertThrows(RuntimeException.class, () -> authService.userAuth(authReq));
         assertTrue(exception.getMessage().contains("Bad credentials"));
     }

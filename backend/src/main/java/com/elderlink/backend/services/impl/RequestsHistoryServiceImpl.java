@@ -44,6 +44,12 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
     @Autowired
     private RequestRepository requestRepository;
 
+    /**
+     * Create a new request history entry.
+     *
+     * @param requestHistoryEntity The request history entity to create
+     * @return The created request history entity
+     */
     @Override
     public RequestHistoryEntity createRequestHistory(RequestHistoryEntity requestHistoryEntity) {
         try {
@@ -77,6 +83,12 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new EntityNotFoundException ("An error occurred while creating the requestHistory."+ e.getMessage ());
         }
     }
+    /**
+     * Retrieve request histories by request ID.
+     *
+     * @param requestId The ID of the request
+     * @return List of request history entities
+     */
 
     @Override
     public List<RequestHistoryEntity> getRequestHistoriesByRequestId(Long requestId) {
@@ -86,6 +98,12 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new RuntimeException ("An error occurred while fetching requestHistoryByRequestId");
         }
     }
+    /**
+     * Retrieve request histories by elder person ID.
+     *
+     * @param elderPersonId The ID of the elder person
+     * @return List of request history entities
+     */
 
     @Override
     public List<RequestHistoryEntity> getRequestHistoriesByElderPersonId(Long elderPersonId) {
@@ -95,6 +113,12 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new RuntimeException ("An error occurred while fetching requestHistory by ElderPersonId!");
         }
     }
+    /**
+     * Check if a request history exists by ID.
+     *
+     * @param id The ID of the request history
+     * @return True if the request history exists, false otherwise
+     */
 
     @Override
     public boolean isRequestHistoryExists(Long id) {
@@ -109,6 +133,13 @@ public class RequestsHistoryServiceImpl implements RequestsHistoryService{
             throw new RuntimeException("An error occurred while fetching requestHistories.");
         }
     }
+    /**
+     * Update a request history entry.
+     *
+     * @param id                  The ID of the request history entry to update
+     * @param requestHistoryEntity The updated request history entity
+     * @return The updated request history entity
+     */
     @Override
     public RequestHistoryEntity updateRequestHistory(Long id,RequestHistoryEntity requestHistoryEntity) {
         try {

@@ -22,7 +22,12 @@ public class RequestsHistoryController{
 
     @Autowired
     private RequestHistoryMapper requestHistoryMapper;
-
+    /**
+     * Endpoint to get request histories by elder person ID.
+     *
+     * @param elderPersonId The ID of the elder person
+     * @return ResponseEntity containing the list of request histories or error status
+     */
     @GetMapping("/requestsByElderPersonId/{elderPersonId}")
     public ResponseEntity<List<RequestHistoryDto>> getRequestsHistoryByElderPersonId(
             @Valid @PathVariable("elderPersonId") Long elderPersonId
@@ -34,7 +39,12 @@ public class RequestsHistoryController{
                         .collect(Collectors.toList())
         );
     }
-
+    /**
+     * Endpoint to get request histories by request ID.
+     *
+     * @param requestId The ID of the request
+     * @return ResponseEntity containing the list of request histories or error status
+     */
     @GetMapping("/{requestId}")
     public ResponseEntity<List<RequestHistoryDto>> getRequestHistoryByRequestId(
             @Valid @PathVariable("requestId") Long requestId

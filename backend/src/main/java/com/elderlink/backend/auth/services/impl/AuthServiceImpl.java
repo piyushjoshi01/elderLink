@@ -39,6 +39,12 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * Registers a new user.
+     *
+     * @param userReq The user entity containing registration details
+     * @return An authentication response containing access and refresh tokens
+     */
     @Override
     public AuthRes userRegister(UserEntity userReq) {
         try {
@@ -47,20 +53,22 @@ public class AuthServiceImpl implements AuthService {
             String userType = String.valueOf(userReq.getUserType());
 
             Period period = Period.between(userReq.getBirthDate(), LocalDate.now());
-
+            int ageofconcent = 18;
+            int retirnmentage = 60;
+            int multiplicationfactor = 10;
             int userAge = period.getYears();
-            int pointsToAllocate = (userAge - 18) * 10;
+            int pointsToAllocate = (userAge - ageofconcent ) * multiplicationfactor;
 
-            if(userAge>=60 && !userType.equals("ELDER_PERSON")){
+            if(userAge>=retirnmentage && !userType.equals("ELDER_PERSON")){
                 throw new RuntimeException("User with 60 plus age can't register as a VOLUNTEER.");
             }
 
-            if(userAge<60 && !userType.equals("VOLUNTEER")){
+            if(userAge<retirnmentage && !userType.equals("VOLUNTEER")){
                 throw new RuntimeException("User with less than 60 age can't register as a ELDER_PERSON");
             }
 
             //allocate creditBalance based on user's age
-            if(userAge>18){
+            if(userAge>ageofconcent){
                 userReq.setCreditBalance(BigDecimal.valueOf(pointsToAllocate));
             }else{
                 userReq.setCreditBalance(BigDecimal.valueOf(0));
@@ -94,6 +102,12 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("An error occurred while registering the user. -> " + e.getMessage());
         }
     }
+    /**
+     * Authenticates a user.
+     *
+     * @param authReq The authentication request containing user credentials
+     * @return An authentication response containing access and refresh tokens
+     */
 
     @Override
     public AuthRes userAuth(AuthReq authReq) {

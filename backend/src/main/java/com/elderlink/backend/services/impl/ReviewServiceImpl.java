@@ -31,6 +31,12 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Autowired
     private UserService userService;
+    /**
+     * Create a new review.
+     *
+     * @param reviewEntity The review entity to create
+     * @return The created review entity
+     */
 
     @Override
     public ReviewEntity createReview(ReviewEntity reviewEntity) {
@@ -51,7 +57,8 @@ public class ReviewServiceImpl implements ReviewService{
 
             int rating = reviewEntity.getRating();
 
-            if(rating < 1 || rating > 5){
+            int fiverating = 5;
+            if(rating < 1 || rating > fiverating){
                 throw new IllegalArgumentException("Rating value must be between 1 and 5");
             }
 
@@ -68,7 +75,12 @@ public class ReviewServiceImpl implements ReviewService{
             throw new RuntimeException ("An error occurred while creating a review! "+e.getMessage ());
         }
     }
-
+    /**
+     * Retrieve reviews by volunteer ID.
+     *
+     * @param volunteerId The ID of the volunteer
+     * @return List of review entities
+     */
     public List<ReviewEntity> getReviewByVolunteerId(Long volunteerId){
 
         try {

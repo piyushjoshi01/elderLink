@@ -30,7 +30,12 @@ public class RequestsController {
 
     @Autowired
     private Mapper<RequestEntity, RequestDto> requestMapper;
-
+    /**
+     * Endpoint to create a new request.
+     *
+     * @param requestDto The DTO containing request information
+     * @return ResponseEntity containing the created request or error status
+     */
     @PostMapping("/create")
     public ResponseEntity<RequestDto> createRequest(
             @Valid @RequestBody RequestDto requestDto
@@ -39,7 +44,12 @@ public class RequestsController {
         RequestEntity createdRequest =  requestService.createRequest(requestEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(requestMapper.toDto(createdRequest));
     }
-
+    /**
+     * Endpoint to get requests by user ID.
+     *
+     * @param userId The ID of the user
+     * @return ResponseEntity containing the list of requests or error status
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<List<RequestDto>> getRequestsByUserId(@Valid @PathVariable Long userId){
             if(!userRepository.existsById(userId)){
@@ -52,7 +62,13 @@ public class RequestsController {
                             .collect(Collectors.toList())
             );
     }
-
+    /**
+     * Endpoint to update a request.
+     *
+     * @param requestId The ID of the request to be updated
+     * @param updateRequestDto The DTO containing updated request information
+     * @return ResponseEntity containing the updated request or error status
+     */
     @PatchMapping("/{requestId}")
     public ResponseEntity<RequestDto> updateRequest(
             @Valid @PathVariable Long requestId,
@@ -62,7 +78,12 @@ public class RequestsController {
         RequestEntity updatedRequest = requestService.updateRequest(requestId,requestEntity);
         return ResponseEntity.status (HttpStatus.OK).body (requestMapper.toDto(updatedRequest));
     }
-
+    /**
+     * Endpoint to delete a request by ID.
+     *
+     * @param requestId The ID of the request to be deleted
+     * @return ResponseEntity with no content or error status
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteRequest(@Valid @PathVariable("id") Long requestId){
         requestService.deleteRequest(requestId);
