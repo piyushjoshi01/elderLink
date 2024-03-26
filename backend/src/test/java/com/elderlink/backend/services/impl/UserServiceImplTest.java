@@ -142,6 +142,45 @@ public class UserServiceImplTest{
         verify(passwordEncoder).encode(newPassword);
         verify(userRepository).save(any(UserEntity.class));
     }
+    @Test
+    void isUserExisted_ReturnsTrue_WhenUserExists() {
+        Long userId = 1L;
+        when(userRepository.existsById(userId)).thenReturn(true);
+
+        assertTrue(userService.isUserExisted(userId));
+        verify(userRepository).existsById(userId);
+    }
+
+    @Test
+    void isUserExisted_ReturnsFalse_WhenUserDoesNotExist() {
+        Long userId = 1L;
+        when(userRepository.existsById(userId)).thenReturn(false);
+
+        assertFalse(userService.isUserExisted(userId));
+        verify(userRepository).existsById(userId);
+    }
+
+    @Test
+    void isUserExisted_ThrowsRuntimeException_WhenRepositoryThrowsException() {
+        Long userId = 1L;
+        when(userRepository.existsById(userId)).thenThrow(new RuntimeException("Database error"));
+
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.isUserExisted(userId));
+        assertEquals("An error occurred while checking if user exists or not.", exception.getMessage());
+        verify(userRepository).existsById(userId);
+    }
+
+    @Test
+    void updateUser_ThrowsException_WhenEmailIsUpdated() {
+        UserEntity updatedUser = new UserEntity();
+        updatedUser.setEmail("newemail@example.com");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(new UserEntity()));
+
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.updateUser(userId, updatedUser));
+        assertEquals("User can't update email field!", exception.getMessage());
+    }
+
 }
 
 
