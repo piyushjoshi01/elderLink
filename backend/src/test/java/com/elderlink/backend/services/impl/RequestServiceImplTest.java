@@ -6,6 +6,7 @@ import com.elderlink.backend.exceptions.UserIsNotAuthorizedException;
 import com.elderlink.backend.repositories.RequestRepository;
 import com.elderlink.backend.services.impl.RequestServiceImpl;
 import com.elderlink.backend.utils.IsUserAuthorized;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,4 +100,71 @@ public class RequestServiceImplTest {
 
         assertThrows(RuntimeException.class, () -> requestService.deleteRequest(requestId));
     }
+
+    @Test
+    void findRequestById_RequestNotFound() {
+        when(requestRepository.existsById(anyLong())).thenReturn(false);
+
+        assertThrows(EntityNotFoundException.class, () -> requestService.findRequestById(1L));
+    }
+
+    @Test
+    void findRequestById_ThrowsException() {
+        when(requestRepository.existsById(anyLong())).thenThrow(new RuntimeException("Database error"));
+
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> requestService.findRequestById(1L));
+
+        assertEquals("An error occurred while finding request by id!", exception.getMessage());
+    }
+
+    @Test
+    void createRequest_ThrowsException() {
+        when(requestRepository.save(any(RequestEntity.class))).thenThrow(new RuntimeException("Save failed"));
+
+        assertThrows(RuntimeException.class, () -> requestService.createRequest(requestEntity));
+    }
+
+    @Test
+    void findRequestsByUserId_ThrowsException() {
+        when(requestRepository.findByUserId(anyLong())).thenThrow(new RuntimeException("Query failed"));
+
+        assertThrows(RuntimeException.class, () -> requestService.findRequestsByUserId(1L));
+    }
+
+    @Test
+    void isRequestExists_ReturnsTrue_WhenRequestExists() {
+        Long requestId = 1L;
+        when(requestRepository.existsById(requestId)).thenReturn(true);
+
+        boolean exists = requestService.isRequestExists(requestId);
+
+        assertTrue(exists);
+        verify(requestRepository, times(1)).existsById(requestId);
+    }
+
+    @Test
+    void isRequestExists_ReturnsFalse_WhenRequestDoesNotExist() {
+        Long requestId = 1L;
+        when(requestRepository.existsById(requestId)).thenReturn(false);
+
+        boolean exists = requestService.isRequestExists(requestId);
+
+        assertFalse(exists);
+        verify(requestRepository, times(1)).existsById(requestId);
+    }
+
+    @Test
+    void isRequestExists_ThrowsRuntimeException_OnRepositoryException() {
+        Long requestId = 1L;
+        String errorMessage = "Database error";
+        when(requestRepository.existsById(requestId)).thenThrow(new RuntimeException(errorMessage));
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> requestService.isRequestExists(requestId));
+
+        assertEquals(errorMessage, thrown.getMessage());
+        verify(requestRepository, times(1)).existsById(requestId);
+        // Assuming you have a way to verify logger calls, verify the error logging as well
+    }
+
+
 }
