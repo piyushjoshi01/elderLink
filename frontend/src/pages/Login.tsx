@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUserFun } = useUser();
+  const { fetchUserData } = useUser();
   const handleRedirect = () => {
     navigate("/register");
   };
@@ -19,19 +19,18 @@ const Login = () => {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     };
-
-    authService
-      .login(values)
-      .then((res) => {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        setUserFun();
-        // console.log("User setUserFun : ", setUserFun());
-        toast.success("Successfully logged in");
-        navigate("/");
-      })
-      .catch((_err) => toast.error("Invalid Credentials"));
+    try {
+      const response = await authService.login(values);
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      fetchUserData();
+      navigate("/");
+      toast.success("Successfully LoggedIN");
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
+
   return (
     <div>
       <section className="bg-white dark:bg-gray-900 overflow-hidden">

@@ -1,75 +1,70 @@
-import UserModel from "@/models/UserModel";
-import userService from "@/services/user.service";
-import { RefreshCcw } from "lucide-react";
 import React, {
-  useState,
   createContext,
   useContext,
-  ReactNode,
+  useState,
   useEffect,
+  ReactNode,
 } from "react";
+import UserModel from "@/models/UserModel";
+import userService from "@/services/user.service";
 
 interface UserContextType {
   user: UserModel | null;
   setUser: (user: UserModel | null) => void;
   resetUser: () => void;
-  setUserFun: () => void;
+  loading: boolean;
+  fetchUserData: () => void;
 }
 
-export const UserContext = createContext<UserContextType | undefined>(
-  undefined
-);
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
 interface UserProviderProps {
   children: ReactNode;
 }
+
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserModel | null>(null);
-  const accessToken = localStorage.getItem("accessToken");
+  const [loading, setLoading] = useState(true); // Initialize loading state
 
   const resetUser = () => {
     localStorage.clear();
     setUser(null);
   };
 
-  const setUserFun = () => {
-    userService
-      .getUser(accessToken)
-      .then((res) => {
-        setUser(res.data);
-        // console.log(user);// Assuming res.data is an instance of UserModel
-        localStorage.setItem("id", res.data.id);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch user details", error);
-      });
+  const fetchUserData = () => {
+    setLoading(true);
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      userService
+        .getUser(token)
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch user details", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
 
-  // useEffect(() => {
-  //   // accessToken = localStorage.getItem("accessToken"); // || "Fallback token"
-
-  //   if (!accessToken) {
-  //     console.log("No access token available");
-  //     return;
-  //   }
-
-  //   userService
-  //     .getUser(accessToken)
-  //     .then((res) => {
-  //       setUser(res.data); // Assuming res.data is an instance of UserModel
-
-  //       localStorage.setItem("id", res.data.id);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to fetch user details", error);
-  //     });
-  // }, [localStorage.getItem("id")]);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, resetUser,setUserFun }}>
+    <UserContext.Provider
+      value={{ user, setUser, resetUser, loading, fetchUserData }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
+
+// Hook to use the context
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {

@@ -15,7 +15,6 @@ const ElderRequestCard = ({
   const [userLastName, setUserLastName] = useState("");
   const [requestCategory, setRequestCategory] = useState("");
   const [requestDescription, setRequestDescription] = useState("");
-  const [requestDate, setRequestDate] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const ElderRequestCard = ({
       .then(() => {
         onAccept();
       });
-    alert("Are you sure? This will Credit 3 credit to John Snow");
   };
 
   const handleDone = () => {
@@ -47,7 +45,7 @@ const ElderRequestCard = ({
       senderId: acceptedrequest.elderPersonId,
       recipientId: acceptedrequest.volunteerId,
       requestId: acceptedrequest.requestId,
-      hoursCredited: 2,
+      hoursCredited: 5,
     };
     creditTransferService
       .credited(localStorage.getItem("accessToken"), data)
@@ -74,13 +72,7 @@ const ElderRequestCard = ({
       .then((res) => {
         setRequestCategory(res.requestCategory);
         setRequestDescription(res.requestDescription);
-        setRequestDate(res.date);
       });
-  };
-  const isBeforeSetDate = () => {
-    const currentDate = new Date();
-    const setDate = new Date(requestDate);
-    return currentDate < setDate;
   };
 
   return (
@@ -91,7 +83,7 @@ const ElderRequestCard = ({
       <div className="mb-4 text-left">
         <p
           className="text-lime-800 cursor-pointer rounded hover:bg-lime-200"
-          onClick={() => navigate("/review")}
+          onClick={() => navigate(`/volunteer/${acceptedrequest.volunteerId}`)}
         >
           <strong>Volunteer Name:</strong> {userFirstName} {userLastName}
         </p>
@@ -105,12 +97,7 @@ const ElderRequestCard = ({
         <div className="flex justify-center">
           {showDoneButton ? (
             <button
-              disabled={isBeforeSetDate()} // Disable button based on date comparison
-              className={`w-30 mx-2 px-6 py-3 text-sm ${
-                isBeforeSetDate()
-                  ? "bg-gray-400 text-gray-800 cursor-not-allowed"
-                  : "text-white bg-lime-800 hover:bg-lime-400 hover:text-lime-800"
-              } capitalize transition-colors duration-300 transform rounded-2xl font-bold focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50`}
+              className="w-30 mx-2 px-6 py-3 text-sm text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-2xl hover:bg-lime-400 hover:text-lime-800 font-bold focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
               onClick={handleDone}
             >
               Done

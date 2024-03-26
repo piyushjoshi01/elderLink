@@ -2,7 +2,29 @@ import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import Png7 from "/assets/images/7.png";
 
+import LoadingPage from "./loading";
+import { useEffect, useState } from "react";
+
 const Home = () => {
+ 
+  const [showLoading, setShowLoading] = useState(true);
+
+  useEffect(() => {
+    // Trigger user fetching
+
+    const timer = setTimeout(() => {
+      setShowLoading(false); // Hide loading after 2 seconds
+    }, 500); // Set loading page minimum display time
+
+    return () => clearTimeout(timer);
+  }, []);
+  if (showLoading) {
+    return (
+      <div>
+        <LoadingPage />
+      </div>
+    ); // Placeholder for your loader component or markup
+  }
   return (
     <div>
       <Navbar />

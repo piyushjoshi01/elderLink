@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuthContext } from "@/context/auth";
+
 import { Address, CreateUserModel } from "@/models/AuthModel";
 import authService from "@/services/auth.service";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/UserContext";
-import userService from "@/services/user.service";
+
 
 const SignUp = () => {
+  const {fetchUserData} = useUser();
   const navigate = useNavigate();
-  const { setUserFun } = useUser();
 
   const handleRedirect = () => {
     navigate("/login");
@@ -41,12 +41,13 @@ const SignUp = () => {
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
-        setUserFun();
+        fetchUserData();
         navigate("/");
         toast.success("Successfully registered");
       })
       .catch((_err) => toast.error("Invalid Credentials!"));
   };
+
   return (
     <div className="h-screen">
       <section className="bg-white dark:bg-gray-900 overflow-hidden">

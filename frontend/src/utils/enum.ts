@@ -13,4 +13,5 @@ export enum RoutePaths {
   VolunteerRequest = "volunteerrequest",
   Review = "/review",
   RatingStar = "/addreviewpage",
+  Chat = "/Chat",
 }

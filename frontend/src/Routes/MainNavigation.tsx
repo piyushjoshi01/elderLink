@@ -13,6 +13,7 @@ import VolunteerRequest from "@/pages/VolunteerRequest";
 import volunteerDetails from "@/pages/Review";
 
 import AddReviewPage from "@/pages/AddReviewPage";
+import Chat from "@/pages/Chat";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -27,8 +28,9 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.ElderRequest} Component={ElderRequest} />
       <Route path={RoutePaths.Requests} Component={Requests} />
       <Route path={RoutePaths.VolunteerRequest} Component={VolunteerRequest} />
-      <Route path={RoutePaths.Review} Component={volunteerDetails} />
+      <Route path="/volunteer/:volunteerId" Component={volunteerDetails} />
       <Route path={RoutePaths.RatingStar} Component={AddReviewPage} />
+      <Route path={RoutePaths.Chat} Component={Chat} />
     </Routes>
   );
 };

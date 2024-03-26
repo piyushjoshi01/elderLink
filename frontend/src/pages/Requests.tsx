@@ -3,9 +3,12 @@ import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import requestService from "@/services/request.service";
 import RequestModel from "@/models/RequestModel";
+import { useUser } from "@/context/UserContext";
+import { toast } from "react-toastify";
 // import axios from "axios";
 
 const Requests: React.FC = () => {
+  const { user } = useUser();
   const [request, setRequest] = useState<RequestModel>(new RequestModel());
   const [requestArr, setRequestArr] = useState<RequestItemType[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -24,7 +27,7 @@ const Requests: React.FC = () => {
   }
 
   const accessToken = localStorage.getItem("accessToken");
-  const id = localStorage.getItem("id");
+  const id = user?.id;
 
   useEffect(() => {
     if (!accessToken) {
@@ -32,7 +35,7 @@ const Requests: React.FC = () => {
       return;
     }
     requestService
-      .getRequestById(accessToken, Number(id))
+      .getRequestById(accessToken, id)
       .then((res) => {
         setRequestArr(res.data);
         const requestSave = new RequestModel();
@@ -50,7 +53,7 @@ const Requests: React.FC = () => {
       .catch((error) => {
         console.error("Failed to fetch user details", error);
       });
-  }, [localStorage.getItem("accessToken")]);
+  }, [id]);
 
   const handleEditClick = (item: any) => {
     setEditingId(item.id);
@@ -73,7 +76,7 @@ const Requests: React.FC = () => {
     setNewValue({});
   };
 
-  const handleSave = async (id: any) => {
+  const handleSave = (id: any) => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
       console.error("Access token is not available");
@@ -100,15 +103,15 @@ const Requests: React.FC = () => {
       });
   };
 
-
-
   console.log("setNewValue", setNewValue);
 
-  const deleterequest = async (id: any) => {
-    console.log("acctoken ew", accessToken, id);
+  const deleterequest = (id: any) => {
+    // console.log("acctoken ew", accessToken, id);
     if (accessToken) {
-      const deletedobj = await requestService.getDeleteById(accessToken, id);
-      console.log("deletedobj", deletedobj);
+      requestService.getDeleteById(accessToken, id).then((res) => {
+        console.log(res);
+        toast.success("Request Deleted Successfully");
+      });
     }
     // alert("Delete request");
   };
