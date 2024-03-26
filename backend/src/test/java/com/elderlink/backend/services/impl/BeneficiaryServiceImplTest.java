@@ -1,6 +1,8 @@
 package com.elderlink.backend.services.impl;
 
+import com.elderlink.backend.domains.entities.BeneficiaryEntity;
 import com.elderlink.backend.domains.entities.UserEntity;
+import com.elderlink.backend.repositories.BeneficiaryRepository;
 import com.elderlink.backend.repositories.UserRepository;
 import com.elderlink.backend.services.UserService;
 import com.elderlink.backend.utils.IsUserAuthorized;
