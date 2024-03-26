@@ -13,6 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.any;
@@ -199,5 +201,25 @@ public class BlogServiceImplTest {
         when(blogRepository.existsById(blogId)).thenReturn(false);
 
         assertThrows(RuntimeException.class, () -> blogService.deleteBlog(blogId));
+    }
+    @Test
+    void getBlogsSuccess() {
+        List<BlogEntity> blogEntities = Arrays.asList(new BlogEntity(), new BlogEntity()); // Assume a list of blogs
+
+        when(blogRepository.findAll()).thenReturn(blogEntities);
+
+        List<BlogEntity> blogs = blogService.getBlogs();
+
+        assertNotNull(blogs);
+        assertEquals(2, blogs.size()); // Assuming the list contains 2 blogs
+        verify(blogRepository).findAll(); // Verify findAll was called
+    }
+
+    // Get All Blogs - Exception Scenario
+    @Test
+    void getBlogsException() {
+        when(blogRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        assertThrows(RuntimeException.class, () -> blogService.getBlogs());
     }
 }
