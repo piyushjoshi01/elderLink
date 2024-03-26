@@ -50,7 +50,7 @@ class AuthControllerTest {
 
     @Test
     void registerUser_Success() {
-        RegReq regReq = new RegReq("John", "Doe", "john.doe@example.com", "123-456-7890", "password", LocalDate.of(1980, 1, 1), UserType.ELDER_PERSON, null);
+        RegReq regReq = new RegReq("John", "Doe", "john.doe@example.com", "123-456-7890", "password", LocalDate.of(1980, 1, 1), null);
         UserEntity userEntity = new UserEntity();
         when(modelMapper.map(any(RegReq.class), eq(UserEntity.class))).thenReturn(userEntity);
         when(authService.userRegister(any(UserEntity.class))).thenReturn(new AuthRes("accessToken", "refreshToken"));

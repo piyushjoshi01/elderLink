@@ -41,10 +41,6 @@ public class RegReq {
     @NotNull(message = "Birthdate is required!")
     private LocalDate birthDate;
 
-    @NotNull(message = "User type is required!")
-    @Enumerated(EnumType.STRING)
-    private UserType userType;
-
     @Valid
     private AddressDto address;
 

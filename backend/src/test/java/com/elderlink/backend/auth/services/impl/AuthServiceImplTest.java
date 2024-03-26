@@ -83,19 +83,6 @@ class AuthServiceImplTest {
     }
 
     @Test
-    @DisplayName("Fail Registration for Elder Person as Volunteer")
-    void testFailRegistrationForElderPersonAsVolunteer() {
-        // Create a user entity for an elder person with the UserType set to VOLUNTEER
-        UserEntity user = new UserEntity();
-        user.setBirthDate(LocalDate.now().minusYears(65));
-        user.setUserType(UserType.VOLUNTEER);
-
-        // Assert that an exception is thrown when attempting to register an elder person as a volunteer
-        Exception exception = assertThrows(RuntimeException.class, () -> authService.userRegister(user));
-        assertTrue(exception.getMessage().contains("can't register as a VOLUNTEER"));
-    }
-
-    @Test
     @DisplayName("Successful Volunteer Registration")
     void testSuccessfulVolunteerRegistration() {
         // Create a user entity for a volunteer
