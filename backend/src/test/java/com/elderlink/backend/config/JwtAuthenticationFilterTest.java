@@ -79,20 +79,57 @@ class JwtAuthenticationFilterTest {
         assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
         assertTrue(response.getContentAsString().contains("User is Unauthorized."));
     }
+//
+//    @Test
+//    void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+//        String validToken = "valid.token.here";
+//        UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
+//        request.addHeader("Authorization", "Bearer " + validToken);
+//        when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
+//        when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
+//        when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
+//        jwtAuthenticationFilter.doFilter(request, response, filterChain);
+//        verify(userDetailsService, times(1)).loadUserByUsername(anyString());
+//        verify(jwtService, times(1)).isTokenValid(anyString(), any(UserDetails.class));
+//        verify(filterChain, times(1)).doFilter(request, response);
+//    }
+@Test
+void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+    // Arrange
+    String validToken = "valid.token.here";
+    UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
 
-    @Test
-    void whenValidToken_thenAuthenticate() throws IOException, ServletException {
-        // Given a valid token in the Authorization header
-        String validToken = "valid.token.here";
-        UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
-        request.addHeader("Authorization", "Bearer " + validToken);
-        when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
-        when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
-        when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
-        jwtAuthenticationFilter.doFilter(request, response, filterChain);
-        verify(userDetailsService, times(1)).loadUserByUsername(anyString());
-        verify(jwtService, times(1)).isTokenValid(anyString(), any(UserDetails.class));
-        verify(filterChain, times(1)).doFilter(request, response);
-    }
+    // Mock setup
+    when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
+    when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
+    when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
+
+    // Act
+    request.addHeader("Authorization", "Bearer " + validToken);
+    jwtAuthenticationFilter.doFilter(request, response, filterChain);
+
+    // Assert
+    verify(userDetailsService, times(1)).loadUserByUsername("user@example.com");
+    verify(jwtService, times(1)).isTokenValid(validToken, userDetails);
+    verify(filterChain, times(1)).doFilter(request, response);
+}
+
+//<<<<<<< HEAD
+//    @Test
+//    void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+//        // Given a valid token in the Authorization header
+//        String validToken = "valid.token.here";
+//        UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
+//        request.addHeader("Authorization", "Bearer " + validToken);
+//        when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
+//        when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
+//        when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
+//        jwtAuthenticationFilter.doFilter(request, response, filterChain);
+//        verify(userDetailsService, times(1)).loadUserByUsername(anyString());
+//        verify(jwtService, times(1)).isTokenValid(anyString(), any(UserDetails.class));
+//        verify(filterChain, times(1)).doFilter(request, response);
+//    }
+//=======
+//>>>>>>> 3772ccef2b15ff86dd749e135145f87e49ceb4dd
 
 }
