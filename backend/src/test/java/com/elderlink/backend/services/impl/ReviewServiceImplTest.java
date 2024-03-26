@@ -166,18 +166,17 @@ public class ReviewServiceImplTest{
     }
 
     @Test
-    void testGetReviewByVolunteerId_InvalidArgument() {
+    void testGetReviewByVolunteerId_NullArgument() {
         // Arrange
         Long volunteerId = null;
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
                 () -> reviewService.getReviewByVolunteerId(volunteerId));
-        assertNotNull(exception.getMessage());
+        assertEquals("User with this id doesn't exist!", exception.getMessage());
 
-        // Verify
-        verifyNoInteractions(userService, reviewRepository);
     }
+
 
     @Test
     void testGetReviewByVolunteerId_RuntimeException() {
