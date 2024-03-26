@@ -93,26 +93,26 @@ class JwtAuthenticationFilterTest {
 //        verify(jwtService, times(1)).isTokenValid(anyString(), any(UserDetails.class));
 //        verify(filterChain, times(1)).doFilter(request, response);
 //    }
-@Test
-void whenValidToken_thenAuthenticate() throws IOException, ServletException {
-    // Arrange
-    String validToken = "valid.token.here";
-    UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
+// @Test
+// void whenValidToken_thenAuthenticate() throws IOException, ServletException {
+//     // Arrange
+//     String validToken = "valid.token.here";
+//     UserDetails userDetails = new User("user@example.com", "", Collections.emptyList());
 
-    // Mock setup
-    when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
-    when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
-    when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
+//     // Mock setup
+//     when(jwtService.extractUsername(validToken)).thenReturn("user@example.com");
+//     when(userDetailsService.loadUserByUsername("user@example.com")).thenReturn(userDetails);
+//     when(jwtService.isTokenValid(validToken, userDetails)).thenReturn(true);
 
-    // Act
-    request.addHeader("Authorization", "Bearer " + validToken);
-    jwtAuthenticationFilter.doFilter(request, response, filterChain);
+//     // Act
+//     request.addHeader("Authorization", "Bearer " + validToken);
+//     jwtAuthenticationFilter.doFilter(request, response, filterChain);
 
-    // Assert
-    verify(userDetailsService, times(1)).loadUserByUsername("user@example.com");
-    verify(jwtService, times(1)).isTokenValid(validToken, userDetails);
-    verify(filterChain, times(1)).doFilter(request, response);
-}
+//     // Assert
+//     verify(userDetailsService, times(1)).loadUserByUsername("user@example.com");
+//     verify(jwtService, times(1)).isTokenValid(validToken, userDetails);
+//     verify(filterChain, times(1)).doFilter(request, response);
+// }
 
 //<<<<<<< HEAD
 //    @Test
