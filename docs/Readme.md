@@ -1,9 +1,9 @@
-<img src="./Assets/logo.png" width="200" height="100">
+<img src="./Assets/logo.png" width="200" height="75">
 
 
 # ElderLink: A Community-Focused Platform
 
-EElderLink is a community-focused platform designed to bridge the gap between elders in need of assistance and willing volunteers, integrating a credit-based reward system. Initially, elders are allocated credits which serve as a token of appreciation for the volunteers' time and efforts. Upon successfully receiving help, elders transfer credits to volunteers, commensurate with the hours of assistance provided. Elders can easily request help through a simple form, and these requests become visible to a network of volunteers. When a volunteer accepts a request, the elder is notified and given the volunteer's details, offering the elder the option to select the volunteer they feel most comfortable with. This system not only ensures that elders receive the personalized support they need but also incentivizes volunteers by recognizing their valuable contributions, thereby fostering a supportive, engaged, and rewarding community ecosystem.
+ElderLink is a community-focused platform designed to bridge the gap between elders in need of assistance and willing volunteers, integrating a credit-based reward system. Initially, elders are allocated credits which serve as a token of appreciation for the volunteers' time and efforts. Upon successfully receiving help, elders transfer credits to volunteers, commensurate with the hours of assistance provided. Elders can easily request help through a simple form, and these requests become visible to a network of volunteers. When a volunteer accepts a request, the elder is notified and given the volunteer's details, offering the elder the option to select the volunteer they feel most comfortable with. This system not only ensures that elders receive the personalized support they need but also incentivizes volunteers by recognizing their valuable contributions, thereby fostering a supportive, engaged, and rewarding community ecosystem.
 
 ## Table of Contents
 
@@ -450,23 +450,25 @@ These steps ensure a smooth deployment of your backend application.
 At this juncture, we are poised to access the frontend via the designated URL of the virtual machine (VM), thereby enabling seamless communication between the frontend and backend components.
 
 
-## Credits :clap:
+## Credits 
 
 ### Developer Team
 
 | Name                                | Email              |
 | ----------------------------------- | ------------------ |
-| KHUSH PATEL              | kh472243@dal.ca |
-|VYANSI DINESHBHAI DIYORA                     | vy744910@dal.ca  |
-| PIYUSH RAKESHBHAI JOSHI           | py287300@dal.ca   |
-|  RIDDHO BHADRA    | rd588330@dal.ca    |
-| ABHISHEK KAPOOR               | ab210637@dal.ca    |
+| Abhishek Kapoor               | ab210637@dal.ca    |
+| Khush Patel              | kh472243@dal.ca |
+|Vyansi Dineshbhai Diyora                     | vy744910@dal.ca  |
+| Piyush Rakeshbhai Joshi           | py287300@dal.ca   |
+|  Riddho Bhadra    | rd588330@dal.ca    |
+
 
 ### Client Team
 
 | Name                             | Email           |
 | -------------------------------- | --------------- |
-| YASH WALIA | mh478572@dal.ca |
-| RahulPuri                        | rh917388@dal.ca |
-| Samit Mhatre                     | sm904139@dal.ca |
-| Suyash …
+| Yash Walia | yashwalia@dal.ca|
+| Kaushal Vijay Sapara | ks807529@dal.ca|
+| Yukta Rajkumar Gurnani | yk868576@dal.ca|
+| Raj Kamlesh Patel | rj227488@dal.ca|
+| Harsh Maisuri | hr786278@dal.ca|
