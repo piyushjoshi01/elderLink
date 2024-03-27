@@ -1,43 +1,41 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import BlogService from "@/services/blog.service";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
-import { toast } from "react-toastify";
 
 const Blog = () => {
-    const {user} = useUser();
+  const { user } = useUser();
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
   const navigate = useNavigate();
-  
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  
+
   const userID = user?.id;
-  console.log("User in blog : ",user)
+  console.log("User in blog : ", user);
 
-//   const apiObject = {"userId": userID,"title" : title, "body":description}
+  //   const apiObject = {"userId": userID,"title" : title, "body":description}
 
-  const handleChangeTitle = (event:any) => {
+  const handleChangeTitle = (event: any) => {
     setTitle(event.target.value);
   };
 
-  
-  const handleChangeDescription = (event:any) => {
+  const handleChangeDescription = (event: any) => {
     setDescription(event.target.value);
   };
 
-  const submitRequest = (event:any) =>{
+  const submitRequest = (event: any) => {
     event.preventDefault();
-    const apiObject = {"userId": userID,"title" : title, "body":description}
-    BlogService.createBLog(accessToken,apiObject).then((res)=>{
-        navigate("/allblogs");
-        console.log(res);
+    const apiObject = { userId: userID, title: title, body: description };
+    BlogService.createBLog(accessToken, apiObject).then((res) => {
+      navigate("/allblogs");
+      console.log(res);
     });
-}
+  };
 
-    console.log("blogResponse",submitRequest);
+  console.log("blogResponse", submitRequest);
 
   return (
     <>
@@ -45,12 +43,11 @@ const Blog = () => {
       <div className="flex justify-center items-start min-h-screen bg-gray-100 p-6">
         <div className="w-full max-w-lg bg-gray-100 p-6">
           <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
-       Blog Page
+            Blog Page
           </h1>
-         
-          <form className="w-full" >
 
-          <div className="mb-4">
+          <form className="w-full">
+            <div className="mb-4">
               <label
                 htmlFor="description"
                 className="block text-lime-800 font-bold mb-2"
@@ -65,7 +62,7 @@ const Blog = () => {
                 onChange={handleChangeTitle}
               ></textarea>
             </div>
-        
+
             <div className="mb-4">
               <label
                 htmlFor="description"
@@ -81,11 +78,10 @@ const Blog = () => {
                 onChange={handleChangeDescription}
               ></textarea>
             </div>
-      
-        
 
             <div className="mt-8 flex justify-center gap-5">
-              <button onClick={submitRequest}
+              <button
+                onClick={submitRequest}
                 // type="submit"
                 className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
               >
@@ -100,8 +96,6 @@ const Blog = () => {
       <Footer />
     </>
   );
-
-}
-
+};
 
 export default Blog;

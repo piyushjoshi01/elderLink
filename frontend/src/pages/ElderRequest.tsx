@@ -1,6 +1,6 @@
 import ElderRequestCard from "./ElderRequestCard";
 import Navbar from "./Navbar";
-import acceptRequestService from "@/services/acceptRequest.service";
+
 import { useEffect, useState } from "react";
 import AddReviewPage from "./AddReviewPage";
 
@@ -17,7 +17,7 @@ const ElderRequest: React.FC = () => {
 
   const accessToken = localStorage.getItem("accessToken");
   // const currentUserId = localStorage.getItem("id");
-  const id = user?.id;
+
   useEffect(() => {
     fetchRequestsHistory();
   }, []);
