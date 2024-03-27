@@ -30,7 +30,7 @@ const Blog = () => {
     event.preventDefault();
     const apiObject = { userId: userID, title: title, body: description };
     BlogService.createBLog(accessToken, apiObject).then((res) => {
-      navigate("/allblogs");
+      navigate("/blog");
       console.log(res);
     });
   };
@@ -81,7 +81,8 @@ const Blog = () => {
 
             <div className="mt-8 flex justify-center gap-5">
               <button
-                onClick={submitRequest}
+                onClick={submitRequest}{...()=>navigate("/blogs")}
+              
                 // type="submit"
                 className="px-4 py-2 bg-lime-800 text-white rounded-md items-center"
               >

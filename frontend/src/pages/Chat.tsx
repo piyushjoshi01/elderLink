@@ -39,7 +39,7 @@ const Chat = () => {
 
     try {
       const senderResponse = await fetch(
-        `http://localhost:8080/api/messages/${senderId}/${receiverId}`,
+        `http://csci5308vm12.research.cs.dal.ca:8080/api/messages/${senderId}/${receiverId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -54,7 +54,7 @@ const Chat = () => {
       const senderData = await senderResponse.json();
 
       const receiverResponse = await fetch(
-        `http://localhost:8080/api/messages/${receiverId}/${senderId}`,
+        `http://csci5308vm12.research.cs.dal.ca:8080/api/messages/${receiverId}/${senderId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -83,7 +83,7 @@ const Chat = () => {
   const sendMessage = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/messages/create",
+        "http://csci5308vm12.research.cs.dal.ca:8080/api/messages/create",
         {
           method: "POST",
           headers: {
