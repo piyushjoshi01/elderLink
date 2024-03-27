@@ -1,7 +1,7 @@
 stages:
   - build
   - test
-  # - quality
+  - quality
   - publish
   - deploy
 
@@ -47,17 +47,19 @@ test:
     - ./mvnw test
     - echo "Backend Testing Complete"
 
-# quality:
-#   stage: quality
-#   image: openjdk:11
-#   script:
-#     - echo "Compiling the project"
-#     - mkdir smells/
-#     - java -jar $CI_PROJECT_DIR/.gitlab/DesigniteJava.jar -i $CI_PROJECT_DIR -o $CI_PROJECT_DIR/smells/ -d
-#   artifacts:
-#     paths:
-#       - smells/
-#       - $CI_PROJECT_DIR
+quality:
+  stage: quality
+  image: openjdk:11
+  script:
+    - echo "Compiling the project"
+    - cd backend
+    - rm -rf code_smells || true
+    - mkdir code_smells/
+    - java -jar DesigniteJava.jar -i . -o code_smells || true
+  artifacts:
+    paths:
+      - backend/code_smells/*.csv
+    expire_in: 1 week
 
 publish:
   image: docker:latest
@@ -76,19 +78,19 @@ publish:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io
 
     - cd backend/
-    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA .
-    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:latest .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:latest
 
     - cd ..
 
     - cd frontend/
-    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:$CI_COMMIT_SHORT_SHA .
-    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:$CI_COMMIT_SHORT_SHA
+    - docker build -t docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:latest .
+    - docker push docker.io/$DOCKER_HUB_USERNAME/elderlink-frontend:latest
     - cd ..
     - ls -a
+    
   only:
     - develop
-
 
 deploy-backend:
   image: alpine:latest
@@ -100,17 +102,25 @@ deploy-backend:
     - echo "Deploying Backend..."
     - chmod og-rwx $ID_RSA
     - apk update && apk add openssh-client sshpass
+    - sudo apt-get install sshpass || true
+    - which ssh || true
+    - which sshpass || true
+
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PWD docker.io"
-    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:latest"
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f elderlink-backend || true"
-    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name elderlink-backend docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:$CI_COMMIT_SHORT_SHA"
+    - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name elderlink-backend docker.io/$DOCKER_HUB_USERNAME/elderlink-backend:latest"
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker images -a"
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container ls -a"
+
   only:
     - develop
 
 deploy-frontend:
+  image: alpine:latest
   stage: deploy
+  tags:
+    - elderlink
   script:
     - echo "Deploying application..."
     - chmod og-rwx $ID_RSA
@@ -120,7 +130,6 @@ deploy-frontend:
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "rm -r /var/www/html/*" || true
     - sshpass -p "dalw24" scp -o StrictHostKeyChecking=no -r -v frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html
     - echo "Frontend Deplyoment Complete!"
-  tags:
-    - elderlink
+
   only:
     - develop
