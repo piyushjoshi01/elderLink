@@ -1,8 +1,8 @@
-# Deploy in VM
+# Deployment Steps
 
 ## Overview
 
-There are 3 core components of the application
+There are 3 core components of the application:
 1. Backend in Spring Boot
 2. Frontend in React
 3. MySQL Database 
@@ -11,6 +11,7 @@ We have deployed our application on the virtual machine provided to us.
 For backend we had used docker and for frontend we are using nginx as deployment server.
 
 ## Prerequisites
+We need to have an environment with these requirements fulfilled:
 
 - VM with Ubuntu OS
 
