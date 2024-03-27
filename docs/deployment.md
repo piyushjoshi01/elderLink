@@ -15,13 +15,16 @@ We need to have an environment with these requirements fulfilled:
 
 - VM with Ubuntu OS
 
-- [nginx](https://www.nginx.com/) installed in VM
+- [NGINX](https://www.nginx.com/) installed in VM
 
-- Java installed in VM - check the version in prerequisites of development
+- [Docker](https://docs.docker.com/engine/install/) installed in VM 
 
-- fill the appropriate values in [application.properties](./backend/src/main/resources/application.properties)
+- [Java SDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed in VM. 
+    - Note: check the version in prerequisites of development
 
-- fill the appropriate values in [.env](./frontend/.env)
+- Check the values in [application.properties](./backend/src/main/resources/application.properties)
+
+- Check the appropriate values in [.env](./frontend/.env)
 
 ### Frontend deployment steps
 
@@ -31,13 +34,13 @@ We need to have an environment with these requirements fulfilled:
 ```
 server {
     listen 80 default_server;
-	  listen [::]:80 default_server;
+    listen [::]:80 default_server;
     access_log /var/log/nginx/app.log;
     root /var/www/build;
     index index.html index.htm;
     try_files $uri /index.html;
     location / {
-        try_files $uri $uri/ = 404;
+        try_files $uri index.html;
     }
 }
 ```
@@ -48,7 +51,7 @@ server {
 sudo systemctl start nginx
 ```
 
-- once you have done above configuration inside etc/nginx/sites-enabled folder, yoi will be able to access nginx index file.
+- After doing the above configuration inside etc/nginx/sites-enabled folder, you will be able to access nginx index file.
 
 
 - cd into frontend directory and run install command.
@@ -61,9 +64,9 @@ npm install
 - We will run npm build command to get build package of react 
 
 ```bash
-npm build
+npm run build
 ```
-
+<!-- I am here -->
 
 - Once build folder is created we will move build folder to Vm to : /var/www/html, following is command we have used in CI CD pipeline to copy our build folder
 
