@@ -26,65 +26,72 @@ We need to have an environment with these requirements fulfilled:
 
 - Check the appropriate values in [.env](./frontend/.env)
 
+
+---
+
 ### Frontend deployment steps
 
 
 - Following is the nginx configuration in VM : - 
 
-```
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    access_log /var/log/nginx/app.log;
-    root /var/www/build;
-    index index.html index.htm;
-    try_files $uri /index.html;
-    location / {
-        try_files $uri index.html;
-    }
-}
-```
-![Alt text](image.png)
+1.  Install and Start Nginx
+
+    ```bash
+    sudo systemctl start nginx
+    sudo systemctl status nginx
+    ```
+    The above command starts the NGINX service and status shows the following:
+
+    ![Alt text](image-1.png)
+
+    * Once the NGINX server is running, we need to change the configurations inside etc/nginx/sites-enabled folder.
+
+        ```bash
+        server {
+            listen 80 default_server;
+            listen [::]:80 default_server;
+            access_log /var/log/nginx/app.log;
+            root /var/www/build;
+            index index.html index.htm;
+            try_files $uri /index.html;
+            location / {
+                try_files $uri index.html;
+            }
+        }
+        ```
+    * Now your NGINX setup is completed
 
 
-- Start Nginx
+2. Change the Present Workding Directory to frontend directory and run npm install command.
 
-```bash
-sudo systemctl start nginx
-```
+    ```bash
+    cd frontend
+    npm install
+    npm i react-icons
+    ```
 
-- After doing the above configuration inside etc/nginx/sites-enabled folder, you will be able to access nginx index file.
+3. Now, we need to run the npm build command to get build package of react 
 
+    ```bash
+    npm run build
+    ```
 
-- cd into frontend directory and run install command.
+    * This step creates the build folder which has the assets, and the other frontend components like index.html.  
 
-```bash
-cd frontend
-npm install
-```
+4. We will now move this build folder to out assigned VM's directory "/var/www/html". 
 
-- We will run npm build command to get build package of react 
+    * Run the following command to copy the build folder to the VM's NGINX serving directory.
 
-```bash
-npm run build
-```
-<!-- I am here -->
+        ```bash
+        scp -r -o StrictHostKeyChecking=no -i $ID_RSA frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html/
+        ```
+    * After copying all the build files, the NGINX will start serving the index.html on port :80 by default
 
-- Once build folder is created we will move build folder to Vm to : /var/www/html, following is command we have used in CI CD pipeline to copy our build folder
-
-```bash
-scp -r -o StrictHostKeyChecking=no -i $ID_RSA frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html/
-```
-
-- Once it copied all of the build files, it will serve index.html on port :80 by default
-
-
-
-
+---
 
 ### Backend deployment steps
 
-- Go to backend folder 
+- Change the direct to backend folder 
 
 - run mvn package command to generate the war file in target folder
 
