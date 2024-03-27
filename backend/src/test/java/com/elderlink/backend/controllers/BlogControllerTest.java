@@ -1,5 +1,4 @@
 package com.elderlink.backend.controllers;
-
 import com.elderlink.backend.domains.dto.BlogDto;
 import com.elderlink.backend.domains.entities.BlogEntity;
 import com.elderlink.backend.mappers.Mapper;
@@ -87,5 +86,28 @@ class BlogControllerTest {
                 .andExpect(jsonPath("$[0].title").value("Blog Title"));
 
         verify(blogService).getBlogs();
+    }
+    @Test
+    void updateBlog_Success() throws Exception {
+        Long blogId = 1L;
+        BlogDto updateBlogDto = new BlogDto(blogId, "Updated Title", "Updated Body", 1L);
+        BlogEntity updatedBlogEntity = new BlogEntity(blogId, null, "Updated Title", "Updated Body");
+        
+        when(blogMapper.toEntity(any(BlogDto.class))).thenReturn(updatedBlogEntity);
+        when(blogService.updateBlog(eq(blogId), any(BlogEntity.class))).thenReturn(updatedBlogEntity);
+        when(blogMapper.toDto(any(BlogEntity.class))).thenReturn(updateBlogDto);
+
+
+        mockMvc.perform(patch("/api/blog/{blogId}", blogId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateBlogDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.title").value("Updated Title"))
+                .andExpect(jsonPath("$.body").value("Updated Body"));
+
+        verify(blogMapper).toEntity(any(BlogDto.class));
+        verify(blogService).updateBlog(eq(blogId), any(BlogEntity.class));
+        verify(blogMapper).toDto(any(BlogEntity.class));
     }
 }
