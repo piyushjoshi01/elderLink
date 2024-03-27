@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,6 +24,12 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @ExtendWith(MockitoExtension.class)
 public class RequestServiceImplTest {
@@ -43,14 +50,13 @@ public class RequestServiceImplTest {
     private RequestEntity requestEntity;
 
     @BeforeEach
-    void setUp() {
-        // Initialize common objects used across tests
-        user = new UserEntity();
-        user.setId(1L); // Example user ID
-
-        requestEntity = new RequestEntity();
-        requestEntity.setUser(user);
+    void setUpSecurityContext() {
+        Authentication authentication = new UsernamePasswordAuthenticationToken("user@example.com", "password", Collections.emptyList());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
     }
+
 
     @Test
     void createRequest_Successful() {
@@ -163,8 +169,76 @@ public class RequestServiceImplTest {
 
         assertEquals(errorMessage, thrown.getMessage());
         verify(requestRepository, times(1)).existsById(requestId);
-        // Assuming you have a way to verify logger calls, verify the error logging as well
     }
 
+    @Test
+    void getAllRequests_Successful() {
+        List<RequestEntity> expectedRequests = Collections.singletonList(requestEntity);
+        when(requestRepository.findAll()).thenReturn(expectedRequests);
+
+        List<RequestEntity> allRequests = requestService.getAllRequests();
+
+        assertNotNull(allRequests);
+        assertEquals(expectedRequests.size(), allRequests.size());
+        assertEquals(expectedRequests, allRequests);
+        verify(requestRepository, times(1)).findAll();
+    }
+
+    @Test
+    void updateRequest_Successful_WithAuthorization() {
+        Long requestId = 1L;
+        RequestEntity existingRequest = requestEntity; // Assuming requestEntity is already initialized in @BeforeEach
+        existingRequest.setUser(user); // Ensure the request is associated with the user
+        // Assuming user is the authenticated user initialized in @BeforeEach
+        user.setEmail("user@example.com"); // Email must match the one set in Authentication
+
+        // Set up the SecurityContext to simulate the authenticated user
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), "password", Collections.emptyList());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(requestRepository.findById(requestId)).thenReturn(Optional.of(existingRequest));
+        doNothing().when(isUserAuthorized).checkUserAuthority(anyLong()); // Simulate successful authorization
+        when(requestRepository.save(any(RequestEntity.class))).thenReturn(existingRequest);
+
+        RequestEntity result = requestService.updateRequest(requestId, existingRequest);
+
+        assertNotNull(result);
+        verify(requestRepository, times(1)).save(existingRequest);
+        verify(isUserAuthorized).checkUserAuthority(user.getId()); // Ensure authorization check was simulated
+    }
+
+
+    @Test
+    void updateRequest_Failed_Authorization() {
+        Long requestId = 1L;
+        RequestEntity toBeUpdated = requestEntity; // assuming initialized in @BeforeEach
+
+        when(requestRepository.findById(requestId)).thenReturn(Optional.of(toBeUpdated));
+        doThrow(new UserIsNotAuthorizedException("You are not authorized to perform this operation!"))
+                .when(isUserAuthorized).checkUserAuthority(anyLong()); // Simulate failed authorization
+
+        assertThrows(UserIsNotAuthorizedException.class, () -> requestService.updateRequest(requestId, toBeUpdated));
+
+        verify(requestRepository, never()).save(any(RequestEntity.class));
+        verify(isUserAuthorized).checkUserAuthority(user.getId()); // Ensure authorization check was attempted
+    }
+
+
+    @Test
+    void updateRequest_ChecksAuthorization() {
+        Long requestId = 1L;
+        RequestEntity toUpdate = new RequestEntity();
+        toUpdate.setUser(user);
+
+        when(requestRepository.findById(requestId)).thenReturn(Optional.of(requestEntity));
+        doNothing().when(isUserAuthorized).checkUserAuthority(anyLong());
+        when(requestRepository.save(any(RequestEntity.class))).thenReturn(toUpdate);
+
+        requestService.updateRequest(requestId, toUpdate);
+
+        verify(isUserAuthorized, times(1)).checkUserAuthority(anyLong());
+    }
 
 }

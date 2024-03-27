@@ -4,6 +4,7 @@ import com.elderlink.backend.domains.dto.CreditTransactionDto;
 import com.elderlink.backend.domains.entities.CreditTransactionEntity;
 import com.elderlink.backend.mappers.Mapper;
 import com.elderlink.backend.services.CreditTransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,4 +79,5 @@ class CreditTransactionsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].recipientId").value(recipientId));
     }
+
 }

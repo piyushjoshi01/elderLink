@@ -92,7 +92,7 @@ class BlogControllerTest {
         Long blogId = 1L;
         BlogDto updateBlogDto = new BlogDto(blogId, "Updated Title", "Updated Body", 1L);
         BlogEntity updatedBlogEntity = new BlogEntity(blogId, null, "Updated Title", "Updated Body");
-        
+
         when(blogMapper.toEntity(any(BlogDto.class))).thenReturn(updatedBlogEntity);
         when(blogService.updateBlog(eq(blogId), any(BlogEntity.class))).thenReturn(updatedBlogEntity);
         when(blogMapper.toDto(any(BlogEntity.class))).thenReturn(updateBlogDto);
