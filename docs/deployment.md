@@ -2,7 +2,10 @@
 
 ## Overview
 
-Mainly there are 3 components - Backend (Spring Boot), Frontend (React) and Database (MySQL).
+There are 3 core components of the application
+1. Backend in Spring Boot
+2. Frontend in React
+3. MySQL Database 
 
 We have deployed our application on the virtual machine provided to us.
 For backend we had used docker and for frontend we are using nginx as deployment server.
