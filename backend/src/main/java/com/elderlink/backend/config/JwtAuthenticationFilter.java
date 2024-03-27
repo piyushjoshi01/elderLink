@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    private static final int  accessTokenStartInd = 7;
     @Autowired
     private JwtService jwtService;
 
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     //extract jwtToken
-    jwtToken = authHeader.substring(7);
+    jwtToken = authHeader.substring(accessTokenStartInd);
     //extract userEmail from jwtToken also catch error if the token is INVALID or EXPIRED
     try{
         userEmail = jwtService.extractUsername(jwtToken);

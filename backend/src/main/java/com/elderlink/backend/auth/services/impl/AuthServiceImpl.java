@@ -24,6 +24,9 @@ import java.time.Period;
 public class AuthServiceImpl implements AuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private static final int ageOfConsent = 18;
+    private static final int retirementAge = 60;
+    private static final int  multiPlicationFactor = 10;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,9 +56,7 @@ public class AuthServiceImpl implements AuthService {
             UserType userType = null;
 
             Period period = Period.between(userReq.getBirthDate(), LocalDate.now());
-            int ageOfConsent = 18;
-            int retirementAge = 60;
-            int multiPlicationFactor = 10;
+
             int userAge = period.getYears();
             int pointsToAllocate = (userAge - ageOfConsent ) * multiPlicationFactor;
 
