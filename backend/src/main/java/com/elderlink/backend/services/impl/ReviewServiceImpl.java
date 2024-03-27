@@ -19,7 +19,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService{
 
     Logger logger = LoggerFactory.getLogger (ReviewService.class);
-
+    public static final int fiverating = 5;
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -57,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService{
 
             int rating = reviewEntity.getRating();
 
-            int fiverating = 5;
+
             if(rating < 1 || rating > fiverating){
                 throw new IllegalArgumentException("Rating value must be between 1 and 5");
             }

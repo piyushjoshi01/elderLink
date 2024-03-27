@@ -28,7 +28,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class UsersController {
-
+     public static final int accessTokenStartInd = 7;
     @Autowired
     private UserRepository userRepository;
 
@@ -55,7 +55,7 @@ public class UsersController {
     ){
         try{
             //Extracting the accessToken from header as token starts with "Bearer "
-            int accessTokenStartInd = 7;
+
             String accessToken = authHeader.substring(accessTokenStartInd);
             String email = jwtService.extractUsername(accessToken);
             if(!userRepository.existsByEmail(email)){
