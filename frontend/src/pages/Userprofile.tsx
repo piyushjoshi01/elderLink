@@ -142,9 +142,9 @@ const UserProfile = () => {
       <Navbar />
 
       <div className="flex justify-center items-center min-h-screen bg-gray-100 p-6">
-        <div className="w-full max-w-lg bg-gray-100 p-6">
-          <h1 className="text-3xl font-bold tracking-wider text-lime-800 mb-4">
-            User Profile{" "}
+        <div className="w-full w-full max-w-lg bg-white p-6 border border-gray-200 shadow-md rounded-lg">
+          <h1 className="text-3xl font-bold text-center tracking-wider text-lime-800 mb-4">
+            User Profile
           </h1>
           <button
             onClick={handleEdit}

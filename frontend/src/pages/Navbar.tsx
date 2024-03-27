@@ -40,16 +40,18 @@ function Navbar() {
     links = [
       { name: "Home", route: "/" },
       { name: "About Us", route: "/Aboutus" },
-      { name: "FAQs", route: "/faq" },
+      { name: "Blog", route: "/blog" },
       { name: "Requests", route: "/volunteerrequest" },
+     
     ];
   } else if (user?.userType === "ELDER_PERSON") {
     links = [
       { name: "Home", route: "/" },
       { name: "About Us", route: "/Aboutus" },
-      { name: "FAQs", route: "/faq" },
+      { name: "Blog", route: "/blog" },
       { name: "PostHelp", route: "/posthelp" },
       { name: "Volunteer", route: "/elderrequest" },
+      { name: "Credits ", route: "/credittransfer"}
     ];
   }
   const listItems = links.map((link, index) => (

@@ -1,8 +1,11 @@
 import  { useEffect, useState } from 'react';
 import BlogCard from './BlogCard';
 import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function Addblog() {
+    const navigate = useNavigate();
+
     const [blogData, setBlogData] = useState([]);
 
     useEffect(() => {
@@ -36,9 +39,10 @@ function Addblog() {
        <>
         <Navbar/>
         <div className="  p-6 ">
-    <h2 className="text-2xl text-lime-800 font-bold mb-4 font-bold tracking-wider text-center">
-        All Blogs
-    </h2>
+  
+    <button onClick={() => navigate("/addblogs")} className = "w-40 px-5 py-3 text-sm  text-white capitalize transition-colors duration-300 transform bg-lime-800 rounded-lg" >
+        Add Yours
+    </button>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {(blogData === undefined || blogData.length === 0) ? (
             <div>No blogs</div>
