@@ -93,4 +93,21 @@ public class UsersController {
             return ResponseEntity.ok(userMapper.toDto(updatedUser));
     }
 
+    /**
+     * Retrieves a user by their email.
+     *
+     * @param userEmail The email of the user to retrieve.
+     * @return ResponseEntity containing the user DTO if found, otherwise returns NOT_FOUND status.
+     */
+    @GetMapping("/user/{userEmail}")
+    public ResponseEntity<UserDto> getUser(
+            @Valid @PathVariable("userEmail") String userEmail
+    ){
+        if(!userRepository.existsByEmail (userEmail)){
+            return ResponseEntity.status (HttpStatus.NOT_FOUND).build ();
+        }
+        Optional<UserEntity> user = userRepository.findByEmail (userEmail);
+        return ResponseEntity.status (HttpStatus.OK).body (userMapper.toDto (user.get ()));
+    }
+
 }
