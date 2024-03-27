@@ -44,6 +44,8 @@ server {
     }
 }
 ```
+![Alt text](image.png)
+
 
 - Start Nginx
 
