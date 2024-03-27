@@ -42,10 +42,9 @@
 // }
 
 // export default Addblog;
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BlogCard from './BlogCard';
 import Navbar from './Navbar';
-import Footer from '@/components/ui/Footer';
 
 function Addblog() {
     const [blogData, setBlogData] = useState([]);

@@ -1,10 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 import BlogService from "@/services/blog.service";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
-import { toast } from "react-toastify";
+
 
 const Blog = () => {
     const {user} = useUser();
