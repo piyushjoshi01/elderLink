@@ -110,4 +110,17 @@ public class UsersController {
         return ResponseEntity.status (HttpStatus.OK).body (userMapper.toDto (user.get ()));
     }
 
+    @GetMapping("/getUser/{userId}")
+    public ResponseEntity<UserDto> getUserById(
+            @Valid @PathVariable("userId") Long userId
+    ){
+        if(!userRepository.existsById (userId)){
+            return ResponseEntity.status (HttpStatus.NOT_FOUND).build ();
+        }
+        Optional<UserEntity> user = userRepository.findById (userId);
+
+        return ResponseEntity.status (HttpStatus.OK).body (userMapper.toDto (user.get ()));
+
+    }
+
 }
