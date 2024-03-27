@@ -217,14 +217,14 @@ All users begin by registering on the platform with their basic information. Aft
 ## Registration Page
 - Here User has to fill all the necessary details for successful registration for the website.
 <center>
-<img src="./Assets/Register.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/Register.png" alt="Registration Page" >
 </center>
 
 ## Login Page
 - After the successful register the user can login the website.
 
 <center>
-<img src="./Assets/Login.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/Login.png" alt="Registration Page">
 </center>
 
 
@@ -232,7 +232,7 @@ All users begin by registering on the platform with their basic information. Aft
 - Elder Person in need will require to fill out the form to post the help.
 
 <center>
-<img src="./Assets/PostHelp.png" alt="Registration Page" width="800 px" height="400 px">
+<img src="./Assets/PostHelp.png" alt="Registration Page">
 </center>
 
 ## About Us
@@ -240,7 +240,7 @@ All users begin by registering on the platform with their basic information. Aft
 - The About Us page serves as a platform to introduce ElderLink to visitors, showcase our mission and values, and highlight the contributions of our team members and satisfied clients.
 
 <center>
-<img src="./Assets/Aboutus.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/Aboutus.png" alt="Registration Page">
 </center>
 
 
@@ -248,14 +248,14 @@ All users begin by registering on the platform with their basic information. Aft
 - Here Both the elderperson and the volunteer can post the blog.
 
 <center>
-<img src="./Assets/Blog.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/Blog.png" alt="Registration Page">
 </center>
 
 ## User Profile
 - It provides users with the ability to view and edit their profile information such as name, email, phone number, address, and more.
 
 <center>
-<img src="./Assets/UserProfile.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/UserProfile.png" alt="Registration Page" >
 </center>
 
 >
@@ -265,21 +265,21 @@ All users begin by registering on the platform with their basic information. Aft
 - Here all the request which is posted by he elderperson will be shown to the volunteers and they can accept.
 
 <center>
-<img src="./assets/Volunteer.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./assets/Volunteer.png" alt="Registration Page" >
 </center>
 
 ## Intrested Volunteers
 - Elderperson will be able to see all the volunteers who are intrested to help. 
 
 <center>
-<img src="./assets/ElderRequest.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./assets/ElderRequest.png" alt="Registration Page" >
 </center>
 
 ## Credit Transfer
 - If the elderperson wants to transfer the credits to their beneficiary.
 
 <center>
-<img src="./Assets/Credittransfer.png" alt="Registration Page" width="800 px" height="550 px">
+<img src="./Assets/Credittransfer.png" alt="Registration Page" >
 </center>
 
 
@@ -466,7 +466,7 @@ At this juncture, we are poised to access the frontend via the designated URL of
 
 | Name                             | Email           |
 | -------------------------------- | --------------- |
-| Mohammed Noor Ul Hasan Kothaliya | mh478572@dal.ca |
+| YASH WALIA | mh478572@dal.ca |
 | RahulPuri                        | rh917388@dal.ca |
 | Samit Mhatre                     | sm904139@dal.ca |
 | Suyash …
