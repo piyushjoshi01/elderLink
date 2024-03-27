@@ -49,9 +49,7 @@ class RequestService {
     });
   }
 
-  
-  public async updateRequestByID(accessToken: string, id?: Number, data?: any)
-   {
+  public async updateRequestByID(accessToken: string, id?: Number, data?: any) {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -63,81 +61,83 @@ class RequestService {
     });
   }
 
-  public async getRequestById(accessToken: string|null,id?:Number|null):Promise<any>{
+  public async getRequestById(
+    accessToken: string | null,
+    id?: Number | null
+  ): Promise<any> {
     console.log("token", accessToken);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    
+
     const url = `${this.ENDPOINT}/${id}`;
     return request.get<any>(url, config).then((res) => {
       console.log("from user service", res);
       return res;
     });
   }
-  public async getRequest(accessToken: string|null):Promise<any>{
+  public async getRequest(accessToken: string | null): Promise<any> {
     console.log("token", accessToken);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    
+
     const url = `${this.ENDPOINT}`;
     return request.get<any>(url, config).then((res) => {
       console.log("from Request service", res);
       return res;
     });
   }
-  public async updateById(accessToken: string,id?: Number,data?:any): Promise<any> {
+  public async updateById(
+    accessToken: string,
+    id?: Number,
+    data?: any
+  ): Promise<any> {
     console.log("token", accessToken);
-    console.log(data,'data')
-    let endObj:any="";
+    console.log(data, "data");
+    let endObj: any = "";
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const url = `${this.ENDPOINT}/users/${id}`;
-    console.log({url});
-    
-    await request.patch<any>(url,data, config).then((res) => {
+    console.log({ url });
+
+    await request.patch<any>(url, data, config).then((res) => {
       console.log("from update service", res);
-      endObj= res.data;
+      endObj = res.data;
     });
     return endObj;
   }
-  
-  public async getDeleteById(accessToken: string,id?:Number):Promise<any>{
-    console.log("token", accessToken,id);
+
+  public async getDeleteById(accessToken: string, id?: Number): Promise<any> {
+    console.log("token", accessToken, id);
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     };
     const url = `${this.ENDPOINT}/${id}`;
-    return request.delete<any>(url,config).then((res) => {
+    return request.delete<any>(url, config).then((res) => {
       console.log("from ", res.data);
       return res;
     });
   }
-  public async getById(accessToken: string|null, id: number|null){
-    const config ={
+  public async getById(accessToken: string | null, id: number | null) {
+    const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-      }
-
-    }
-      const url = `${this.ENDPOINT}/requestId/${id}`;
+      },
+    };
+    const url = `${this.ENDPOINT}/requestId/${id}`;
     const res = await request.get<any>(url, config);
     return res.data;
   }
-  
-
 }
-
-
 
 export default new RequestService();

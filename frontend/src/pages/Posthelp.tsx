@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Footer from "../components/ui/Footer";
 
@@ -9,41 +9,10 @@ import { useUser } from "@/context/UserContext";
 
 const Posthelp = () => {
   const { user } = useUser();
-  // const [userId, setUserId] = useState();
+
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken") || "Fallback Token";
-
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     console.log("No access token available");
-  //     return;
-  //   }
-  //   userService
-  //     .getById(accessToken)
-  //     .then((res) => {
-  //       // setUserId(res.data.id);
-  //       console.log(res.data);
-  //       const newUser = new UserModel();
-  //       newUser.firstName = res.data.firstName;
-  //       newUser.lastName = res.data.lastName;
-  //       newUser.birthDate = res.data.birthDate;
-  //       newUser.email = res.data.email;
-  //       newUser.phone = res.data.phone;
-  //       newUser.address = res.data.address;
-  //       newUser.password = res.data.password;
-  //       newUser.userType = res.data.userType;
-  //       newUser.creditBalance = res.data.creditBalance;
-
-  //       localStorage.setItem("id", res.data.id);
-
-  //       setUser(newUser);
-  //       console.log("qwew", user.address);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to fetch user details", error);
-  //     });
-  // }, [localStorage.getItem("accessToken")]);
 
   const submitRequest = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

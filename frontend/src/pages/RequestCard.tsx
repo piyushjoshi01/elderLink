@@ -16,7 +16,7 @@ const RequestCard = ({ request }: any) => {
 
   useEffect(() => {
     userData();
-  }, []);
+  }, [user?.id, accessToken]);
 
   const userData = () => {
     userService.getById(accessToken, request.userId).then((res) => {

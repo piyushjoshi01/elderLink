@@ -32,6 +32,35 @@ class UserService {
       return res;
     });
   }
+  public async getUserbyEmail(
+    accessToken: String | null,
+    userEmail?: any | null
+  ): Promise<any> {
+    const url = `${this.ENDPOINT}/user/${userEmail}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    return request.get<any>(url, config).then((res) => {
+      return res.data;
+    });
+  }
+
+  public async inheritCredit(
+    accessToken: string | null,
+    data: any | null
+  ): Promise<any> {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const url = `${this.ENDPOINT}/beneficiary/create`;
+    return request.post<any>(url, data, config).then((res) => {
+      return res;
+    });
+  }
 
   public async updateById(
     accessToken: string,

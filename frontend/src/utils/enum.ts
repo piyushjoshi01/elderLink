@@ -14,4 +14,5 @@ export enum RoutePaths {
   Review = "/review",
   RatingStar = "/addreviewpage",
   Chat = "/Chat",
+  Inheritance = "/credittransfer",
 }

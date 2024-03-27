@@ -19,19 +19,43 @@ const ElderRequest: React.FC = () => {
   // const currentUserId = localStorage.getItem("id");
   const id = user?.id;
   useEffect(() => {
-    fetchAcceptedRequestData();
+    fetchRequestsHistory();
   }, []);
   console.log(user?.userType);
-  console.log(user?.id);
+  console.log("Hello", user?.id);
 
-  const fetchAcceptedRequestData = () => {
-    console.log("Id insdie eldeReqeust: ", id);
-    acceptRequestService.getAcceptedRequest(accessToken, id).then((res) => {
-      console.log("res ", res);
-
-      setAcceptedRequestData(res);
-    });
+  const fetchRequestsHistory = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/requestsHistory/requestsByElderPersonId/${user?.id}`,
+        {
+          method: "GET", // This is the default, but it's good to be explicit
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Assuming a Bearer token
+            "Content-Type": "application/json", // Depending on the API requirements
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+      const data = await response.json();
+      setAcceptedRequestData(data);
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
+
+  // const fetchAcceptedRequestData = () => {
+  //   console.log("Id insdie eldeReqeust: ", id);
+  //   acceptRequestService
+  //     .getAcceptedRequest(accessToken, user?.id)
+  //     .then((res) => {
+  //       console.log("res ", res);
+
+  //       setAcceptedRequestData(res);
+  //     });
+  // };
 
   const handleAccept = (id: string) => {
     setAcceptedRequestId(id); // Set the ID of the accepted request
