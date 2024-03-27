@@ -23,7 +23,7 @@ function Navbar() {
     const refreshToken = localStorage.getItem("refreshToken");
     resetUser();
     authService.logout(refreshToken || "").then((res) => {
-      // console.log(res);
+      console.log(res);
     });
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");

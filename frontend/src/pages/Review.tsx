@@ -11,12 +11,12 @@ const VolunteerDetails = () => {
   const navigate = useNavigate();
   const { volunteerId } = useParams();
 
-  // const userIdAsNumber: number | undefined = parseInt(userId, 10);
+
   const accessToken = localStorage.getItem("accessToken");
 
   const [user, setUser] = useState<UserModel | null>();
 
-  // console.log("Review Page", request.volunteerId);
+
   useEffect(() => {
     userData();
   }, []);
@@ -32,9 +32,7 @@ const VolunteerDetails = () => {
     navigate("/Chat");
   };
 
-  // if (!user) {
-  //   return <div></div>;
-  // }
+
 
   return (
     <>
