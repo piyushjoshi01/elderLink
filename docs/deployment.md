@@ -29,40 +29,42 @@ We need to have an environment with these requirements fulfilled:
 
 ---
 
-### Frontend deployment steps
+## Frontend Deployment Steps
 
+### NGINX Configuration
 
-- Following is the nginx configuration in VM : - 
-
-1.  Install and Start Nginx
+1. **Install and Start NGINX:**
 
     ```bash
     sudo systemctl start nginx
     sudo systemctl status nginx
     ```
-    The above command starts the NGINX service and status shows the following:
 
-    ![Alt text](image-1.png)
+    Upon successful execution, NGINX starts running. The status should reflect the active state.
 
-    * Once the NGINX server is running, we need to change the configurations inside etc/nginx/sites-enabled folder.
+    ![NGINX Status](image-1.png)
 
-        ```bash
-        server {
-            listen 80 default_server;
-            listen [::]:80 default_server;
-            access_log /var/log/nginx/app.log;
-            root /var/www/build;
-            index index.html index.htm;
-            try_files $uri /index.html;
-            location / {
-                try_files $uri index.html;
-            }
+    *After starting NGINX, configuration adjustments are needed within the `/etc/nginx/sites-enabled` directory.*
+
+    ```nginx
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        access_log /var/log/nginx/app.log;
+        root /var/www/build;
+        index index.html index.htm;
+        try_files $uri /index.html;
+        location / {
+            try_files $uri index.html;
         }
-        ```
-    * Now your NGINX setup is completed
+    }
+    ```
 
+    *With these configurations, the NGINX setup is completed.*
 
-2. Change the Present Workding Directory to frontend directory and run npm install command.
+### Deployment Steps
+
+2. **Change Working Directory to Frontend:**
 
     ```bash
     cd frontend
@@ -70,106 +72,87 @@ We need to have an environment with these requirements fulfilled:
     npm i react-icons
     ```
 
-3. Now, we need to run the npm build command to get build package of react 
+3. **Run npm build Command:**
 
     ```bash
     npm run build
     ```
 
-    * This step creates the build folder which has the assets, and the other frontend components like index.html.  
+    *This command generates the build folder containing assets and other frontend components, including index.html.*
 
-4. We will now move this build folder to out assigned VM's directory "/var/www/html". 
+4. **Move Build Folder to VM's Directory:**
 
-    * Run the following command to copy the build folder to the VM's NGINX serving directory.
+    *Copy the build folder to the NGINX serving directory `/var/www/html/` on the assigned VM.*
 
-        ```bash
-        scp -r -o StrictHostKeyChecking=no -i $ID_RSA frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html/
-        ```
-    * After copying all the build files, the NGINX will start serving the index.html on port :80 by default
+    ```bash
+    scp -r -o StrictHostKeyChecking=no -i $ID_RSA frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html/
+    ```
+
+    *Once the files are copied, NGINX will commence serving the index.html file on port 80 by default.*
+
+These steps ensure a seamless deployment of the frontend application, leveraging NGINX for web serving.
 
 ---
 
-### Backend deployment steps
+# Backend Deployment Steps
 
-- Change the direct to backend folder 
+Follow these steps to deploy the backend of your application:
 
-- run mvn package command to generate the war file in target folder
+1. **Navigate to Backend Directory:**
 
-- Build the docker container with provided dockerfile, you can use latest image
+    Change your current directory to the backend folder where your project resides.
 
-```bash
-docker build -t docker.io/tanuj3920 ecopick-backend:$CI_COMMIT_SHORT_SHA -f ./Dockerfile .
-```
+2. **Generate Jar File:**
 
-- Push the docker container
+    Run the following command to generate the JAR file in the target folder:
 
-```bash
-docker push docker.io/tanuj3920/ecopick-backend:$CI_COMMIT_SHORT_SHA
-```
+    ```bash
+    ./mvnw clean package
+    ```
 
-- connect remote VM using SSH
+3. **Build Docker Container:**
 
-- remove the docker container name : "ecopick-backend"
+    Build the Docker container using the provided Dockerfile. You can utilize the latest image.
 
-```bash
-docker container rm -f ecopick-backend
-```
+    ```bash
+    docker build -t docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest .
+    ```
 
-- Run the docker container in VM : - 
+4. **Push Docker Container:**
 
-```bash
-docker run -d -p 8080:8080 --name ecopick-backend docker.io/tanuj3920/ecopick-backend:$CI_COMMIT_SHORT_SHA
-```
+    Push the Docker container to your Docker Hub repository.
 
-- Once the above command is run successfully, it will be accessible at 8080 port number. 
+    ```bash
+    docker push docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest
+    ```
 
-# Usage Scenario
+5. **Connect to Remote VM:**
 
-### For Customers:
+    Establish an SSH connection to the remote VM where you intend to deploy the backend.
 
-1. **Registration and Profile Setup:**
+6. **Remove Existing Docker Container:**
 
-- Consumers can sign up for an account by providing basic information such as First name, Last name and Email.
+    If there is a previous instance of the Docker container with the name "elderlink-backend," remove it using the following command:
 
-2. **Exploring Farm and Farm-Products:**
+    ```bash
+    docker container rm -f elderlink-backend
+    ```
 
-- Upon successful registration, Customers can explore the farms listed on the platform.
-- Consumers can also browse through a wide range of farm-fresh products listed on the platform
-- They can view detailed product descriptions, including images, pricing, and farmer information.
+7. **Run Docker Container on VM:**
 
-3. **Purchasing Products:**
+    Start the Docker container on the VM by executing the following command:
 
-- Customer can select desired products, quantity and proceed to checkout.
+    ```bash
+    docker run -d -p 8080:8080 --name elderlink-backend docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest
+    ```
 
-4. **Subscription Service:**
+8. **Access Application:**
 
-- Customer interested in regular deliveries of their favorite products can subscribe to them.
-- They can customize subscription preferences such as delivery frequency (Weekdays, Weekends or Preferred days).
-- They can view and update their subscription information as needed.
+    Upon successful execution of the above command, your application will be accessible at port 8080.
 
-5. **Wallet Service:**
+These steps ensure a smooth deployment of your backend application.
 
-- Customer have access to a digital wallet service integrated into the platform.
-- They can deposit funds into their wallet and use the funds while purchasing the products.
-- They can also view thier wallet history containing list of transactions.
 
-### For Farmers:
 
-1. **Registration and Farm Setup:**
-
-- Consumers can sign up for an account by providing basic information such as First name, Last name and Email.
-- Upon successful registration, they can set up their farm profile, including Images and Location.
-
-2. **Listing Farm Products:**
-
-- Farmers can add their farm products to the platform, providing detailed descriptions, images, pricing, and stock information.
-- They can manage their product inventory and update listings as needed.
-- They can view the list of subscribed products.
-
-### For Admin:
-
-1. **Admin Service**
-
-- Upon successful login with Admin credential, admin can view the Admin Dashboard.
-- On the Admin Dashboard page, they can review statistics, such as number of farms, number of products, total sales, etc.
-- They can also track the Order sales and Subscription sales.
+### **Conclusion:**
+At this juncture, we are poised to access the frontend via the designated URL of the virtual machine (VM), thereby enabling seamless communication between the frontend and backend components.
