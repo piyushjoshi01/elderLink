@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -103,6 +104,18 @@ public class RequestsController {
                         .map (requestMapper::toDto)
                         .collect(Collectors.toList())
         );
+    }
+
+    /**
+     * Retrieves a request by its ID.
+     *
+     * @param requestId The ID of the request to retrieve.
+     * @return ResponseEntity containing the RequestDto if found with OK status, otherwise NOT_FOUND status.
+     */
+    @GetMapping("/requestId/{requestId}")
+    public ResponseEntity<RequestDto> getRequestsByRequestId(@Valid @PathVariable Long requestId){
+        Optional<RequestEntity> request = requestService.findRequestById(requestId);
+        return ResponseEntity.status (HttpStatus.OK).body (requestMapper.toDto (request.get ()));
     }
 
 
