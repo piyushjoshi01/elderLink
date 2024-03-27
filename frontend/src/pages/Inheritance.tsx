@@ -14,21 +14,34 @@ const Inheritance = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userEmail = email;
-    userService.getUserbyEmail(accessToken, userEmail).then((res) => {
-      localStorage.setItem("id", res.id);
-      console.log(res);
-    });
-    const id = parseInt(localStorage.getItem("id") as any);
+    userService
+      .getUserbyEmail(accessToken, userEmail)
+      .then((res) => {
+        inheritCredit(res.id);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error("Failed to get user by email", error);
+        toast.error("This user does not exist");
+      });
+  };
 
+  const inheritCredit = (recipientId: string) => {
     const data = {
-      recipientId: id,
+      recipientId: recipientId,
       senderId: user?.id,
       hoursCredited: 5,
     };
-    userService.inheritCredit(accessToken, data).then((res) => {
-      console.log(res);
-      toast.success(`All Credits Transfered To The Volunteer`);
-    });
+    userService
+      .inheritCredit(accessToken, data)
+      .then((res) => {
+        console.log(res);
+        toast.success(`All Credits Transferred To The Volunteer`);
+      })
+      .catch((error) => {
+        console.error("Error transferring credits", error);
+        toast.error("Error transferring credits");
+      });
   };
 
   return (
