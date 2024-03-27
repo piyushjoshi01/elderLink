@@ -14,7 +14,7 @@ function Addblog() {
 
     const getAllBlogs = () => {
         const accessToken = localStorage.getItem("accessToken");
-        fetch("http://localhost:8080/api/blog/getAll", {
+        fetch("http://csci5308vm12.research.cs.dal.ca:8080/api/blog/getAll", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${accessToken}`
