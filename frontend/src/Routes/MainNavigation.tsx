@@ -15,6 +15,9 @@ import volunteerDetails from "@/pages/Review";
 import AddReviewPage from "@/pages/AddReviewPage";
 import Chat from "@/pages/Chat";
 import Inheritance from "@/pages/Inheritance";
+import Blog from "@/pages/Blog";
+import Aboutus from "@/pages/AboutUs";
+import Addblog from "@/pages/AddBlog";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -33,6 +36,9 @@ const AppRoutes: React.FC = () => {
       <Route path={RoutePaths.RatingStar} Component={AddReviewPage} />
       <Route path={RoutePaths.Chat} Component={Chat} />
       <Route path={RoutePaths.Inheritance} Component={Inheritance} />
+      <Route path={RoutePaths.Blog} Component={Addblog} />
+      <Route path={RoutePaths.Aboutus} Component={Aboutus} />
+      <Route path={RoutePaths.AddBLog} Component={Blog} />
     </Routes>
   );
 };

@@ -6,6 +6,7 @@ import AddReviewPage from "./AddReviewPage";
 
 import Footer from "@/components/ui/Footer";
 import { useUser } from "@/context/UserContext";
+import acceptRequestService from "@/services/acceptRequest.service";
 
 const ElderRequest: React.FC = () => {
   const { user } = useUser();
@@ -17,45 +18,45 @@ const ElderRequest: React.FC = () => {
 
   const accessToken = localStorage.getItem("accessToken");
   // const currentUserId = localStorage.getItem("id");
-  // const id = user?.id;
+
   useEffect(() => {
-    fetchRequestsHistory();
+    fetchAcceptedRequestData();
   }, []);
   console.log(user?.userType);
   console.log("Hello", user?.id);
 
-  const fetchRequestsHistory = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/requestsHistory/requestsByElderPersonId/${user?.id}`,
-        {
-          method: "GET", // This is the default, but it's good to be explicit
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Assuming a Bearer token
-            "Content-Type": "application/json", // Depending on the API requirements
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-      const data = await response.json();
-      setAcceptedRequestData(data);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
-
-  // const fetchAcceptedRequestData = () => {
-  //   console.log("Id insdie eldeReqeust: ", id);
-  //   acceptRequestService
-  //     .getAcceptedRequest(accessToken, user?.id)
-  //     .then((res) => {
-  //       console.log("res ", res);
-
-  //       setAcceptedRequestData(res);
-  //     });
+  // const fetchRequestsHistory = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:8080/api/requestsHistory/requestsByElderPersonId/${user?.id}`,
+  //       {
+  //         method: "GET", // This is the default, but it's good to be explicit
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`, // Assuming a Bearer token
+  //           "Content-Type": "application/json", // Depending on the API requirements
+  //         },
+  //       }
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error("Something went wrong!");
+  //     }
+  //     const data = await response.json();
+  //     setAcceptedRequestData(data);
+  //   } catch (error: any) {
+  //     console.log(error.message);
+  //   }
   // };
+
+  const fetchAcceptedRequestData = () => {
+   
+    acceptRequestService
+      .getAcceptedRequest(accessToken, user?.id)
+      .then((res) => {
+        console.log("res ", res);
+
+        setAcceptedRequestData(res);
+      });
+  };
 
   const handleAccept = (id: string) => {
     setAcceptedRequestId(id); // Set the ID of the accepted request
