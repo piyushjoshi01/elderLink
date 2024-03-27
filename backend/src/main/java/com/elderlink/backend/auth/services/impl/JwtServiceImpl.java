@@ -19,7 +19,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
 
     private static final String SECRET_KEY="d419ce37778265923e615c226b69adbf34c3707f20fa94703bd16dfbd5f52fca";
-    private static final long accessTokenExpirationTime = 1000 * 20 * 60;
+    private static final long accessTokenExpirationTime = 10000 * 20 * 60;
     /**
      * Extracts the username from the JWT token.
      *
