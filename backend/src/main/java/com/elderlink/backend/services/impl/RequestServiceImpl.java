@@ -159,5 +159,23 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
+    /**
+     * Retrieves all requests from the repository.
+     *
+     * @return List of RequestEntity containing all requests.
+     * @throws RuntimeException if an error occurs while fetching requests.
+     */
+    @Override
+    public List<RequestEntity> getAllRequests() {
+        try {
+            List<RequestEntity> getAllRequests = requestRepository.findAll ();
+            logger.info ("Requests fetched successfully.");
+            return getAllRequests;
+        }catch (RuntimeException e){
+            logger.error ("An error occurred while fetching requests. -> {}",e.getMessage ());
+            throw new RuntimeException(e.getMessage ());
+        }
+    }
+
 }
 

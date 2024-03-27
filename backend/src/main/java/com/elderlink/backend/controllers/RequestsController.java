@@ -90,5 +90,20 @@ public class RequestsController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    /**
+     * Retrieves all requests and returns them as a list of RequestDto objects.
+     *
+     * @return ResponseEntity containing a list of RequestDto objects with OK status.
+     */
+    @GetMapping()
+    public ResponseEntity<List<RequestDto>> getAllRequests(){
+        List<RequestEntity> allRequests = requestService.getAllRequests ();
+        return ResponseEntity.status (HttpStatus.OK).body (
+                allRequests.stream ()
+                        .map (requestMapper::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
+
 
 }

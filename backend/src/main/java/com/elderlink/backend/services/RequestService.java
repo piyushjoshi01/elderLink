@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface RequestService {
 
     public boolean isRequestExists(Long id);
+    public List<RequestEntity> getAllRequests();
     public RequestEntity createRequest(RequestEntity requestEntity);
     public Optional<RequestEntity> findRequestById(Long requestId);
 
