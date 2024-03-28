@@ -4,6 +4,7 @@ import acceptRequestService from "@/services/acceptRequest.service";
 import userService from "@/services/user.service";
 import requestService from "@/services/request.service";
 import creditTransferService from "@/services/creditTransfer.service";
+import { toast } from "react-toastify";
 
 const ElderRequestCard = ({
   acceptedrequest,
@@ -51,6 +52,7 @@ const ElderRequestCard = ({
       .credited(localStorage.getItem("accessToken"), data)
       .then((res) => {
         console.log(res);
+        toast.success(`${data.hoursCredited} credits tranfered successfully.`);
         return "Credit Transfered";
       });
 

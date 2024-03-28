@@ -11,11 +11,9 @@ const VolunteerDetails = () => {
   const navigate = useNavigate();
   const { volunteerId } = useParams();
 
-
   const accessToken = localStorage.getItem("accessToken");
 
   const [user, setUser] = useState<UserModel | null>();
-
 
   useEffect(() => {
     userData();
@@ -31,8 +29,6 @@ const VolunteerDetails = () => {
   const goToChat = () => {
     navigate("/Chat");
   };
-
-
 
   return (
     <>

@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 
 import reviewService from "@/services/review.service";
+import { useUser } from "@/context/UserContext";
+import { toast } from "react-toastify";
 
 const AddReviewPage = ({ onClose }: any) => {
+  const { user } = useUser();
   const [rating, setRating] = useState<number>(0); // Default rating set to 5
   const [reviewMessage, setReviewMessage] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
-  const currentUser = localStorage.getItem("id");
+  const currentUser = user?.id;
 
   const submitReview = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Review");
+    toast.success("Review added successfully.");
     createRequest();
     onClose(); // Close the review popup after submitting the review
   };
@@ -18,7 +22,7 @@ const AddReviewPage = ({ onClose }: any) => {
   const createRequest = () => {
     const data = {
       elderPersonId: currentUser,
-      volunteerId: 3,
+      volunteerId: 15,
       reviewMessage: reviewMessage,
       rating: rating,
     };

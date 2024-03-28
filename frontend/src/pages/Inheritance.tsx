@@ -1,12 +1,14 @@
 import { useUser } from "@/context/UserContext";
 import userService from "@/services/user.service";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Inheritance = () => {
   const [email, setEmail] = useState();
   const { user } = useUser();
   const accessToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
   const handleEmail = (event: any) => {
     setEmail(event.target.value);
@@ -30,13 +32,14 @@ const Inheritance = () => {
     const data = {
       recipientId: recipientId,
       senderId: user?.id,
-      hoursCredited: 5,
+      hoursCredited: user?.creditBalance,
     };
     userService
       .inheritCredit(accessToken, data)
       .then((res) => {
         console.log(res);
         toast.success(`All Credits Transferred To The Volunteer`);
+        navigate("/Userprofile");
       })
       .catch((error) => {
         console.error("Error transferring credits", error);

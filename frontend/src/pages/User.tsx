@@ -1,11 +1,13 @@
 import UserModel from "@/models/UserModel";
 import userService from "@/services/user.service";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "@/pages/Navbar";
 import Footer from "@/components/ui/Footer";
+import Chat from "./Chat";
 
 const User = () => {
+  const navigate = useNavigate();
   const { userId } = useParams();
   // const userIdAsNumber: number | undefined = parseInt(userId, 10);
   const accessToken = localStorage.getItem("accessToken");
@@ -55,6 +57,12 @@ const User = () => {
               <strong>Address:</strong>
               <span>{`${user?.address?.street_name}, ${user?.address?.suite_number}, ${user?.address?.city}, ${user?.address?.state}, ${user?.address?.country}, ${user?.address?.pincode}`}</span>
             </p>
+            <button
+              onClick={() => navigate("/chat")}
+              className="bg-green-500 hover:bg-white-1000 text-white font-bold py-2 px-5 rounded-full text-sm"
+            >
+              Chat
+            </button>
           </div>
         </div>
       </div>

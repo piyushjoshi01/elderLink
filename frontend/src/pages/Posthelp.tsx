@@ -31,6 +31,7 @@ const Posthelp = () => {
 
     requestService.createRequest(accessToken, data).then((_res: any) => {
       toast.success("Request Sent Successfully");
+      navigate("/Requests");
       // console.log(data);
     });
   };
