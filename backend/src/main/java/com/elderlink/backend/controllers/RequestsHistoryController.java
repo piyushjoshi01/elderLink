@@ -34,11 +34,12 @@ public class RequestsHistoryController{
             @Valid @PathVariable("elderPersonId") Long elderPersonId
     ){
         List<RequestHistoryEntity> requestHistoryEntities = requestHistoryService.getRequestHistoriesByElderPersonId (elderPersonId);
-        return ResponseEntity.status (HttpStatus.OK).body (
-                requestHistoryEntities.stream ()
-                        .map (requestHistoryMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<RequestHistoryDto> requestHistoryDto = requestHistoryEntities.stream()
+                .map(requestHistoryMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(requestHistoryDto);
+
     }
     /**
      * Endpoint to get request histories by request ID.
@@ -51,11 +52,12 @@ public class RequestsHistoryController{
             @Valid @PathVariable("requestId") Long requestId
     ){
         List<RequestHistoryEntity> requestHistoryEntities = requestHistoryService.getRequestHistoriesByRequestId(requestId);
-        return ResponseEntity.status (HttpStatus.OK).body (
-                requestHistoryEntities.stream ()
-                        .map (requestHistoryMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<RequestHistoryDto> requestHistoryDto = requestHistoryEntities.stream()
+                .map(requestHistoryMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(requestHistoryDto);
+
     }
 
     @GetMapping()

@@ -50,11 +50,12 @@ public class MessageController{
             @Valid @PathVariable("receiverId") Long receiverId
     ){
         List<MessageEntity> messages = messageService.getMessageBySenderIdReceiverId(senderId,receiverId);
-        return ResponseEntity.status (HttpStatus.OK).body (
-                messages.stream ()
-                        .map (messageMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<MessageDto> messageDto = messages.stream()
+                .map(messageMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(messageDto);
+
     }
 
 }
