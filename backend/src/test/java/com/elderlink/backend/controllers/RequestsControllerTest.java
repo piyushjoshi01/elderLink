@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -120,4 +122,37 @@ class RequestsControllerTest {
                 .updateDateTime(LocalDateTime.now())
                 .build();
     }
+
+    @Test
+    void getAllRequests_Success() {
+        // Setup
+        when(requestService.getAllRequests()).thenReturn(Arrays.asList(requestEntity));
+        when(requestMapper.toDto(any(RequestEntity.class))).thenReturn(requestDto);
+
+        // Execution
+        ResponseEntity<List<RequestDto>> response = requestsController.getAllRequests();
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size()); // Assuming the setup returns one request
+        assertEquals(requestDto, response.getBody().get(0));
+    }
+
+    @Test
+    void getRequestsByRequestId_Success() {
+        // Setup
+        Long requestId = 1L; // Assume this ID exists
+        when(requestService.findRequestById(requestId)).thenReturn(Optional.of(requestEntity));
+        when(requestMapper.toDto(any(RequestEntity.class))).thenReturn(requestDto);
+
+        // Execution
+        ResponseEntity<RequestDto> response = requestsController.getRequestsByRequestId(requestId);
+
+        // Verification
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(requestDto, response.getBody());
+    }
+
 }

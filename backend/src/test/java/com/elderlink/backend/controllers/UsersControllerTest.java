@@ -127,6 +127,46 @@ class UsersControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
+    @Test
+    void getUserByEmail_Successful() {
+        String userEmail = "user@example.com";
+        when(userRepository.existsByEmail(userEmail)).thenReturn(true);
+        when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(userEntity));
+        when(userMapper.toDto(any(UserEntity.class))).thenReturn(userDto);
+
+        ResponseEntity<UserDto> response = usersController.getUser(userEmail);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        verify(userRepository).findByEmail(userEmail);
+        verify(userMapper).toDto(any(UserEntity.class));
+    }
+    @Test
+    void getUserById_Successful() {
+        Long userId = 1L;
+        when(userRepository.existsById(userId)).thenReturn(true);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userMapper.toDto(any(UserEntity.class))).thenReturn(userDto);
+
+        ResponseEntity<UserDto> response = usersController.getUserById(userId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        verify(userRepository).findById(userId);
+        verify(userMapper).toDto(any(UserEntity.class));
+    }
+
+    @Test
+    void getUserById_NotFound() {
+        Long userId = 99L; // Assuming this ID does not exist
+        when(userRepository.existsById(userId)).thenReturn(false);
+
+        ResponseEntity<UserDto> response = usersController.getUserById(userId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(userRepository).existsById(userId);
+        verify(userRepository, never()).findById(userId);
+    }
 
 
 }

@@ -2,9 +2,8 @@ package com.elderlink.backend.services.impl;
 
 import com.elderlink.backend.domains.entities.RequestEntity;
 import com.elderlink.backend.domains.entities.UserEntity;
-import com.elderlink.backend.exceptions.UserIsNotAuthorizedException;
+
 import com.elderlink.backend.repositories.RequestRepository;
-import com.elderlink.backend.services.impl.RequestServiceImpl;
 import com.elderlink.backend.utils.IsUserAuthorized;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -163,7 +162,6 @@ public class RequestServiceImplTest {
 
         assertEquals(errorMessage, thrown.getMessage());
         verify(requestRepository, times(1)).existsById(requestId);
-        // Assuming you have a way to verify logger calls, verify the error logging as well
     }
 
 
