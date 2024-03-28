@@ -1,5 +1,5 @@
 import { useUser } from "@/context/UserContext";
-import { useEffect,useState } from "react";
+// import { useEffect,useState } from "react";
 import { toast } from "react-toastify";
 
 const BlogCard = ({ blog,onDelete }: any) => {
