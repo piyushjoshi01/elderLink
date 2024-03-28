@@ -33,6 +33,7 @@ ElderLink is a community-focused platform designed to bridge the gap between eld
  - [Backend deployment steps](deployment.md#Backend-deployment-steps)
  - [Frontend deployment steps](deployment.md#frontend-deployment-steps)
 
+
 ## Introduction
 
 ElderLink aims to bridge the gap between elderly individuals seeking assistance for daily tasks and volunteers eager to contribute their time and skills. Through a credit-based system, it encourages community participation and ensures that help is always at hand.
@@ -53,10 +54,10 @@ ElderLink aims to bridge the gap between elderly individuals seeking assistance 
 - [ReactJS](https://reactjs.org/) `v20.x`
 - [npm](https://www.npmjs.com/) `v6.x`
 - [TypeScript](https://www.typescriptlang.org/) `v4.x`
-- [Java `v17.0.2`](https://www.oracle.com/java/)
-- [JDK `v17`](https://www.oracle.com/java/)
-- [Maven `v3.9.6`](https://maven.apache.org/)
-- [Vite](https://vitejs.dev/)
+- [Java `v17.0.2`](https://www.oracle.com/java/)`v17.0.2`
+- [JDK `v17`](https://www.oracle.com/java/)`v17`
+- [Maven `v3.9.6`](https://maven.apache.org/)`v3.9.6`
+- [Vite `v5.0.12`](https://vitejs.dev/)`v5.0.12`
 
 ### Installation
 
