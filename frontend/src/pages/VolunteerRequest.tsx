@@ -35,14 +35,17 @@ const VolunteerRequest: React.FC = () => {
           <h1 className="text-center text-3xl mb-5 text-lime-800 font-bold">
             REQUEST LIST
           </h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 ">
-            {requestData.map((request, index) => (
-              // <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50" >
-              <RequestCard request={request} key={index} />
-              // </div>
-            ))}
-          </div>
+          {requestData.length == 0 ? (
+            <div className="text-center text-2xl">No Requests Available.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 ">
+              {requestData.map((request, index) => (
+                // <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50" >
+                <RequestCard request={request} key={index} />
+                // </div>
+              ))}
+            </div>
+          )}
         </div>
         {/* {requestDetailsVisible && (
           // <RequestDetails formData={requestData[currentRequestIndex] || initialCategory} onClose={closeCard} />

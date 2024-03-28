@@ -57,13 +57,12 @@ const User = () => {
               <strong>Address:</strong>
               <span>{`${user?.address?.street_name}, ${user?.address?.suite_number}, ${user?.address?.city}, ${user?.address?.state}, ${user?.address?.country}, ${user?.address?.pincode}`}</span>
             </p>
-            {/* <button
+            <button
               onClick={() => navigate("/chat")}
               className="bg-green-500 hover:bg-white-1000 text-white font-bold py-2 px-5 rounded-full text-sm"
             >
               Chat
-            </button> */}
-            {/* <Chat /> */}
+            </button>
           </div>
         </div>
       </div>
