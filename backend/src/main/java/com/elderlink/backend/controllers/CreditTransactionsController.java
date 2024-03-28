@@ -46,11 +46,12 @@ public class CreditTransactionsController {
             @Valid @PathVariable("senderId") Long senderId
     ){
         List<CreditTransactionEntity> transactions = creditTransactionService.getTransactionBySenderId(senderId);
-        return ResponseEntity.status (HttpStatus.OK).body (
-                transactions.stream ()
-                        .map (creditTransactionMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<CreditTransactionDto> transactionDto = transactions.stream()
+                .map(creditTransactionMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDto);
     }
     /**
      * Endpoint to retrieve credit transactions by recipient ID.
@@ -63,10 +64,13 @@ public class CreditTransactionsController {
             @Valid @PathVariable("recipientId") Long recipientId
     ){
         List<CreditTransactionEntity> transactions = creditTransactionService.getTransactionRecipientId (recipientId);
-        return ResponseEntity.status (HttpStatus.OK).body (
-                transactions.stream ()
-                        .map (creditTransactionMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<CreditTransactionDto> transactionDto = transactions.stream()
+                .map(creditTransactionMapper::toDto)
+                .collect(Collectors.toList());
+
+        HttpStatus status = HttpStatus.OK;
+        return ResponseEntity.status(status)
+                .body(transactionDto);
+
     }
 }

@@ -109,12 +109,17 @@ public class AuthController {
             RefreshTokenEntity refreshTokenEntity = refreshTokenService.verifyRefreshToken(refreshTokenReq.getRefreshToken());
             UserEntity user = refreshTokenEntity.getUser();
             var accessToken = jwtService.generateToken(user);
-            return ResponseEntity.ok().body(
-                    AuthRes.builder()
-                            .accessToken(accessToken)
-                            .refreshToken(refreshTokenEntity.getRefreshToken())
-                            .build()
-            );
+            AuthRes authRes = AuthRes.builder ()
+                    .accessToken (accessToken)
+                    .refreshToken (refreshTokenEntity.getRefreshToken ())
+                    .build ();
+            return ResponseEntity.ok (authRes);
+//            return ResponseEntity.ok().body(
+//                    AuthRes.builder()
+//                            .accessToken(accessToken)
+//                            .refreshToken(refreshTokenEntity.getRefreshToken())
+//                            .build()
+//            );
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

@@ -57,11 +57,12 @@ public class RequestsController {
                 throw new UsernameNotFoundException("User doesn't exist!");
             }
             List<RequestEntity> userRequests = requestService.findRequestsByUserId(userId);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    userRequests.stream()
-                            .map(requestMapper::toDto)
-                            .collect(Collectors.toList())
-            );
+        List<RequestDto> userRequestDto = userRequests.stream()
+                .map(requestMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(userRequestDto);
+
     }
     /**
      * Endpoint to update a request.
@@ -99,11 +100,12 @@ public class RequestsController {
     @GetMapping()
     public ResponseEntity<List<RequestDto>> getAllRequests(){
         List<RequestEntity> allRequests = requestService.getAllRequests ();
-        return ResponseEntity.status (HttpStatus.OK).body (
-                allRequests.stream ()
-                        .map (requestMapper::toDto)
-                        .collect(Collectors.toList())
-        );
+        List<RequestDto> requestDto = allRequests.stream()
+                .map(requestMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(requestDto);
+
     }
 
     /**
