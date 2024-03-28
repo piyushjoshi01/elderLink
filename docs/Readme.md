@@ -212,7 +212,7 @@ All users begin by registering on the platform with their basic information. Aft
 - We welcome contributions from the community. If you're interested in helping improve ElderLink, please take a look at our contributing guidelines.
 
 
-# Features
+# Features Snapshots
 
 ## Registration Page
 - Here User has to fill all the necessary details for successful registration for the website.
@@ -283,11 +283,53 @@ All users begin by registering on the platform with their basic information. Aft
 </center>
 
 
-# GitLab CI/CD Pipeline Configuration
+
+
+
+#
+# GitLab CI/CD Workflow Overview
 
 GitLab CI/CD allows automating the testing, building, and deployment processes for Node.js projects using a `.gitlab-ci.yml` file in the repository root. Here's an example configuration:
 
 <img src="./Assets/Pipeline.png">
+
+This CI/CD flow automates the software development lifecycle for the "Elderlink" web application, comprising the following stages:
+
+### Build Stage
+
+#### Backend Build:
+- Uses Maven to build the backend application.
+- Artifacts are stored in the `backend/target` directory.
+
+#### Frontend Build:
+- Utilizes Node.js to build the frontend application.
+- Build files are stored in the `frontend/build` directory.
+
+### Test Stage
+
+- Executes backend tests using Maven.
+
+### Quality Stage
+
+- Conducts quality analysis on the codebase using DesigniteJava to identify code smells.
+- Results are stored as artifacts for further analysis.
+
+### Publish Stage
+
+- Publishes Docker images of both the backend and frontend applications to Docker Hub.
+- Execution is triggered only when changes are made to the `develop` branch.
+
+### Deployment Stage
+
+#### Backend Deployment:
+- Deploys the backend Docker container onto a remote server.
+- Pulls the latest Docker image from the registry and runs it on the specified server.
+
+#### Frontend Deployment:
+- Deploys frontend build files to the server's `/var/www/html` directory, presumably for web server accessibility.
+
+This workflow ensures efficient integration, testing, code quality analysis, publishing, and deployment of changes to the "Elderlink" application.
+
 
 # Deployment Steps
 
@@ -302,6 +344,7 @@ We have deployed our application on the virtual machine provided to us.
 For backend we had used docker and for frontend we are using nginx as deployment server.
 
 ## Prerequisites
+
 We need to have an environment with these requirements fulfilled:
 
 - VM with Ubuntu OS
@@ -319,7 +362,7 @@ We need to have an environment with these requirements fulfilled:
 
 
 ---
-# Deployment on vm
+# Deployment on VM
 
 ## Frontend Deployment Steps
 
@@ -422,6 +465,7 @@ Follow these steps to deploy the backend of your application:
 
     Establish an SSH connection to the remote VM where you intend to deploy the backend.
 
+
 6. **Remove Existing Docker Container:**
 
     If there is a previous instance of the Docker container with the name "elderlink-backend," remove it using the following command:
@@ -456,19 +500,19 @@ At this juncture, we are poised to access the frontend via the designated URL of
 
 | Name                                | Email              |
 | ----------------------------------- | ------------------ |
-| Abhishek Kapoor               | ab210637@dal.ca    |
-| Khush Patel              | kh472243@dal.ca |
-|Vyansi Dineshbhai Diyora                     | vy744910@dal.ca  |
-| Piyush Rakeshbhai Joshi           | py287300@dal.ca   |
-|  Riddho Bhadra    | rd588330@dal.ca    |
+| Abhishek Kapoor | ab210637@dal.ca |
+| Khush Patel | kh472243@dal.ca |
+| Vyansi Dineshbhai Diyora | vy744910@dal.ca |
+| Piyush Rakeshbhai Joshi | py287300@dal.ca |
+| Riddho Bhadra | rd588330@dal.ca |
 
 
 ### Client Team
 
 | Name                             | Email           |
 | -------------------------------- | --------------- |
-| Yash Walia | yashwalia@dal.ca|
-| Kaushal Vijay Sapara | ks807529@dal.ca|
-| Yukta Rajkumar Gurnani | yk868576@dal.ca|
-| Raj Kamlesh Patel | rj227488@dal.ca|
-| Harsh Maisuri | hr786278@dal.ca|
+| Yash Walia | yashwalia@dal.ca |
+| Kaushal Vijay Sapara | ks807529@dal.ca |
+| Yukta Rajkumar Gurnani | yk868576@dal.ca |
+| Raj Kamlesh Patel | rj227488@dal.ca |
+| Harsh Maisuri | hr786278@dal.ca |
