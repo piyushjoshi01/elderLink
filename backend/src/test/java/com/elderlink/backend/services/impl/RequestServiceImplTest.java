@@ -2,9 +2,8 @@ package com.elderlink.backend.services.impl;
 
 import com.elderlink.backend.domains.entities.RequestEntity;
 import com.elderlink.backend.domains.entities.UserEntity;
-import com.elderlink.backend.exceptions.UserIsNotAuthorizedException;
+
 import com.elderlink.backend.repositories.RequestRepository;
-import com.elderlink.backend.services.impl.RequestServiceImpl;
 import com.elderlink.backend.utils.IsUserAuthorized;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
