@@ -6,7 +6,6 @@ import RequestModel from "@/models/RequestModel";
 import { useUser } from "@/context/UserContext";
 import { toast } from "react-toastify";
 
-
 const Requests: React.FC = () => {
   const { user } = useUser();
   const [request, setRequest] = useState<RequestModel>(new RequestModel());
@@ -106,14 +105,19 @@ const Requests: React.FC = () => {
   console.log("setNewValue", setNewValue);
 
   const deleterequest = (id: any) => {
-    // console.log("acctoken ew", accessToken, id);
     if (accessToken) {
-      requestService.getDeleteById(accessToken, id).then((res) => {
-        console.log(res);
-        toast.success("Request Deleted Successfully");
-      });
+      requestService
+        .getDeleteById(accessToken, id)
+        .then(() => {
+          const updatedRequests = requestArr.filter((item) => item.id !== id);
+          setRequestArr(updatedRequests);
+          toast.success("Request Deleted Successfully");
+        })
+        .catch((error) => {
+          console.error("Delete request error:", error);
+          toast.error("Failed to delete the request.");
+        });
     }
-    // alert("Delete request");
   };
 
   return (
@@ -313,10 +317,18 @@ durationInMinutes}</th> */}
                       <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                         {editingId === elem.id ? (
                           <>
-                            <button onClick={() => handleSave(elem.id)}>
+                            <button
+                              className="bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                              onClick={() => handleSave(elem.id)}
+                            >
                               Save
                             </button>
-                            <button onClick={handleCancel}>Cancel</button>
+                            <button
+                              className="bg-lime-800  text-white bg-lime-800 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                              onClick={handleCancel}
+                            >
+                              Cancel
+                            </button>
                           </>
                         ) : (
                           <button

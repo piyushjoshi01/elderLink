@@ -7,8 +7,8 @@ const Chat = () => {
   const [messageContent, setMessageContent] = useState("");
   const [messages, setMessages] = useState<any>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const senderId = 15;
-  const receiverId = 14;
+  const senderId = 14;
+  const receiverId = 15;
   const loggedInUserId = user?.id;
 
   console.log("Log in User ID", loggedInUserId);
