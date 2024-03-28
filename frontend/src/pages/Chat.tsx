@@ -7,8 +7,8 @@ const Chat = () => {
   const [messageContent, setMessageContent] = useState("");
   const [messages, setMessages] = useState<any>([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const senderId = 14;
-  const receiverId = 15;
+  const senderId = 20;
+  const receiverId = 21;
   const loggedInUserId = user?.id;
 
   console.log("Log in User ID", loggedInUserId);
@@ -78,7 +78,7 @@ const Chat = () => {
     }
   };
 
-  const receiverIdOptions = [14, 15];
+  const receiverIdOptions = [20, 21];
 
   const sendMessage = async () => {
     try {

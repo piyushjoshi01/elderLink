@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "@/pages/Navbar";
 import Footer from "@/components/ui/Footer";
-import Chat from "./Chat";
 
 const User = () => {
   const navigate = useNavigate();
