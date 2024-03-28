@@ -14,24 +14,24 @@ ElderLink is a community-focused platform designed to bridge the gap between eld
   - [Installation](#installation)
     - [Frontend Setup](#frontend-setup)
     - [Backend Setup](#backend-setup)
-- [Usage Scenario](#usage-scenario)
-  - [Features](#features)
-    - [For Elder Persons](#for-elder-persons)
-    - [For Volunteers](#for-volunteers)
-- [Website Navigation](#website-navigation)
-  - [Registration Page](#registration-page)
-  - [Login Page](#login-page)
-  - [Post Help](#post-help)
-  - [About Us](#about-us)
-  - [Blogs](#blogs)
-  - [User Profile](#user-profile)
-  - [Request from Elders](#request-from-elders)
-  - [Interested Volunteers](#interested-volunteers)
-  - [Credit Transfer](#credit-transfer)
-- [GitLab CI/CD Pipeline Configuration](#gitlab-cicd-pipeline-configuration)
-- [Deployment on vm](#Deployment-on-vm)
- - [Backend deployment steps](#Backend-deployment-steps)
- - [Frontend deployment steps](#frontend-deployment-steps)
+- [Usage Scenario](scenarios.md)
+  - [Features](scenarios.md#features)
+    - [For Elder Persons](scenarios.md#for-elder-persons)
+    - [For Volunteers](scenarios.md#for-volunteers)
+- [Website Navigation](scenarios.md#website-navigation)
+  - [Registration Page](scenarios.md#registration-page)
+  - [Login Page](scenarios.md#login-page)
+  - [Post Help](scenarios.md#post-help)
+  - [About Us](scenarios.md#about-us)
+  - [Blogs](scenarios.md#blogs)
+  - [User Profile](scenarios.md#user-profile)
+  - [Request from Elders](scenarios.md#request-from-elders)
+  - [Interested Volunteers](scenarios.md#interested-volunteers)
+  - [Credit Transfer](scenarios.md#credit-transfer)
+- [GitLab CI/CD Pipeline Configuration](deployment.md#gitlab-cicd-workflow-overview)
+- [Deployment on vm](deployment.md#Deployment-on-vm)
+ - [Backend deployment steps](deployment.md#Backend-deployment-steps)
+ - [Frontend deployment steps](deployment.md#frontend-deployment-steps)
 
 ## Introduction
 
@@ -172,121 +172,10 @@ The application will be accessible at `http://localhost:8080`.
 
 
   
-# Usage Scenario
-
-# Features
-## Register and Profile Setup
-
-All users begin by registering on the platform with their basic information. After registration, completing the profile setup is crucial. This includes adding interests, availability (for volunteers), specific needs (for elder persons), and a profile photo.
-
-## For Elder Persons
-
-### Post for Help
-
-- Elders can easily request help by filling out a form specifying the type of assistance required.
-
-### Add Blogs
-
-- Share experiences, advice, or stories through the platform's blog section.
-
-### Transfer Credits to Volunteer
-
-- Show appreciation for the volunteers' assistance by transferring credits to them, based on the hours of help provided.
-
-### See All Volunteers Who Accepted Their Request
-
-- View and choose from all the volunteers who have accepted your help request.
-
-## For Volunteers
-
-### Add Blogs
-
-- Contribute to the blog section with insights, experiences, or helpful information.
-
-### See All the Requests from Multiple Elder Persons
-
-- Access a dashboard displaying all active help requests from elder persons, making it easier to find and accept requests that match your skills and availability.
-
-### Contributing
-
-- We welcome contributions from the community. If you're interested in helping improve ElderLink, please take a look at our contributing guidelines.
-
-
-# Features Snapshots
-
-## Registration Page
-- Here User has to fill all the necessary details for successful registration for the website.
-<center>
-<img src="./Assets/Register.png" alt="Registration Page" >
-</center>
-
-## Login Page
-- After the successful register the user can login the website.
-
-<center>
-<img src="./Assets/Login.png" alt="Registration Page">
-</center>
-
-
-## Post Help
-- Elder Person in need will require to fill out the form to post the help.
-
-<center>
-<img src="./Assets/PostHelp.png" alt="Registration Page">
-</center>
-
-## About Us
-- The About Us page of ElderLink provides insights into our organization, mission, team members, testimonials, and core values.
-- The About Us page serves as a platform to introduce ElderLink to visitors, showcase our mission and values, and highlight the contributions of our team members and satisfied clients.
-
-<center>
-<img src="./Assets/Aboutus.png" alt="Registration Page">
-</center>
-
-
-## Blogs
-- Here Both the elderperson and the volunteer can post the blog.
-
-<center>
-<img src="./Assets/Blog.png" alt="Registration Page">
-</center>
-
-## User Profile
-- It provides users with the ability to view and edit their profile information such as name, email, phone number, address, and more.
-
-<center>
-<img src="./Assets/UserProfile.png" alt="Registration Page" >
-</center>
-
->
-
-
-## Request from Elders
-- Here all the request which is posted by he elderperson will be shown to the volunteers and they can accept.
-
-<center>
-<img src="./assets/Volunteer.png" alt="Registration Page" >
-</center>
-
-## Intrested Volunteers
-- Elderperson will be able to see all the volunteers who are intrested to help. 
-
-<center>
-<img src="./assets/ElderRequest.png" alt="Registration Page" >
-</center>
-
-## Credit Transfer
-- If the elderperson wants to transfer the credits to their beneficiary.
-
-<center>
-<img src="./Assets/Credittransfer.png" alt="Registration Page" >
-</center>
 
 
 
 
-
-#
 # GitLab CI/CD Workflow Overview
 
 GitLab CI/CD allows automating the testing, building, and deployment processes for Node.js projects using a `.gitlab-ci.yml` file in the repository root. Here's an example configuration:
@@ -331,167 +220,6 @@ This CI/CD flow automates the software development lifecycle for the "Elderlink"
 This workflow ensures efficient integration, testing, code quality analysis, publishing, and deployment of changes to the "Elderlink" application.
 
 
-# Deployment Steps
-
-## Overview
-
-There are 3 core components of the application:
-1. Backend in Spring Boot
-2. Frontend in React
-3. MySQL Database 
-
-We have deployed our application on the virtual machine provided to us.
-For backend we had used docker and for frontend we are using nginx as deployment server.
-
-## Prerequisites
-
-We need to have an environment with these requirements fulfilled:
-
-- VM with Ubuntu OS
-
-- [NGINX](https://www.nginx.com/) installed in VM
-
-- [Docker](https://docs.docker.com/engine/install/) installed in VM 
-
-- [Java SDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed in VM. 
-    - Note: check the version in prerequisites of development
-
-- Check the values in [application.properties](./backend/src/main/resources/application.properties)
-
-- Check the appropriate values in [.env](./frontend/.env)
-
-
----
-# Deployment on VM
-
-## Frontend Deployment Steps
-
-### NGINX Configuration
-
-1. **Install and Start NGINX:**
-
-    ```bash
-    sudo systemctl start nginx
-    sudo systemctl status nginx
-    ```
-
-    Upon successful execution, NGINX starts running. The status should reflect the active state.
-
-    ![NGINX Status](image-1.png)
-
-    *After starting NGINX, configuration adjustments are needed within the `/etc/nginx/sites-enabled` directory.*
-
-    ```nginx
-    server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        access_log /var/log/nginx/app.log;
-        root /var/www/build;
-        index index.html index.htm;
-        try_files $uri /index.html;
-        location / {
-            try_files $uri index.html;
-        }
-    }
-    ```
-
-    *With these configurations, the NGINX setup is completed.*
-
-### Deployment Steps
-
-2. **Change Working Directory to Frontend:**
-
-    ```bash
-    cd frontend
-    npm install
-    npm i react-icons
-    ```
-
-3. **Run npm build Command:**
-
-    ```bash
-    npm run build
-    ```
-
-    *This command generates the build folder containing assets and other frontend components, including index.html.*
-
-4. **Move Build Folder to VM's Directory:**
-
-    *Copy the build folder to the NGINX serving directory `/var/www/html/` on the assigned VM.*
-
-    ```bash
-    scp -r -o StrictHostKeyChecking=no -i $ID_RSA frontend/build/* ${SERVER_USER}@${SERVER_IP}:/var/www/html/
-    ```
-
-    *Once the files are copied, NGINX will commence serving the index.html file on port 80 by default.*
-
-These steps ensure a seamless deployment of the frontend application, leveraging NGINX for web serving.
-
----
-
-# Backend Deployment Steps
-
-Follow these steps to deploy the backend of your application:
-
-1. **Navigate to Backend Directory:**
-
-    Change your current directory to the backend folder where your project resides.
-
-2. **Generate Jar File:**
-
-    Run the following command to generate the JAR file in the target folder:
-
-    ```bash
-    ./mvnw clean package
-    ```
-
-3. **Build Docker Container:**
-
-    Build the Docker container using the provided Dockerfile. You can utilize the latest image.
-
-    ```bash
-    docker build -t docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest .
-    ```
-
-4. **Push Docker Container:**
-
-    Push the Docker container to your Docker Hub repository.
-
-    ```bash
-    docker push docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest
-    ```
-
-5. **Connect to Remote VM:**
-
-    Establish an SSH connection to the remote VM where you intend to deploy the backend.
-
-
-6. **Remove Existing Docker Container:**
-
-    If there is a previous instance of the Docker container with the name "elderlink-backend," remove it using the following command:
-
-    ```bash
-    docker container rm -f elderlink-backend
-    ```
-
-7. **Run Docker Container on VM:**
-
-    Start the Docker container on the VM by executing the following command:
-
-    ```bash
-    docker run -d -p 8080:8080 --name elderlink-backend docker.io/[DOCKER_HUB_USERNAME]/elderlink-backend:latest
-    ```
-
-8. **Access Application:**
-
-    Upon successful execution of the above command, your application will be accessible at port 8080.
-
-These steps ensure a smooth deployment of your backend application.
-
-
-
-### **Conclusion:**
-At this juncture, we are poised to access the frontend via the designated URL of the virtual machine (VM), thereby enabling seamless communication between the frontend and backend components.
 
 
 ## Credits 

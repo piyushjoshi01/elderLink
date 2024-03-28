@@ -1,51 +1,106 @@
-
 # Usage Scenario
 
-### For Customers:
+## Features
+### Register and Profile Setup
 
-1. **Registration and Profile Setup:**
+All users begin by registering on the platform with their basic information. After registration, completing the profile setup is crucial. This includes adding interests, availability (for volunteers), specific needs (for elder persons), and a profile photo.
 
-- Consumers can sign up for an account by providing basic information such as First name, Last name and Email.
+## For Elder Persons
 
-2. **Exploring Farm and Farm-Products:**
+### Post for Help
 
-- Upon successful registration, Customers can explore the farms listed on the platform.
-- Consumers can also browse through a wide range of farm-fresh products listed on the platform
-- They can view detailed product descriptions, including images, pricing, and farmer information.
+- Elders can easily request help by filling out a form specifying the type of assistance required.
 
-3. **Purchasing Products:**
+### Add Blogs
 
-- Customer can select desired products, quantity and proceed to checkout.
+- Share experiences, advice, or stories through the platform's blog section.
 
-4. **Subscription Service:**
+### Transfer Credits to Volunteer
 
-- Customer interested in regular deliveries of their favorite products can subscribe to them.
-- They can customize subscription preferences such as delivery frequency (Weekdays, Weekends or Preferred days).
-- They can view and update their subscription information as needed.
+- Show appreciation for the volunteers' assistance by transferring credits to them, based on the hours of help provided.
 
-5. **Wallet Service:**
+### See All Volunteers Who Accepted Their Request
 
-- Customer have access to a digital wallet service integrated into the platform.
-- They can deposit funds into their wallet and use the funds while purchasing the products.
-- They can also view thier wallet history containing list of transactions.
+- View and choose from all the volunteers who have accepted your help request.
 
-### For Farmers:
+## For Volunteers
 
-1. **Registration and Farm Setup:**
+### Add Blogs
 
-- Consumers can sign up for an account by providing basic information such as First name, Last name and Email.
-- Upon successful registration, they can set up their farm profile, including Images and Location.
+- Contribute to the blog section with insights, experiences, or helpful information.
 
-2. **Listing Farm Products:**
+### See All the Requests from Multiple Elder Persons
 
-- Farmers can add their farm products to the platform, providing detailed descriptions, images, pricing, and stock information.
-- They can manage their product inventory and update listings as needed.
-- They can view the list of subscribed products.
+- Access a dashboard displaying all active help requests from elder persons, making it easier to find and accept requests that match your skills and availability.
 
-### For Admin:
+### Contributing
 
-1. **Admin Service**
+- We welcome contributions from the community. If you're interested in helping improve ElderLink, please take a look at our contributing guidelines.
 
-- Upon successful login with Admin credential, admin can view the Admin Dashboard.
-- On the Admin Dashboard page, they can review statistics, such as number of farms, number of products, total sales, etc.
-- They can also track the Order sales and Subscription sales.
+
+# Features Snapshots
+
+## Registration Page
+- Here User has to fill all the necessary details for successful registration for the website.
+<center>
+<img src="./Assets/Register.png" alt="Registration Page" >
+</center>
+
+## Login Page
+- After the successful register the user can login the website.
+
+<center>
+<img src="./Assets/Login.png" alt="Registration Page">
+</center>
+
+
+## Post Help
+- Elder Person in need will require to fill out the form to post the help.
+
+<center>
+<img src="./Assets/PostHelp.png" alt="Registration Page">
+</center>
+
+## About Us
+- The About Us page of ElderLink provides insights into our organization, mission, team members, testimonials, and core values.
+- The About Us page serves as a platform to introduce ElderLink to visitors, showcase our mission and values, and highlight the contributions of our team members and satisfied clients.
+
+<center>
+<img src="./Assets/Aboutus.png" alt="Registration Page">
+</center>
+
+
+## Blogs
+- Here Both the elderperson and the volunteer can post the blog.
+
+<center>
+<img src="./Assets/Blog.png" alt="Registration Page">
+</center>
+
+## User Profile
+- It provides users with the ability to view and edit their profile information such as name, email, phone number, address, and more.
+
+<center>
+<img src="./Assets/UserProfile.png" alt="Registration Page" >
+</center>
+
+## Request from Elders
+- Here all the request which is posted by he elderperson will be shown to the volunteers and they can accept.
+
+<center>
+<img src="./assets/Volunteer.png" alt="Registration Page" >
+</center>
+
+## Intrested Volunteers
+- Elderperson will be able to see all the volunteers who are intrested to help. 
+
+<center>
+<img src="./assets/ElderRequest.png" alt="Registration Page" >
+</center>
+
+## Credit Transfer
+- If the elderperson wants to transfer the credits to their beneficiary.
+
+<center>
+<img src="./Assets/Credittransfer.png" alt="Registration Page" >
+</center>
