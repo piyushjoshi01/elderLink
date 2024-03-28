@@ -43,7 +43,7 @@ class acceptRequestservice {
   //   }
 
   public getAccepted(accessToken: string | null, id: number | null, data: any) {
-    const url = `http://127.0.0.1:8080/api/requestsHistory/update/${id}`;
+    const url = `http://csci5308vm12.research.cs.dal.ca:8080/api/requestsHistory/update/${id}`;
 
     const requestOptions = {
       method: "PATCH",
