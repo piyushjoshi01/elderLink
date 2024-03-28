@@ -45,6 +45,7 @@ ElderLink aims to bridge the gap between elderly individuals seeking assistance 
 [![MySQL](https://img.shields.io/badge/MySQL-v8.0-yellow)](https://www.mysql.com/)
 [![gitlab](https://img.shields.io/badge/GitLab-v14.0-blue)](https://img.shields.io/badge/GitLab-v14.0-blue)
 
+
 ## Getting Started
 
 ### Prerequisites
@@ -55,7 +56,7 @@ ElderLink aims to bridge the gap between elderly individuals seeking assistance 
 - [Java `v17.0.2`](https://www.oracle.com/java/)
 - [JDK `v17`](https://www.oracle.com/java/)
 - [Maven `v3.9.6`](https://maven.apache.org/)
-
+- [Vite](https://vitejs.dev/)
 
 ### Installation
 
@@ -218,7 +219,6 @@ This CI/CD flow automates the software development lifecycle for the "Elderlink"
 - Deploys frontend build files to the server's `/var/www/html` directory, presumably for web server accessibility.
 
 This workflow ensures efficient integration, testing, code quality analysis, publishing, and deployment of changes to the "Elderlink" application.
-
 
 
 
