@@ -101,23 +101,15 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public BlogEntity createBlog(BlogEntity blogEntity) {
         try {
-//            Long userId = blogEntity.getUser().getId();
-//
-//            if(!userService.isUserExisted(userId)){
-//                throw new EntityNotFoundException("User with this id does not exist!");
-//            }
-//
-//            isUserAuthorized.checkUserAuthority(userId);
 
             if (!userService.isUserExisted(blogEntity.getUser().getId())) {
                 throw new EntityNotFoundException("User with this id doesn't exist!");
             }
 
-
             String title = blogEntity.getTitle();
             String body = blogEntity.getBody();
 
-            if (title.length() == 0 || title.isEmpty() || title.isBlank() || body.length() == 0 || body.isEmpty() || body.isBlank()) {
+            if (title.isEmpty() || body.isEmpty()) {
                 throw new IllegalArgumentException("Blog must have a title and a body!");
             }
 
