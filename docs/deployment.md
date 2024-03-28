@@ -11,6 +11,7 @@ We have deployed our application on the virtual machine provided to us.
 For backend we had used docker and for frontend we are using nginx as deployment server.
 
 ## Prerequisites
+
 We need to have an environment with these requirements fulfilled:
 
 - VM with Ubuntu OS
@@ -28,6 +29,7 @@ We need to have an environment with these requirements fulfilled:
 
 
 ---
+# Deployment on VM
 
 ## Frontend Deployment Steps
 
@@ -129,6 +131,7 @@ Follow these steps to deploy the backend of your application:
 5. **Connect to Remote VM:**
 
     Establish an SSH connection to the remote VM where you intend to deploy the backend.
+
 
 6. **Remove Existing Docker Container:**
 
