@@ -65,7 +65,7 @@ function Navbar() {
   ));
 
   return (
-    <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent">
+    <div className="m-auto p-3 flex justify-between items-center flex-wrap bg-transparent border-b-2">
       {" "}
       <img
         onClick={() => navigate("/")}
