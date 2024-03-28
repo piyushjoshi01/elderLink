@@ -44,7 +44,7 @@ We need to have an environment with these requirements fulfilled:
 
     Upon successful execution, NGINX starts running. The status should reflect the active state.
 
-    ![NGINX Status](image-1.png)
+    ![NGINX Status](Assets/image-1.png)
 
     *After starting NGINX, configuration adjustments are needed within the `/etc/nginx/sites-enabled` directory.*
 
