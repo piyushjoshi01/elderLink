@@ -24,7 +24,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    private static final long refreshTokenExpirationTime = 1000 * 60 * 60;
+    private static final long refreshTokenExpirationTime = 1000 * 60 * 600;
     private static final Logger logger = LoggerFactory.getLogger(RefreshTokenService.class);
     /**
      * Creates a new refresh token for the user with the given email.
