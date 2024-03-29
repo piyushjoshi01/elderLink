@@ -29,9 +29,9 @@ ElderLink is a community-focused platform designed to bridge the gap between eld
   - [Interested Volunteers](scenarios.md#interested-volunteers)
   - [Credit Transfer](scenarios.md#credit-transfer)
 - [GitLab CI/CD Pipeline Configuration](deployment.md#gitlab-cicd-workflow-overview)
-- [Deployment on vm](deployment.md#Deployment-on-vm)
- - [Backend deployment steps](deployment.md#Backend-deployment-steps)
- - [Frontend deployment steps](deployment.md#frontend-deployment-steps)
+- [Deployment on VM](deployment.md#Deployment-on-vm)
+ - [Backend Deployment Steps](deployment.md#Backend-deployment-steps)
+ - [Frontend Deployment Steps](deployment.md#frontend-deployment-steps)
 
 
 ## Introduction
@@ -61,31 +61,43 @@ ElderLink aims to bridge the gap between elderly individuals seeking assistance 
 
 ### Installation
 
-# Frontend Setup
+## Frontend Setup
 
-### 1. Clone the repository.
-   ```bash
-   git clone https://git.cs.dal.ca/courses/2024-winter/csci5308/Group12.git
- ```
-### 2. Navigate to the project directory
+### 1. Clone the Repository
+
+```bash
+git clone https://git.cs.dal.ca/courses/2024-winter/csci5308/Group12.git
+```
+
+### 2. Navigate to the Project Directory
+
 ```bash
 cd Group12/frontend
 ```
 
-### 3. Install dependencies
-- Run the following command to install frontend dependencies:
+### 3. Install Dependencies
+
+Before proceeding, ensure you have Node.js and npm installed on your system.
+
+To install frontend dependencies, execute the following command:
+
 ```bash
 npm install
 ```
 
-### 4. start the development
-- After installing dependencies, start the React. development server by running:
+### 4. Start Development
+
+Once dependencies are installed, initiate the React development server by executing:
+
 ```bash
 npm run dev
 ```
 
-- Open your web browser and go to [http://localhost:5173](http://localhost:5173) to access the website.
+This will launch the development environment.
 
+### Accessing the Website
+
+Open your preferred web browser and navigate to [http://localhost:5173](http://localhost:5173) to access the website.
 ## Frontend Dependencies
 
 | Dependency                             | Description                                       | Version    |

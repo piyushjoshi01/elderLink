@@ -90,7 +90,7 @@ publish:
     - ls -a
     
   only:
-    - develop
+    - main
 
 deploy-backend:
   image: alpine:latest
@@ -114,7 +114,7 @@ deploy-backend:
     - sshpass -p "dalw24" ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container ls -a"
 
   only:
-    - develop
+    - main
 
 deploy-frontend:
   image: alpine:latest
@@ -132,4 +132,4 @@ deploy-frontend:
     - echo "Frontend Deplyoment Complete!"
 
   only:
-    - develop
+    - main
